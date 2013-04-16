@@ -1,0 +1,20 @@
+<project name="Com Deployment" default="all" basedir=".">
+
+    <description>
+        Deploy files from individual project com directories into one single com dir
+    </description>
+
+	<property name="rsync.exclude.file" value="/Users/njs50/.rsync/exclude"/>
+
+	<target name="all">
+		<exec executable="rsync" dir="." failonerror="true">
+			<arg value="-az"/>
+			<arg value="--stats"/>
+			<arg value="--delete"/>
+			<arg value="--exclude-from=${rsync.exclude.file}"/>
+			<arg value="/Users/njs50/Documents/workspaces/ws_mud/"/>
+			<arg value="/Volumes/virtual_c/wwwroot/tfe/ws_mud"/>
+		</exec>
+	</target>
+
+</project>

@@ -1,0 +1,82 @@
+/*
+// default colour map
+// ansi colours in rgb format. 
+// [1-8] = normal : black,red,green,yellow,blue,magenta,cyan,white 
+// [9-16] = bright : black,red,green,yellow,blue,magenta,cyan,white				  		
+*/
+
+.fg {color: #ffffcc}
+.bg {background: #000033}
+
+.fg1 {color: #666666}	
+.fg2 {color: #800000}	
+.fg3 {color: #008000}	
+.fg4 {color: #808000}	
+.fg5 {color: #0000cc}	
+.fg6 {color: #800080}	
+.fg7 {color: #008080}	
+.fg8 {color: #cccccc}	
+
+.fg9 {color: #999999}	
+.fg10 {color: #ff0000}	
+.fg11 {color: #00ff00}	
+.fg12 {color: #ffff00}	
+.fg13 {color: #0099ff}	
+.fg14 {color: #ff00ff}	
+.fg15 {color: #00ffff}	
+.fg16 {color: #ffffff}	
+
+.bg1 {background: #000000}	
+.bg2 {background: #800000}	
+.bg3 {background: #008000}	
+.bg4 {background: #808000}	
+.bg5 {background: #000080}	
+.bg6 {background: #800080}	
+.bg7 {background: #008080}	
+.bg8 {background: #c0c0c0}	
+
+.bg9 {background: #808080}	
+.bg10 {background: #ff0000}	
+.bg11 {background: #00ff00}	
+.bg12 {background: #ffff00}	
+.bg13 {background: #0000ff}	
+.bg14 {background: #ff00ff}	
+.bg15 {background: #00ffff}	
+.bg16 {background: #ffffff}	
+
+.uline {text-decoration: underline}
+.italic {font-style: italic}
+.blink {text-decoration: blink}
+.strikethrough {text-decoration: line-through}
+
+div.telnetContainer {
+	height: 100%;
+	width:100%;	
+	margin: 0;
+	padding: 0;		
+}
+
+pre.telnet {
+	overflow-y: scroll;
+	overflow-x: auto;
+	height: 100%;	
+	padding: 5px;
+	margin: 0;
+	font-family: 'Anonymous Pro', sans-serif;
+	font-size: 16px;
+	line-height: 18px;
+
+}
+
+a.button {
+	margin: 5px;
+}
+
+input.inText {
+	width:100%;
+	margin: 0;
+}
+
+.ui-widget {
+	font-size: 80%;
+}
