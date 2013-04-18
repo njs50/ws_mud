@@ -18,6 +18,8 @@
 /*global Util, Base64 */
 
 
+INCLUDE_URI = 'proxy/client/';
+
 // Load Flash WebSocket emulator if needed
 
 // To force WebSocket emulator even when native WebSocket available
@@ -258,7 +260,7 @@ function recv_message(e) {
 
 
 // Set event handlers
-function on(evt, handler) { 
+function on(evt, handler) {
     eventHandlers[evt] = handler;
 }
 

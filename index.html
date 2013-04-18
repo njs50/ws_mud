@@ -2,13 +2,13 @@
 
     <head>
         <title>Telnet client using websockify</title>
+
         <script src="components/jquery/jquery.js"></script>
         <script src="proxy/client/util.js"></script>
         <script src="proxy/client/base64.js"></script>
         <script src="proxy/client/websock.js"></script>
         <script src="websocketTelnet.js"></script>
 
-        <link href="boilerplate.css" rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Anonymous+Pro' rel='stylesheet' type='text/css'>
         <link href="telnet.css" type="text/css" rel="Stylesheet" />
 
@@ -24,14 +24,12 @@
 
         <script type="text/javascript">
 
-
-
             var target = $('#telnetTest');
 
             var data = {
                     currentLength: 0,
-                    output: $('<pre class="telnet fg bg">'),
-                    maxScrollback:2000,
+                    output: $('<div class="telnet fg bg" />'),
+                    maxScrollback:20000,
                     commandBar: $('<div class="commandBar"></div>'),
                     target: target,
                     input: $('<input type="text" />'),
@@ -67,13 +65,13 @@
 
 
             data.telnet.on('add_line',function(text) {
-                data.output.append('\n' + text );
+                data.output.append('<br />' + text );
                 data.currentLength += text.length;
 
                 // if we've passed the max scroll back remove the overflow + 20%
                 if (data.currentLength > data.maxScrollback ) {
                     var rawhtml = data.output.html();
-                    var newstart = rawhtml.indexOf('\n', data.currentLength - data.maxScrollback + Math.ceil(data.maxScrollback * 0.2) );
+                    var newstart = rawhtml.indexOf('<br />', data.currentLength - data.maxScrollback + Math.ceil(data.maxScrollback * 0.2) );
                     rawhtml = rawhtml.substr(newstart + 1);
                     data.currentLength = rawhtml.length;
                     data.output.html(rawhtml);
@@ -132,7 +130,7 @@
 
                     // calling sendText so we can pass the correct context (i.e this->parent)
                     data.telnet.sendText(cmd);
-                    console.log(cmd);
+
                     data.input.val('');
                     break;
 

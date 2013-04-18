@@ -61,6 +61,9 @@ function Telnet(args) {
 
     var msg = function(ansiText) {
         // if the current line is a prompt then append output onto it.
+
+        //ansiText = ansiText.replace(/\n/g,'<br />').replace(/ /g,'&nbsp;');
+
         if (bPromptAppend) {
             eventHandlers.append_line( ansiText + closeSpans() );
             bPromptAppend = false;
