@@ -18,9 +18,21 @@ files = [
 // list of files to exclude
 exclude = [];
 
+preprocessors = {
+  'app/scripts/*.js': 'coverage',
+  'app/scripts/**/*.js': 'coverage'
+};
+
 // test results reporter to use
 // possible values: dots || progress || growl
-reporters = ['progress'];
+reporters = ['progress','coverage'];
+
+
+// coverage options
+coverageReporter = {
+  type : 'html',
+  dir : 'coverage/'
+}
 
 // web server port
 port = 8080;
