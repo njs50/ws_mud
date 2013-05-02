@@ -1,4 +1,4 @@
-//
+// Slate 2.3.0
 // Variables
 // --------------------------------------------------
 
@@ -10,21 +10,21 @@
 // Grays
 // -------------------------
 $black:                 #000 !default;
-$grayDarker:            #222 !default;
-$grayDark:              #333 !default;
-$gray:                  #555 !default;
-$grayLight:             #999 !default;
-$grayLighter:           #eee !default;
+$grayDarker:            #272B30 !default;
+$grayDark:              #3A3F44 !default;
+$gray:                  #52575C !default;
+$grayLight:             #7A8288 !default;
+$grayLighter:           #BBBFC2 !default;
 $white:                 #fff !default;
 
 
 // Accent colors
 // -------------------------
-$blue:                  #049cdb !default;
-$blueDark:              #0064cd !default;
-$green:                 #46a546 !default;
-$red:                   #9d261d !default;
-$yellow:                #ffc40d !default;
+$blue:                  #5bc0de !default;
+$blueDark:              #108CBB !default;
+$green:                 #62c462 !default;
+$red:                   #ee5f5b !default;
+$yellow:                #F6D30D !default;
 $orange:                #f89406 !default;
 $pink:                  #c3325f !default;
 $purple:                #7a43b6 !default;
@@ -32,43 +32,43 @@ $purple:                #7a43b6 !default;
 
 // Scaffolding
 // -------------------------
-$bodyBackground:        $white !default;
-$textColor:             $grayDark !default;
+$bodyBackground:        $grayDarker !default;
+$textColor:             #C8C8C8 !default;
 
 
 // Links
 // -------------------------
-$linkColor:             #08c !default;
-$linkColorHover:        darken($linkColor, 15%) !default;
+$linkColor:             $white !default;
+$linkColorHover:        $white !default;
 
 
 // Typography
 // -------------------------
 $sansFontFamily:        "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 $serifFontFamily:       Georgia, "Times New Roman", Times, serif !default;
-$monoFontFamily:        Monaco, Menlo, Consolas, "Courier New", monospace !default;
+$monoFontFamily:        Menlo, Monaco, Consolas, "Courier New", monospace !default;
 
 $baseFontSize:          14px !default;
 $baseFontFamily:        $sansFontFamily !default;
-$baseLineHeight:        20px !default;
+$baseLineHeight:        21px !default;
 $altFontFamily:         $serifFontFamily !default;
 
-$headingsFontFamily:    inherit; // empty to use BS default, $baseFontFamily
-$headingsFontWeight:    bold;    // instead of browser default, bold
-$headingsColor:         inherit; // empty to use BS default, $textColor
+$headingsFontFamily:    inherit !default; // empty to use BS default, $baseFontFamily
+$headingsFontWeight:    bold !default;    // instead of browser default, bold
+$headingsColor:         inherit !default; // empty to use BS default, $textColor
 
 
 // Component sizing
 // -------------------------
 // Based on 14px font-size and 20px line-height
 
-$fontSizeLarge:         $baseFontSize * 1.25; // ~18px
-$fontSizeSmall:         $baseFontSize * 0.85; // ~12px
-$fontSizeMini:          $baseFontSize * 0.75; // ~11px
+$fontSizeLarge:         $baseFontSize * 1.25 !default; // ~18px
+$fontSizeSmall:         $baseFontSize * 0.85 !default; // ~12px
+$fontSizeMini:          $baseFontSize * 0.75 !default; // ~11px
 
-$paddingLarge:          11px 19px; // 44px
-$paddingSmall:          2px 10px;  // 26px
-$paddingMini:           0 6px;   // 22px
+$paddingLarge:          11px 19px !default; // 44px
+$paddingSmall:          2px 10px !default;  // 26px
+$paddingMini:           0px 6px !default;   // 22px
 
 $baseBorderRadius:      4px !default;
 $borderRadiusLarge:     6px !default;
@@ -77,33 +77,33 @@ $borderRadiusSmall:     3px !default;
 
 // Tables
 // -------------------------
-$tableBackground:                   transparent; // overall background-color
-$tableBackgroundAccent:             #f9f9f9; // for striping
-$tableBackgroundHover:              #f5f5f5; // for hover
-$tableBorder:                       #ddd; // table and cell border
+$tableBackground:                   transparent !default; // overall background-color
+$tableBackgroundAccent:             darken($grayDark, 5%) !default; // for striping
+$tableBackgroundHover:              $grayDark !default; // for hover
+$tableBorder:                       darken($grayDarker, 5%) !default; // table and cell border
 
 // Buttons
 // -------------------------
 $btnBackground:                     $white !default;
 $btnBackgroundHighlight:            darken($white, 10%) !default;
-$btnBorder:                         #bbb !default;
+$btnBorder:                         darken($white, 20%) !default;
 
-$btnPrimaryBackground:              $linkColor !default;
-$btnPrimaryBackgroundHighlight:     adjust-hue($btnPrimaryBackground, 20%) !default;
+$btnPrimaryBackground:              $grayLighter !default;
+$btnPrimaryBackgroundHighlight:     adjust-hue($btnPrimaryBackground, 15%) !default;
 
-$btnInfoBackground:                 #5bc0de !default;
+$btnInfoBackground:                 $blue !default;
 $btnInfoBackgroundHighlight:        #2f96b4 !default;
 
-$btnSuccessBackground:              #62c462 !default;
+$btnSuccessBackground:              $green !default;
 $btnSuccessBackgroundHighlight:     #51a351 !default;
 
 $btnWarningBackground:              lighten($orange, 15%) !default;
 $btnWarningBackgroundHighlight:     $orange !default;
 
-$btnDangerBackground:               #ee5f5b !default;
+$btnDangerBackground:               $red !default;
 $btnDangerBackgroundHighlight:      #bd362f !default;
 
-$btnInverseBackground:              #444 !default;
+$btnInverseBackground:              $gray !default;
 $btnInverseBackgroundHighlight:     $grayDarker !default;
 
 
@@ -113,23 +113,23 @@ $inputBackground:               $white !default;
 $inputBorder:                   #ccc !default;
 $inputBorderRadius:             $baseBorderRadius !default;
 $inputDisabledBackground:       $grayLighter !default;
-$formActionsBackground:         #f5f5f5 !default;
-$inputHeight:                   $baseLineHeight + 10px; // base line-height + 8px vertical padding + 2px top/bottom border
+$formActionsBackground:         darken($grayDarker, 3%) !default;
+$inputHeight:                   $baseLineHeight + 10px !default; // base line-height + 8px vertical padding + 2px top/bottom border
 
 
 // Dropdowns
 // -------------------------
-$dropdownBackground:            $white !default;
+$dropdownBackground:            $grayDark !default;
 $dropdownBorder:                rgba(0,0,0,.2) !default;
-$dropdownDividerTop:            #e5e5e5 !default;
-$dropdownDividerBottom:         $white !default;
+$dropdownDividerTop:            transparent !default;
+$dropdownDividerBottom:         darken($grayDarker, 5%) !default;
 
-$dropdownLinkColor:             $grayDark !default;
+$dropdownLinkColor:             $grayLight !default;
 $dropdownLinkColorHover:        $white !default;
 $dropdownLinkColorActive:       $white !default;
 
-$dropdownLinkBackgroundActive:  $linkColor !default;
-$dropdownLinkBackgroundHover:   $dropdownLinkBackgroundActive !default;
+$dropdownLinkBackgroundActive:  $grayDarker !default;
+$dropdownLinkBackgroundHover:   $grayDarker !default;
 
 
 
@@ -151,8 +151,8 @@ $zindexModal:             1050 !default;
 
 // Sprite icons path
 // -------------------------
-$iconSpritePath:          "glyphicons-halflings.png" !default;
-$iconWhiteSpritePath:     "glyphicons-halflings-white.png" !default;
+$iconSpritePath:          image-path("glyphicons-halflings.png") !default;
+$iconWhiteSpritePath:     image-path("glyphicons-halflings-white.png") !default;
 
 
 // Input placeholder text color
@@ -172,7 +172,7 @@ $horizontalComponentOffset:       180px !default;
 
 // Wells
 // -------------------------
-$wellBackground:                  #f5f5f5 !default;
+$wellBackground:                  darken($grayDarker, 3%) !default;
 
 
 // Navbar
@@ -181,22 +181,22 @@ $navbarCollapseWidth:             979px !default;
 $navbarCollapseDesktopWidth:      $navbarCollapseWidth + 1 !default;
 
 $navbarHeight:                    40px !default;
-$navbarBackgroundHighlight:       #ffffff !default;
-$navbarBackground:                darken($navbarBackgroundHighlight, 5%) !default;
+$navbarBackground:                $grayDarker !default;
+$navbarBackgroundHighlight:       $grayDark !default;
 $navbarBorder:                    darken($navbarBackground, 12%) !default;
 
-$navbarText:                      #777 !default;
-$navbarLinkColor:                 #777 !default;
-$navbarLinkColorHover:            $grayDark !default;
-$navbarLinkColorActive:           $gray !default;
-$navbarLinkBackgroundHover:       transparent !default;
-$navbarLinkBackgroundActive:      darken($navbarBackground, 5%) !default;
+$navbarText:                      $textColor !default;
+$navbarLinkColor:                 $textColor !default;
+$navbarLinkColorHover:            $white !default;
+$navbarLinkColorActive:           $navbarLinkColorHover !default;
+$navbarLinkBackgroundHover:       $grayDark !default;
+$navbarLinkBackgroundActive:      $navbarBackground !default;
 
-$navbarBrandColor:                $navbarLinkColor !default;
+$navbarBrandColor:                $grayLighter !default;
 
 // Inverted navbar
-$navbarInverseBackground:                #111111 !default;
-$navbarInverseBackgroundHighlight:       #222222 !default;
+$navbarInverseBackground:                darken($grayDarker, 10%) !default;
+$navbarInverseBackgroundHighlight:       $grayDarker !default;
 $navbarInverseBorder:                    #252525 !default;
 
 $navbarInverseText:                      $grayLight !default;
@@ -223,7 +223,7 @@ $paginationActiveBackground:          #f5f5f5 !default;
 
 // Hero unit
 // -------------------------
-$heroUnitBackground:              $grayLighter !default;
+$heroUnitBackground:              darken($grayDarker, 3%) !default;
 $heroUnitHeadingColor:            inherit !default;
 $heroUnitLeadColor:               inherit !default;
 
@@ -250,14 +250,14 @@ $infoBorder:              darken(adjust-hue($infoBackground, -10), 7%) !default;
 // Tooltips and popovers
 // -------------------------
 $tooltipColor:            #fff !default;
-$tooltipBackground:       #000 !default;
+$tooltipBackground:       $dropdownBackground !default;
 $tooltipArrowWidth:       5px !default;
 $tooltipArrowColor:       $tooltipBackground !default;
 
-$popoverBackground:       #fff !default;
+$popoverBackground:       $dropdownBackground !default;
 $popoverArrowWidth:       10px !default;
-$popoverArrowColor:       #fff !default;
-$popoverTitleBackground:  darken($popoverBackground, 3%) !default;
+$popoverArrowColor:       $dropdownBackground !default;
+$popoverTitleBackground:  lighten($popoverBackground, 3%) !default;
 
 // Special enhancement for popovers
 $popoverArrowOuterWidth:  $popoverArrowWidth + 1 !default;

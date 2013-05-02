@@ -1,7 +1,5 @@
 //
 // Grid system
-// --------------------------------------------------
-
 
 // Fixed (940px)
 @include ctb-grid-core($gridColumnWidth, $gridGutterWidth);
@@ -11,11 +9,7 @@
 
 // Reset utility classes due to specificity
 [class*="span"].hide,
-.row-fluid [class*="span"].hide {
-  display: none;
-}
+.row-fluid [class*="span"].hide { display: none; }
 
 [class*="span"].pull-right,
-.row-fluid [class*="span"].pull-right {
-  float: right;
-}
+.row-fluid [class*="span"].pull-right { float: right; }

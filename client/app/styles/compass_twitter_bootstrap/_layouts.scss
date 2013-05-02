@@ -1,12 +1,8 @@
 //
 // Layouts
-// --------------------------------------------------
-
 
 // Container (centered, fixed-width layouts)
-.container {
-  @include ctb-container-fixed();
-}
+.container { @include ctb-container-fixed(); }
 
 // Fluid layouts (left aligned, with sidebar, min- & max-width content)
 .container-fluid {

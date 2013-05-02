@@ -7,16 +7,33 @@ basePath = '';
 files = [
   JASMINE,
   JASMINE_ADAPTER,
+  'app/components/jquery/jquery.js',
   'app/components/angular/angular.js',
   'app/components/angular-mocks/angular-mocks.js',
+
+  // app
   'app/scripts/*.js',
   'app/scripts/**/*.js',
+
+  // mocks
   'test/mock/**/*.js',
-  'test/spec/**/*.js'
+
+  //additional matchers (from https://raw.github.com/angular/angular.js/master/test/matchers.js)
+  'test/matchers.js',
+
+  //tests
+  'test/spec/**/*.js',
+
+  // templates
+  '.tmp/templates.js'
+  //app/templates/*.tpl.html'
 ];
 
 // list of files to exclude
 exclude = [];
+
+// not using html2js as can't specificy output template path to match app.
+//  'app/templates/*.tpl.html': 'html2js',
 
 preprocessors = {
   'app/scripts/*.js': 'coverage',
@@ -48,7 +65,7 @@ colors = true;
 logLevel = LOG_INFO;
 
 // enable / disable watching file and executing tests whenever any file changes
-autoWatch = false;
+autoWatch = true;
 
 // Start these browsers, currently available:
 // - Chrome

@@ -6,6 +6,7 @@ var mountFolder = function (connect, dir) {
 
 module.exports = function (grunt) {
   // load all grunt tasks
+
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
   // configurable paths
@@ -19,30 +20,30 @@ module.exports = function (grunt) {
   } catch (e) {}
 
   grunt.initConfig({
+
     yeoman: yeomanConfig,
+
     watch: {
-      coffee: {
-        files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
-        tasks: ['coffee:dist']
-      },
-      coffeeTest: {
-        files: ['test/spec/{,*/}*.coffee'],
-        tasks: ['coffee:test']
-      },
       compass: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
         tasks: ['compass']
       },
+      html2js: {
+        files: ['<%= yeoman.app %>/templates/*.tpl.html'],
+        tasks: ['html2js']
+      },
       livereload: {
         files: [
-          '<%= yeoman.app %>/{,*/}*.html',
+          '<%= yeoman.app %>/{,views/}*.html',
           '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
           '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
-          '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+          '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+          '.tmp/templates.js'
         ],
         tasks: ['livereload']
       }
     },
+
     connect: {
       options: {
         port: 9000,
@@ -69,13 +70,26 @@ module.exports = function (grunt) {
             ];
           }
         }
+      },
+      e2e: {
+        options: {
+          middleware: function (connect) {
+            return [
+              lrSnippet,
+              mountFolder(connect, '.tmp'),
+              mountFolder(connect, yeomanConfig.app)
+            ];
+          }
+        }
       }
     },
+
     open: {
       server: {
         url: 'http://localhost:<%= connect.options.port %>'
       }
     },
+
     clean: {
       dist: {
         files: [{
@@ -89,6 +103,7 @@ module.exports = function (grunt) {
       },
       server: '.tmp'
     },
+
     jshint: {
       options: {
         jshintrc: '.jshintrc'
@@ -98,32 +113,18 @@ module.exports = function (grunt) {
         '<%= yeoman.app %>/scripts/{,*/}*.js'
       ]
     },
+
     karma: {
       unit: {
         configFile: 'karma.conf.js',
         singleRun: true
-      }
-    },
-    coffee: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.app %>/scripts',
-          src: '{,*/}*.coffee',
-          dest: '.tmp/scripts',
-          ext: '.js'
-        }]
       },
-      test: {
-        files: [{
-          expand: true,
-          cwd: 'test/spec',
-          src: '{,*/}*.coffee',
-          dest: '.tmp/spec',
-          ext: '.js'
-        }]
+      e2e: {
+        configFile: 'karma-e2e.conf.js',
+        singleRun: true
       }
     },
+
     compass: {
       options: {
         sassDir: '<%= yeoman.app %>/styles',
@@ -141,6 +142,7 @@ module.exports = function (grunt) {
         }
       }
     },
+
     concat: {
       dist: {
         files: {
@@ -151,12 +153,14 @@ module.exports = function (grunt) {
         }
       }
     },
+
     useminPrepare: {
       html: '<%= yeoman.app %>/index.html',
       options: {
         dest: '<%= yeoman.dist %>'
       }
     },
+
     usemin: {
       html: ['<%= yeoman.dist %>/{,*/}*.html'],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
@@ -164,6 +168,7 @@ module.exports = function (grunt) {
         dirs: ['<%= yeoman.dist %>']
       }
     },
+
     imagemin: {
       dist: {
         files: [{
@@ -174,6 +179,7 @@ module.exports = function (grunt) {
         }]
       }
     },
+
     cssmin: {
       dist: {
         files: {
@@ -184,6 +190,7 @@ module.exports = function (grunt) {
         }
       }
     },
+
     htmlmin: {
       dist: {
         options: {
@@ -205,11 +212,13 @@ module.exports = function (grunt) {
         }]
       }
     },
+
     cdnify: {
       dist: {
         html: ['<%= yeoman.dist %>/*.html']
       }
     },
+
     ngmin: {
       dist: {
         files: [{
@@ -220,6 +229,7 @@ module.exports = function (grunt) {
         }]
       }
     },
+
     uglify: {
       dist: {
         files: {
@@ -229,6 +239,7 @@ module.exports = function (grunt) {
         }
       }
     },
+
     rev: {
       dist: {
         files: {
@@ -236,11 +247,23 @@ module.exports = function (grunt) {
             '<%= yeoman.dist %>/scripts/{,*/}*.js',
             '<%= yeoman.dist %>/styles/{,*/}*.css',
             '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
-            '<%= yeoman.dist %>/styles/fonts/*'
+            '<%= yeoman.dist %>/styles/fonts/*.{eot,svg,ttf,woff,otf}'
           ]
         }
       }
     },
+
+    html2js: {
+      options: {
+        // custom options, see below
+        base: 'app'
+      },
+      main: {
+        src: ['<%= yeoman.app %>/templates/*.tpl.html'],
+        dest: '.tmp/templates.js'
+      },
+    },
+
     copy: {
       dist: {
         files: [{
@@ -252,7 +275,8 @@ module.exports = function (grunt) {
             '*.{ico,txt}',
             '.htaccess',
             'components/**/*',
-            'images/{,*/}*.{gif,webp}'
+            'images/{,*/}*.{gif,webp}',
+            'styles/fonts/*.{eot,svg,ttf,woff,otf}'
           ]
         }]
       }
@@ -263,8 +287,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('server', [
     'clean:server',
-    'coffee:dist',
     'compass:server',
+    'html2js',
     'livereload-start',
     'connect:livereload',
     'open',
@@ -273,18 +297,27 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', [
     'clean:server',
-    'coffee',
     'compass',
+    'html2js',
     'connect:test',
-    'karma'
+    'karma:unit'
+  ]);
+
+
+  grunt.registerTask('test-e2e', [
+    'clean:server',
+    'compass',
+    'html2js',
+    'connect:e2e',
+    'karma:e2e'
   ]);
 
   grunt.registerTask('build', [
     'clean:dist',
     'jshint',
     'test',
-    'coffee',
     'compass:dist',
+    'html2js',
     'useminPrepare',
     'imagemin',
     'cssmin',
@@ -299,4 +332,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('default', ['build']);
+
+  grunt.loadNpmTasks('grunt-html2js');
+
 };
