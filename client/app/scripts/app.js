@@ -8,7 +8,6 @@ angular.module('clientApp', [])
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
       })
 
       .when('/about', {

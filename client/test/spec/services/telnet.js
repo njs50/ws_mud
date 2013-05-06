@@ -6,9 +6,11 @@ describe('Service: telnet', function () {
   beforeEach(module('clientApp'));
 
   // instantiate service
-  var telnet;
+  var telnet, scope;
+
   beforeEach(inject(function (_telnet_) {
     telnet = _telnet_;
+    scope = telnet.getScope();
   }));
 
   it('should do something', function () {
@@ -16,9 +18,20 @@ describe('Service: telnet', function () {
   });
 
 
-  it('should do find the meaning of life', function () {
-    expect(telnet.someMethod()).toBe(42);
+  it('should not be connected yet', function(){
+    expect(scope.bConnected).toBe(false);
   });
+
+
+  it('should be able to connect to a telnet server via websocket', function() {
+    telnet.connect('vault-thirteen.net',8000);
+
+    expect(scope.bConnected).toBe(true);
+
+  });
+
+
+
 
 
 

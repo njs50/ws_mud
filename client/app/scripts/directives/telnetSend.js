@@ -2,11 +2,11 @@
 
 angular.module('clientApp')
 
-  .directive('telnetSend', function () {
+  .directive('telnetSend', ['telnet',function (telnet) {
     return function(scope,element, attrs) {
       element.bind('click',function(){
-        console.log('telnet: ' + attrs.telnetSend);
+        telnet.send(attrs.telnetSend);
       });
     };
 
-  });
+  }]);
