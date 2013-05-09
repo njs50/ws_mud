@@ -4,14 +4,17 @@
 describe('directive: telnetSend', function () {
 
   beforeEach(module('clientApp'));
+  beforeEach(module('mockTelnetServiceApp'));
 
-  var element, scope;
+  var element, scope, telnet;
 
 
-  beforeEach(inject(function($rootScope, $compile) {
+  beforeEach(inject(function($rootScope, $compile, _telnet_) {
+
+    scope = $rootScope;
+    telnet = _telnet_;
 
     element = angular.element('<a telnet-send="testing 1 2 3">test</a>');
-    scope = $rootScope;
     $compile(element)(scope);
     scope.$digest();
 
@@ -19,11 +22,10 @@ describe('directive: telnetSend', function () {
 
 
   //until telnet is actually hooked up...
-  it('should write to the console on click', inject(function () {
-
-    spyOn(console,'log');
+  it('should send the command to telnet on click', inject(function () {
+    spyOn(telnet,'send');
     element.triggerHandler('click');
-    expect(console.log).toHaveBeenCalledWith('telnet: testing 1 2 3');
+    expect(telnet.send).toHaveBeenCalledWith('testing 1 2 3');
 
   }));
 

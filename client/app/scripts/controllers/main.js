@@ -7,7 +7,8 @@ angular.module('clientApp')
 
     // set the initial windowheight
     $rootScope.windowHeight = $window.innerHeight;
-    $rootScope.telnet = telnet.getScope();
+    $rootScope.telnetScope = telnet.getScope();
+    $rootScope.telnet = telnet;
 
     // update whenever the window triggers the resize event
     angular.element($window).bind('resize',function(){
@@ -16,6 +17,27 @@ angular.module('clientApp')
         $rootScope.$apply('windowHeight');
       }
     });
+
+
+    telnet.connect('vault-thirteen.net', 8000);
+
+    //auto login trigger for now
+
+    $rootScope.telnetScope.$on($rootScope.telnetScope.telnetEvents.parsePrompt, function(e, prompt) {
+
+      // reply to username prompt
+      if (prompt.match(/Choice:/)) {
+        telnet.send('Tester');
+      } else if (prompt.match(/Password:/)) {
+        telnet.silentSend('TesterPassword');
+      } else if (prompt.match(/Press <return> to continue./)) {
+        telnet.send('');
+      } else if (prompt.match(/Disconnect previous link?/)) {
+        telnet.send('y');
+      }
+
+    });
+
 
   }])
 ;

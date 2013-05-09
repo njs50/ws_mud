@@ -1,30 +1,22 @@
+<div class="row-fluid">
 
-  <div class="row-fluid">
+  <div class="span3">
 
-    <div class="span3">
+    <div class="well sidebar-nav">
 
-      <div class="well sidebar-nav">
+      <ul class="nav nav-list" ng-controller="ScanCtrl">
+        <scan-direction ng-repeat="(direction, mobs) in adjacentMobs" direction="{{direction}}" mobs="mobs" />
+      </ul>
 
-        <ul class="nav nav-list" ng-controller="ScanCtrl">
-          <scan-direction ng-repeat="(direction, mobs) in adjacentMobs" direction="{{direction}}" mobs="mobs" />
-        </ul>
+    </div><!--/.well -->
+  </div><!--/span-->
 
-      </div><!--/.well -->
-    </div><!--/span-->
+  <div class="span9">
 
-    <div class="span9">
+    <div id="telnetOutput" style="height: {{windowHeight-120}}px" class="bg fg" ng-bind-html-unsafe="telnetScope.outputBuffer" autoscroll></div>
 
-      <div id="telnetOutput" style="height: {{windowHeight-115}}px" class="bg fg" ng-bind-html-unsafe="telnet.outputBuffer"></div>
+    <command-bar></command-bar>
 
-      <form class="form" id="telnetCommand">
-        <div class="input-append span12">
-          <input type="text" class="span11" ng-model="commandText">
-          <button class="btn" telnet-send="{{commandText}}">send</button>
-        </div>
-      </form>
+  </div><!--/span-->
 
-
-    </div><!--/span-->
-
-  </div><!--/row fluid-->
-
+</div><!--/row fluid-->

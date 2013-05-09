@@ -13,9 +13,11 @@ files = [
 
   // app
   'app/scripts/*.js',
+  'app/lib/**/*.js',
   'app/scripts/**/*.js',
 
   // mocks
+  'test/mock/*.js',
   'test/mock/**/*.js',
 
   //additional matchers (from https://raw.github.com/angular/angular.js/master/test/matchers.js)
@@ -37,6 +39,7 @@ exclude = [];
 
 preprocessors = {
   'app/scripts/*.js': 'coverage',
+  'test/mock/**/*.js': 'coverage',
   'app/scripts/**/*.js': 'coverage'
 };
 

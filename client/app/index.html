@@ -32,16 +32,20 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="#"><i class="icon-beaker"></i> TFE </a>
+          <a class="brand" href="#">
+            <i class="icon-beaker"></i> TFE
+          </a>
           <div class="nav-collapse collapse">
-            <p class="navbar-text pull-right">
-              Logged in as <a href="#" class="navbar-link">Username</a>
-            </p>
+
+
+
             <ul class="nav">
               <li class="active"><a href="#">Home</a></li>
               <li><a href="#/about">About</a></li>
               <li><a href="#/contact">Contact</a></li>
+              <telnet-status></telnet-status>
             </ul>
+
           </div><!--/.nav-collapse -->
         </div>
       </div>
@@ -51,10 +55,15 @@
     <!-- Add your site or application content here -->
     <div class="container-fluid" ng-view></div>
 
+    <script src="components/jquery/jquery.js"></script>
     <script src="components/angular/angular.js"></script>
     <script src="components/angular-resource/angular-resource.js"></script>
     <script src="components/angular-cookies/angular-cookies.js"></script>
     <script src="components/angular-sanitize/angular-sanitize.js"></script>
+
+    <!-- angular ui -->
+    <script src="components/angular-ui/common/module.js"></script>
+    <script src="components/angular-ui/modules/directives/keypress/keypress.js"></script>
 
     <!-- combined templates, populate cache -->
     <script src="templates.js"></script>
@@ -66,7 +75,18 @@
     <script src="scripts/services/telnet.js"></script>
     <script src="scripts/directives/scanDirection.js"></script>
     <script src="scripts/directives/telnetSend.js"></script>
+    <script src="scripts/directives/telnetStatus.js"></script>
+    <script src="scripts/directives/autoscroll.js"></script>
+    <script src="scripts/controllers/commandBar.js"></script>
+    <script src="scripts/directives/commandBar.js"></script>
     <!-- endbuild -->
+
+
+
+    <!-- websockify -->
+    <script src="lib/websockify/util.js"></script>
+    <script src="lib/websockify/base64.js"></script>
+    <script src="lib/websockify/websock.js"></script>
 
   </body>
 
