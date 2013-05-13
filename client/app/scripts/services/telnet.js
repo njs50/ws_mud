@@ -11,9 +11,9 @@ angular.module('clientApp')
   scope.port = '';
 
   scope.telnetEvents = {
-    pasrsePrompt: 'TELNET_PARSE_PROMPT',
-    pasrseBlock: 'TELNET_PARSE_BLOCK',
-    pasrseLine: 'TELNET_PARSE_LINE',
+    parsePrompt: 'TELNET_PARSE_PROMPT',
+    parseBlock: 'TELNET_PARSE_BLOCK',
+    parseLine: 'TELNET_PARSE_LINE',
     connect: 'TELNET_CONNECT',
     disconnect: 'TELNET_DISCONNECT',
   };
@@ -314,46 +314,45 @@ angular.module('clientApp')
     }
 
 
-    // do prompt parsing stuff here (leftover stuff in the line buffer = prompt
-    // make sure prompt is valid...
+
+
+    // parse the block and each line in it (minus prompt)
+    if (block_buffer.length > 0) {
+      // parse each line in the block
+      var aLines = block_buffer.split('\n');
+      for (var l = 0; l < aLines.length; l++) {
+        scope.$broadcast(scope.telnetEvents.parseLine,aLines[l]);
+      }
+
+      // parse the entire block
+      scope.$broadcast(scope.telnetEvents.parseBlock,block_buffer);
+
+      block_buffer = '';
+    }
+
+
+    // output lines here.
     if (ansi_line_buffer !== '') {
 
-      // display the prompt
+      // display whatever is in the buffer
       msg(ansi_line_buffer);
 
+
+      // do prompt parsing stuff here (leftover stuff in the line buffer = prompt
+      // make sure prompt is valid...
       // this prompt detection looks super dodgy...
-      if ((line_buffer.indexOf('<') > -1 &&
-            line_buffer.indexOf('>') > -1) ||
-            (line_buffer.indexOf('Choice:') > -1) ||
-            (line_buffer.indexOf('Password:') > -1) ||
-            (line_buffer.indexOf('Disconnect previous link?') > -1)
-          ) {
-
-        // parse the block and each line in it (minus prompt)
-        if (block_buffer.length > 0) {
-
-          // parse each line in the block
-          var aLines = block_buffer.split('\n');
-          for (var l = 0; l < aLines.length; l++) {
-            scope.$broadcast(scope.telnetEvents.parseLine,aLines[l]);
-          }
-
-          // parse the entire block
-          scope.$broadcast(scope.telnetEvents.parseBlock,block_buffer);
-
-          block_buffer = '';
-        }
+      if (line_buffer.match(/^(<[^>]*>|\s*Choice:|\s*Password:|\s*Disconnect previous link\?)\s*$/) !== null) {
 
         // parse the prompt (now we know it's valid)
         scope.$broadcast(scope.telnetEvents.parsePrompt,line_buffer);
-
-
         bPromptAppend = false;
 
-        // this isn't a valid prompt so append the next line onto it
+
       } else {
+
+        // this isn't a valid prompt so append the next line onto it
         bPromptAppend = true;
-        // msg("[bad prompt]");
+
       }
 
     }

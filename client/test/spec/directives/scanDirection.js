@@ -17,28 +17,32 @@ describe('Directive: scanDirection', function () {
 
     scope = $rootScope;
 
-    scope.mobs = ['one', 'two'];
-    scope.direction = 'north';
+    scope.adjacentMobs = {
+      'north': ['fragile ancient sage'],
+      'east': ['medienne guard member', 'gnomish youth', 'old wise elf'],
+      'south': ['moorhound', 'forest ranger'],
+      'west': []
+    };
 
-    elm = angular.element('<scan-direction direction="{{direction}}" mobs="mobs" />');
+    elm = angular.element('<scan-direction></scan-direction>');
 
     $compile(elm)(scope);
     scope.$digest();
 
   }));
 
-  it('should make some list items', inject(function () {
+  it('should a list item for each direction and mob', inject(function () {
 
     var li = elm.find('li');
 
-    expect(li.length).toBe(3);
+    expect(li.length).toBe(10);
 
     // first direction
-    expect(li.eq(0).text()).toBe('north');
+    expect(li.eq(0).text()).toBe('east');
 
     // then one for each mob
-    expect(li.eq(1).text()).toBe('one');
-    expect(li.eq(2).text()).toBe('two');
+    expect(li.eq(1).text()).toBe('medienne guard member');
+    expect(li.eq(2).text()).toBe('gnomish youth');
 
   }));
 
@@ -48,7 +52,7 @@ describe('Directive: scanDirection', function () {
 
     var li = elm.find('li');
 
-    expect(li.length).toBe(3);
+    expect(li.length).toBe(10);
 
     expect(li.eq(0)).toHaveClass('nav-header');
     expect(li.eq(1)).not.toHaveClass('nav-header');

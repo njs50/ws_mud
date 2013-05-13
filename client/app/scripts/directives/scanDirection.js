@@ -5,10 +5,6 @@ angular.module('clientApp')
     return {
       templateUrl: 'templates/scanDirection.tpl.html',
       restrict: 'E',
-      replace: false,
-      scope: {
-        direction: '@',
-        mobs: '='
-      }
+      replace: false
     };
   });

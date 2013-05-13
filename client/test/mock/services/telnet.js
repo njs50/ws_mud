@@ -10,6 +10,14 @@ angular.module('mockTelnetServiceApp')
   scope.server = '';
   scope.port = '';
 
+  scope.telnetEvents = {
+    parsePrompt: 'TELNET_PARSE_PROMPT',
+    parseBlock: 'TELNET_PARSE_BLOCK',
+    parseLine: 'TELNET_PARSE_LINE',
+    connect: 'TELNET_CONNECT',
+    disconnect: 'TELNET_DISCONNECT',
+  };
+
   // Private functions
 
 
@@ -20,7 +28,7 @@ angular.module('mockTelnetServiceApp')
       return scope;
     },
 
-    send: function(cmd) {
+    send: function() {
       //console.log('telnet: ' + cmd);
     },
 
@@ -31,10 +39,25 @@ angular.module('mockTelnetServiceApp')
       scope.bConnected = true;
     },
 
-    disconnect: function(server, port) {
+    disconnect: function() {
      // console.log('telnet: disconnect');
       scope.bConnected = false;
+    },
+
+    relayPrompt: function(txt) {
+      scope.$broadcast(scope.telnetEvents.parsePrompt,txt);
+    },
+
+    relayLines: function(txt) {
+      $(txt.split('\n')).each(function(idx,item){
+        scope.$broadcast(scope.telnetEvents.parseLine,item);
+      });
+    },
+
+    relayBlock: function(txt) {
+      scope.$broadcast(scope.telnetEvents.parseBlock,txt);
     }
+
 
   };
 

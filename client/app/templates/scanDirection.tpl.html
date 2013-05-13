@@ -1,2 +1,4 @@
-<li class="nav-header"><a class="muted" telnet-send="{{direction}}">{{direction}}</a></li>
-<li ng-repeat="mob in mobs"><a telnet-send="{{direction}} & kill {{mob.split(' ').join('.')}}">{{mob}}</a></li>
+<ul class="nav nav-list" ng-repeat="(direction, mobs) in adjacentMobs">
+  <li class="nav-header"><a class="muted" telnet-send="{{direction}}">{{direction}}</a></li>
+  <li ng-repeat="mob in mobs"><a telnet-send="{{direction}} & kill {{mob.split(' ').join('.')}}">{{mob}}</a></li>
+</ul>

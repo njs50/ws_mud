@@ -2,11 +2,9 @@
 
   <div class="span3">
 
-    <div class="well sidebar-nav">
+    <div>
 
-      <ul class="nav nav-list" ng-controller="ScanCtrl">
-        <scan-direction ng-repeat="(direction, mobs) in adjacentMobs" direction="{{direction}}" mobs="mobs" />
-      </ul>
+      <scan-direction ng-controller="ScanCtrl"></scan-direction>
 
     </div><!--/.well -->
   </div><!--/span-->

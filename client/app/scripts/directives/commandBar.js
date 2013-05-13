@@ -22,7 +22,7 @@ angular.module('clientApp')
     };
 
     return {
-      template: '<input ng-controller="CommandBarCtrl" ng-model="command" type="text" class="span12 allow-focus">',
+      template: '<input ng-controller="CommandBarCtrl" ng-model="command" type="text" class="span12">',
       restrict: 'E',
       replace: true,
       link: function postLink(scope, element) {
@@ -46,6 +46,20 @@ angular.module('clientApp')
           }
 
         });
+
+
+        // keep focus in the command bar, unless it goes to some other input...
+        element.bind('blur', function() {
+          if( $.inArray(document.activeElement.tagName.toLowerCase(), ['input','textarea']) ) {
+            // needs to happen after the blur event has completed
+            setTimeout(function() {
+              element[0].focus();
+            }, 0);
+          }
+        });
+
+        // give the command bar the initial focus
+        element[0].focus();
 
       }
     };

@@ -23,16 +23,11 @@ body > .container-fluid {
   padding-top: 60px;
 }
 
-.sidebar-nav {
-  padding:  0;
-}
 
-li.nav-header {
-  padding: 1em 0 0 1em;
-}
 
 ul.nav-list {
   padding-bottom: 1em;
+  margin-bottom: 1em;
 }
 
 @media (max-width: 767px) {
@@ -43,6 +38,8 @@ ul.nav-list {
     padding-right: 5px;
   }
 }
+
+
 
 dd {
   padding-bottom: 1em;
