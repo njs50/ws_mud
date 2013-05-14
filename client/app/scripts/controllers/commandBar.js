@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('clientApp')
-  .controller('CommandBarCtrl', ['$scope', 'telnet', function ($scope, telnet) {
+  .controller('CommandBarCtrl', ['$scope', 'telnet', '$timeout', function ($scope, telnet, $timeout) {
 
     $scope.command = '';
     $scope.aCommands = [];
@@ -24,7 +24,9 @@ angular.module('clientApp')
       telnet.send($scope.command);
       $scope.command = '';
 
-      $scope.$apply('command');
+      $timeout(function(){
+        $scope.$apply('command');
+      }, 0);
 
     };
 
@@ -40,7 +42,9 @@ angular.module('clientApp')
         $scope.command = '';
       }
 
-      $scope.$apply('command');
+      $timeout(function(){
+        $scope.$apply('command');
+      }, 0);
 
     };
 

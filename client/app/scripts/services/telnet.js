@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('clientApp')
-  .factory('telnet', ['$rootScope', function($rootScope) {
+  .factory('telnet', ['$rootScope', '$timeout', function($rootScope,$timeout) {
 
   var scope = $rootScope.$new();
   scope.outputBuffer = '';
@@ -88,7 +88,9 @@ angular.module('clientApp')
       }
     }
 
-    scope.$apply('outputBuffer');
+    $timeout(function(){
+      scope.$apply('outputBuffer');
+    }, 0);
 
   };
 

@@ -3,7 +3,7 @@
 
 // main controller for the app...
 angular.module('clientApp')
-  .controller('MainCtrl', ['$scope', '$rootScope','$window', 'telnet', function ($scope,$rootScope,$window,telnet) {
+  .controller('MainCtrl', ['$scope', '$rootScope','$window', 'telnet', '$timeout', function ($scope,$rootScope,$window,telnet, $timeout) {
 
     // set the initial windowheight
     $rootScope.windowHeight = $window.innerHeight;
@@ -14,7 +14,9 @@ angular.module('clientApp')
     angular.element($window).bind('resize',function(){
       if ($rootScope.windowHeight !== $window.innerHeight) {
         $rootScope.windowHeight = $window.innerHeight;
-        $rootScope.$apply('windowHeight');
+        $timeout(function(){
+          $rootScope.$apply('windowHeight');
+        }, 0);
       }
     });
 

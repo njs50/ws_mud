@@ -2,11 +2,15 @@
 
   <div class="span3">
 
-    <div>
+    <ng-include src="'templates/movementButtons.tpl.html'"></ng-include>
 
-      <scan-direction ng-controller="ScanCtrl"></scan-direction>
+    <div ng-controller="CommandButtonsCtrl" ng-show="(autoscanScope.selectedDirection == '')">
+      <h4>commands</h4>
+      <ol>
+        <li ng-repeat="cmd in aUserCommands"><a telnet-send="{{cmd}}">{{cmd}}</a></li>
+      </ol>
+    </div>
 
-    </div><!--/.well -->
   </div><!--/span-->
 
   <div class="span9">
