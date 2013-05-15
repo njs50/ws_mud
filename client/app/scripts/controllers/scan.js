@@ -2,44 +2,76 @@
 
 angular.module('clientApp')
 
-  .controller('ScanCtrl', ['$scope', 'autoscan', 'telnet', function($scope,autoscan,telnet) {
+  .controller('ScanCtrl', ['$scope', 'autoscan', 'telnet', 'keypress', function($scope,autoscan,telnet,keypress) {
 
     $scope.autoscanScope = autoscan.getScope();
     $scope.autoscan = autoscan;
 
-    $scope.directionClick = function(direction) {
-      if ($scope.autoscanScope.selectedDirection === direction || !$scope.autoscan.containsMobs(direction) ){
-        telnet.send(direction);
-      } else if ($scope.autoscanScope.selectedDirection !== direction){
-        $scope.autoscanScope.selectedDirection = direction;
-        $scope.autoscanScope.$apply('selectedDirection');
+
+    var keyToDirection = function(key) {
+
+      switch(key) {
+      case 'up':
+        return 'north';
+      case 'tilde':
+        return 'here';
+      case 'down':
+        return 'south';
+      case 'left':
+        return 'west';
+      case 'right':
+        return 'east';
+      case 'pageup':
+        return 'up';
+      case 'pagedown':
+        return 'down';
+      case 'tab':
+        return 'refresh';
       }
+
+      return '';
+
     };
 
-    $scope.attack = function(idx) {
-      idx--;
 
-      var dir = $scope.autoscanScope.selectedDirection;
+    keypress.$scope.$on(keypress.events.keydown,function(ngevent, e){
+      var key = keypress.getEventKey(e);
+      var dir = keyToDirection(key);
+      if(dir !== '') {
+        $scope.directionClick(dir);
+      } else if ($scope.autoscanScope.selectedDirection !== '' &&
+        typeof key === 'number') {
+        key--;
 
-      if(autoscan.directionExists(dir) &&
-          $scope.autoscanScope.adjacentMobs[dir].length >= idx) {
+        dir = $scope.autoscanScope.selectedDirection;
 
-        var mob = $scope.autoscanScope.adjacentMobs[dir][idx];
+        if(autoscan.directionExists() && autoscan.$scope.adjacentRooms[dir].buttons.length > key) {
 
-        // remove article at start of name
-        // remove any plural bits (.ie ent(s), dwar(ves), thing(es), fair(ies) )
-        // delete the or any one or two letter words remaining
-        // get rid of anything that isn't a letter or a space or a dash
-        var id = mob.replace(/^\s*\S+\s+/,'')
-          .replace(/(ves|ies|es|s)\b/g,'')
-          .replace(/\s+(the|\w|\w\w)(?=\s+)/g,'')
-          .replace(/[^a-zA-Z- ]+/g,'')
-          .split(' ').join('.')
-        ;
+          var oButton = autoscan.$scope.adjacentRooms[dir].buttons[key];
 
-        telnet.send(dir + ' & kill ' + id);
+          telnet.send(oButton.command);
+
+        }
       }
+    });
 
+
+    $scope.directionClick = function(direction) {
+
+      if (direction === 'refresh') {
+        telnet.send('scan');
+        $scope.autoscanScope.selectedDirection = '';
+        $scope.autoscanScope.$apply('selectedDirection');
+      } else {
+        if ($scope.autoscanScope.selectedDirection === direction || !$scope.autoscan.hasButtons(direction) ){
+          if (direction !== 'here') {
+            telnet.send(direction);
+          }
+        } else if ($scope.autoscanScope.selectedDirection !== direction){
+          $scope.autoscanScope.selectedDirection = direction;
+          $scope.autoscanScope.$apply('selectedDirection');
+        }
+      }
     };
 
   }]);

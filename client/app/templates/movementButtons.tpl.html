@@ -1,38 +1,25 @@
-<div ng-controller="ScanCtrl">
-
-  <table>
-    <tbody>
-      <tr>
-        <td><button scan-direction="up"></button></td>
-        <td></td>
-        <td><button scan-direction="north"></button></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td><button scan-direction="west"></button></td>
-        <td></td>
-        <td><button scan-direction="east"></button></td>
-      </tr>
-      <tr>
-        <td><button scan-direction="down"></button></td>
-        <td></td>
-        <td><button scan-direction="south"></button></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div ng-show="autoscanScope.selectedDirection != '' && autoscan.containsMobs()">
-
-    <h4>destroy</h4>
-
-    <ol>
-      <li ng-repeat="mob in autoscanScope.adjacentMobs[autoscanScope.selectedDirection]">
-        <a ng-click="attack($index+1)">{{mob}}</a>
-      </li>
-    </ol>
-
-  </div>
-
-</div>
+<table>
+  <tbody>
+    <tr>
+      <td><button scan-direction="up"></button></td>
+      <td></td>
+      <td><button scan-direction="north"></button></td>
+      <td></td>
+      <td><button scan-direction="refresh"></button></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><button scan-direction="west"></button></td>
+      <td></td>
+      <td><button scan-direction="east"></button></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><button scan-direction="down"></button></td>
+      <td></td>
+      <td><button scan-direction="south"></button></td>
+      <td></td>
+      <td><button scan-direction="here"></button></td>
+    </tr>
+  </tbody>
+</table>

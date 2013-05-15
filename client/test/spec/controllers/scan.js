@@ -31,7 +31,7 @@ describe('Controller: ScanCtrl', function () {
 
     telnet.relayPrompt('<20hp 53e 100mv NEW>');
 
-    expect(scope.adjacentMobs).toEqual({
+    expect(scope.adjacentRooms).toEqual({
       'here': ['a voaleth citizen'],
       'east': ['a large, burly orc'],
       'north': [],
@@ -48,7 +48,7 @@ describe('Controller: ScanCtrl', function () {
     telnet.relayLines('You see nothing in the vicinity.');
     telnet.relayPrompt('<20hp 53e 100mv N>');
 
-    expect(scope.adjacentMobs).toEqual({north:[]});
+    expect(scope.adjacentRooms).toEqual({north:[]});
 
   });
 
@@ -58,7 +58,7 @@ describe('Controller: ScanCtrl', function () {
     telnet.relayLines('[Exits: NESW');
     telnet.relayPrompt('<20hp 53e 100mv W>');
 
-    expect(scope.adjacentMobs).toEqual({west:[]});
+    expect(scope.adjacentRooms).toEqual({west:[]});
 
   });
 

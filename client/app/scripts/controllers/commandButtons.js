@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('clientApp')
-  .controller('CommandButtonsCtrl', ['$scope', 'autoscan', function ($scope,autoscan) {
+  .controller('CommandButtonsCtrl',
+    ['$scope', 'autoscan', 'keypress', 'telnet', function ($scope,autoscan,keypress,telnet) {
 
     $scope.autoscanScope = autoscan.getScope();
 
@@ -20,6 +21,26 @@ angular.module('clientApp')
       'prep prismatic missile',
       'prep maelstrom'
     ];
+
+    keypress.$scope.$on(keypress.events.keydown,function(ngevent, e){
+
+      if ($scope.autoscanScope.selectedDirection === '') {
+
+        var key = keypress.getEventKey(e);
+
+        if (typeof key === 'number') {
+          // convert key to index
+          key --;
+          // wrap 0 back around to 10
+          if (key === -1) {
+            key = 9;
+          }
+          telnet.send($scope.aUserCommands[key]);
+        }
+
+      }
+
+    });
 
 
   }]);

@@ -24,6 +24,12 @@ angular.module('clientApp')
       case 'west':
         return 'arrow-left';
 
+      case 'here':
+        return 'bolt';
+
+      case 'refresh':
+        return 'refresh';
+
       }
 
     };
@@ -40,21 +46,21 @@ angular.module('clientApp')
         el.addClass('btn');
 
         // watch for changes in the mobs for this direction
-        scope.autoscanScope.$watch('adjacentMobs.' + attr.scanDirection, function(oNewMobs){
-
-          if (oNewMobs !== undefined) {
-            el.removeClass('disabled muted');
-            if (oNewMobs.length){
-              el.addClass('btn-danger');
+        if (attr.scanDirection  !== 'refresh') {
+          scope.autoscanScope.$watch('adjacentRooms.' + attr.scanDirection, function(oNewMobs){
+            if (oNewMobs !== undefined) {
+              el.removeClass('disabled muted btn-danger btn-info');
+              if (oNewMobs.type === 'mobs'){
+                el.addClass('btn-danger');
+              } else if (oNewMobs.type === 'locked'){
+                el.addClass('btn-info');
+              }
             } else {
-              el.removeClass('btn-danger');
+              el.removeClass('btn-danger btn-info');
+              el.addClass('disabled muted');
             }
-          } else {
-            el.removeClass('btn-danger');
-            el.addClass('disabled muted');
-          }
-
-        },true);
+          },true);
+        }
 
         el.bind('click',function(){
           scope.directionClick(attr.scanDirection);

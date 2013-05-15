@@ -7,7 +7,7 @@ angular.module('clientApp')
     var $scope = $rootScope.$new();
 
     $scope.selectedDirection = '';
-    $scope.adjacentMobs = {};
+    $scope.adjacentRooms = {};
 
     var telnetScope = telnet.getScope();
 
@@ -57,33 +57,70 @@ angular.module('clientApp')
 
         // reformat data + split into arrays
         for (var key in tempMobs) {
+
+          // split into individual mobs
           tempMobs[key] = tempMobs[key].replace(/^\s*/, '').split(mobSplitRegexp);
+
+          // split into label and command
+          for (var idx = 0; idx < tempMobs[key].length; idx++) {
+
+            var oMob = {label: tempMobs[key][idx]};
+
+            var id = oMob.label.replace(/^\s*\S+\s+/,'')
+              .replace(/(ves|ies|es|s)\b/g,'')
+              .replace(/\s+(the|\w|\w\w)(?=\s+)/g,'')
+              .replace(/[^a-zA-Z- ]+/g,'')
+              .split(' ').join('.')
+            ;
+
+            oMob.command = (key !== 'here' ? key + ' & ' : '' ) + 'kill ' + id;
+            tempMobs[key][idx] = oMob;
+
+          }
+
+          tempMobs[key] = {type: 'mobs', buttons: tempMobs[key]};
+
         }
 
+
         // add any directions found in prompt, but not present in room.
+        // lower case rooms in the prompt are "closed / locked / inaccesable"
         var aMatch = prompt.match(/<.*\s([NESWUD]*)>/i);
         if (aMatch){
-          for (var idx in aMatch[1]) {
-            var dir = aMatch[1][idx].toLowerCase();
+          for (var i in aMatch[1]) {
+            var dir = aMatch[1][i].toLowerCase();
+            var direction = directions[dir];
             if (!tempMobs.hasOwnProperty(directions[dir])){
-              tempMobs[directions[dir]] = [];
+              if (dir !== aMatch[1][i]){
+                tempMobs[directions[dir]] = {type: 'empty', buttons:[]};
+              } else {
+                tempMobs[directions[dir]] = {type: 'locked', buttons:[
+                  {label: 'open ' + direction, command: 'open ' + direction + ' & scan'},
+                  {label: 'unlock ' + direction, command: 'unlock ' + direction + ' & scan'},
+                  {label: 'knock ' + direction, command: 'knock ' + direction + ' & scan'},
+                  {label: 'pull lever', command: 'pull lever' + ' & scan'},
+                  {label: 'pound gate', command: 'pound gate' + ' & scan'},
+                  {label: 'move rubble', command: 'move rubble' + ' & scan'},
+                  {label: 'open door', command: 'open door' + ' & scan'},
+                  {label: 'unlock door', command: 'unlock door' + ' & scan'},
+                  {label: 'knock door', command: 'knock door' + ' & scan'}
+                ]};
+              }
             }
           }
         }
 
 
-
-
         $scope.selectedDirection = '';
-        $scope.adjacentMobs = tempMobs;
+        $scope.adjacentRooms = tempMobs;
 
         tempMobs = {};
         bMatching = false;
         bUpdateNextPrompt = false;
 
         $timeout(function(){
-          $scope.$apply('adjacentMobs');
-        },0)
+          $scope.$apply('adjacentRooms');
+        },0);
 
       }
 
@@ -97,17 +134,19 @@ angular.module('clientApp')
 
       directionExists: function(direction) {
         direction = direction || $scope.selectedDirection;
-        return $scope.adjacentMobs.hasOwnProperty(direction);
+        return $scope.adjacentRooms.hasOwnProperty(direction);
       },
 
-      containsMobs: function(direction) {
+      hasButtons: function(direction) {
         direction = direction || $scope.selectedDirection;
-        return $scope.adjacentMobs.hasOwnProperty(direction) && ($scope.adjacentMobs[direction].length > 0);
+        return $scope.adjacentRooms.hasOwnProperty(direction) && ($scope.adjacentRooms[direction].buttons.length > 0);
       },
 
       getScope: function(){
         return $scope;
-      }
+      },
+
+      '$scope': $scope
 
     };
 

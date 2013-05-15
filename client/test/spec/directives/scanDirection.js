@@ -15,7 +15,7 @@ describe('Directive: scanDirection', function () {
 
     scope = $rootScope;
 
-    scope.adjacentMobs = {
+    scope.adjacentRooms = {
       'north': ['fragile ancient sage'],
       'east': ['medienne guard member', 'gnomish youth', 'old wise elf'],
       'south': ['moorhound', 'forest ranger'],
