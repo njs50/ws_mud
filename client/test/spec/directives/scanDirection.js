@@ -10,17 +10,41 @@ describe('Directive: scanDirection', function () {
 
   beforeEach(module('clientApp'));
 
-  beforeEach(inject(function($rootScope, $compile) {
+  beforeEach(inject(function($rootScope, $compile, _autoscan_) {
     // we might move this tpl into an html file as well...
 
     scope = $rootScope;
+    scope.autoscan = _autoscan_;
 
-    scope.adjacentRooms = {
-      'north': ['fragile ancient sage'],
-      'east': ['medienne guard member', 'gnomish youth', 'old wise elf'],
-      'south': ['moorhound', 'forest ranger'],
-      'west': []
+    scope.autoscan.$scope.adjacentRooms = {
+      'north': {
+        type: 'mobs',
+        buttons: [
+          {label:'a fragile ancient sage', command: 'north & kill fragile.sage'}
+        ]
+      },
+      'east': {
+        type: 'mobs',
+        buttons: [
+          {label:'a medienne guard member', command: 'east & kill medienne.guard.member'},
+          {label:'a gnomish youth', command: 'east & kill gnomish.youth'},
+          {label:'an old wise elf', command: 'east & kill old.wise.elf'}
+        ]
+      },
+      'south': {
+        type: 'mobs',
+        buttons: [
+          {label:'a moorhound', command: 'south & kill moorhound'},
+          {label:'a forest ranger', command: 'south & kill forest.ranger'}
+        ]
+      },
+      'west': {
+        type: 'empty',
+        buttons: []
+      }
+
     };
+
 
     btnEast = angular.element('<button scan-direction="east"></button>');
     $compile(btnEast)(scope);

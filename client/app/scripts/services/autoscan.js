@@ -58,27 +58,35 @@ angular.module('clientApp')
         // reformat data + split into arrays
         for (var key in tempMobs) {
 
-          // split into individual mobs
-          tempMobs[key] = tempMobs[key].replace(/^\s*/, '').split(mobSplitRegexp);
+          if (tempMobs[key] === 'darkness') {
 
-          // split into label and command
-          for (var idx = 0; idx < tempMobs[key].length; idx++) {
+            tempMobs[key] = {type: 'dark', buttons: [{label:'refresh light', command:'refreshLight'}]};
 
-            var oMob = {label: tempMobs[key][idx]};
+          } else {
 
-            var id = oMob.label.replace(/^\s*\S+\s+/,'')
-              .replace(/(ves|ies|es|s)\b/g,'')
-              .replace(/\s+(the|\w|\w\w)(?=\s+)/g,'')
-              .replace(/[^a-zA-Z- ]+/g,'')
-              .split(' ').join('.')
-            ;
+            // split into individual mobs
+            tempMobs[key] = tempMobs[key].replace(/^\s*/, '').split(mobSplitRegexp);
 
-            oMob.command = (key !== 'here' ? key + ' & ' : '' ) + 'kill ' + id;
-            tempMobs[key][idx] = oMob;
+            // split into label and command
+            for (var idx = 0; idx < tempMobs[key].length; idx++) {
+
+              var oMob = {label: tempMobs[key][idx]};
+
+              var id = oMob.label.replace(/^\s*\S+\s+/,'')
+                .replace(/(ves|ies|es|s)\b/g,'')
+                .replace(/\s+(the|\w|\w\w)(?=\s+)/g,'')
+                .replace(/[^a-zA-Z- ]+/g,'')
+                .split(' ').join('.')
+              ;
+
+              oMob.command = (key !== 'here' ? key + ' & ' : '' ) + 'kill ' + id;
+              tempMobs[key][idx] = oMob;
+
+            }
+
+            tempMobs[key] = {type: 'mobs', buttons: tempMobs[key]};
 
           }
-
-          tempMobs[key] = {type: 'mobs', buttons: tempMobs[key]};
 
         }
 

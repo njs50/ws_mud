@@ -31,10 +31,12 @@ angular.module('clientApp')
     };
 
 
-    var historyCommand = function(event) {
+    var historyCommand = function(e) {
+
+      var code = (e.keyCode ? e.keyCode : e.which);
 
       // don't go below zero (i.e if they go down from 0, and if they go up from max reset to 0)
-      $scope.commandPos = Math.max(0,($scope.commandPos + (39 - event.which) )) % ($scope.aCommands.length + 1);
+      $scope.commandPos = Math.max(0,($scope.commandPos + (39 - code) )) % ($scope.aCommands.length + 1);
 
       if ($scope.commandPos) {
         $scope.command = $scope.aCommands[$scope.aCommands.length - $scope.commandPos];
@@ -89,7 +91,7 @@ angular.module('clientApp')
 
       default:
         // if no text has been entered then 0 - 9 are passed to the command handler
-        // as are left/right
+        // as are left/right and tilde
         if ($scope.command === ''){
           if ((code >= 48 && code <= 57) || code === 192 || code === 37 || code === 39) {
             e.preventDefault();

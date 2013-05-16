@@ -45,9 +45,13 @@ angular.module('clientApp')
   var echoMode = 1;
   var openSpans = 0;
   var bPromptAppend = false;
+  var bCopyAllToConsole = false;
+
+
+  var promptRegexp = /^(<[^>]*>|\s*Choice:|\s*Password:|--\s*MORE\s*--\s*<[^>]*>|\s*Press <return> to continue\.|\s*Disconnect previous link\?)\s*$/;
 
   var logger = function(msg) {
-    if (window.console) {
+    if (bCopyAllToConsole && window.console) {
       console.log(msg);
     }
   };
@@ -86,6 +90,10 @@ angular.module('clientApp')
       if (newstart > 0) {
         scope.outputBuffer = scope.outputBuffer.substr(newstart + 6);
       }
+    }
+
+    if (bCopyAllToConsole) {
+      logger('buffer: ' + ansiText );
     }
 
     $timeout(function(){
@@ -343,7 +351,7 @@ angular.module('clientApp')
       // do prompt parsing stuff here (leftover stuff in the line buffer = prompt
       // make sure prompt is valid...
       // this prompt detection looks super dodgy...
-      if (line_buffer.match(/^(<[^>]*>|\s*Choice:|\s*Password:|\s*Disconnect previous link\?)\s*$/) !== null) {
+      if (line_buffer.match(promptRegexp) !== null) {
 
         // parse the prompt (now we know it's valid)
         scope.$broadcast(scope.telnetEvents.parsePrompt,line_buffer);
@@ -405,6 +413,9 @@ angular.module('clientApp')
       if (echoMode) {
         msg('<span class="cmd">' + cmd + '</span>');
       }
+      if (bCopyAllToConsole) {
+        logger('send: ' + cmd );
+      }
     },
 
     silentSend: function(cmd) {
@@ -420,6 +431,10 @@ angular.module('clientApp')
 
     disconnect: function() {
       ws.close();
+    },
+
+    setConsoleOutput: function(bEnable) {
+      bCopyAllToConsole = bEnable === true;
     }
 
 

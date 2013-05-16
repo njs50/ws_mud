@@ -23,6 +23,9 @@ files = [
   //additional matchers (from https://raw.github.com/angular/angular.js/master/test/matchers.js)
   'test/matchers.js',
 
+  // custom helpers shared by tests
+  'test/helpers.js',
+
   //tests
   'test/spec/**/*.js',
 

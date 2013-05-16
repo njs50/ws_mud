@@ -47,12 +47,12 @@ angular.module('clientApp')
 
         // watch for changes in the mobs for this direction
         if (attr.scanDirection  !== 'refresh') {
-          scope.autoscanScope.$watch('adjacentRooms.' + attr.scanDirection, function(oNewMobs){
+          scope.autoscan.$scope.$watch('adjacentRooms.' + attr.scanDirection, function(oNewMobs){
             if (oNewMobs !== undefined) {
               el.removeClass('disabled muted btn-danger btn-info');
               if (oNewMobs.type === 'mobs'){
                 el.addClass('btn-danger');
-              } else if (oNewMobs.type === 'locked'){
+              } else if (oNewMobs.type === 'locked' || oNewMobs.type === 'dark'){
                 el.addClass('btn-info');
               }
             } else {

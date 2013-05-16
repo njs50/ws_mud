@@ -59,6 +59,7 @@ angular.module('clientApp')
     $scope.directionClick = function(direction) {
 
       if (direction === 'refresh') {
+        console.log('hrmmm')
         telnet.send('scan');
         $scope.autoscanScope.selectedDirection = '';
         $scope.autoscanScope.$apply('selectedDirection');

@@ -8,10 +8,13 @@ describe('Service: telnet', function() {
   // instantiate service
   var telnet, scope;
 
-
   beforeEach(inject(function(_telnet_) {
     telnet = _telnet_;
     scope = telnet.getScope();
+
+    // for debugging have all telnet traffic cloned to console
+    // telnet.setConsoleOutput(true);
+
   }));
 
   it('should do something', function() {
