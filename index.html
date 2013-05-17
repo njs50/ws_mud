@@ -1,0 +1,81 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>The Forests Edge</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="stylesheet" href="styles/526ef2fa.main.css">
+  </head>
+
+  <body ng-app="clientApp" ng-controller="MainCtrl">
+    <!--[if lt IE 7]>
+      <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+      <script src="components/es5-shim/es5-shim.js"></script>
+      <script src="components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <!-- navbar... currently static -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#">
+            <i class="icon-beaker"></i> TFE
+          </a>
+          <div class="nav-collapse collapse">
+
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#/about">About</a></li>
+              <li><a href="#/contact">Contact</a></li>
+              <telnet-status>
+            </telnet-status></ul>
+
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Add your site or application content here -->
+    <div class="container-fluid" ng-view=""></div>
+
+    <script src="scripts/c6482888.vendor.js"></script>
+
+    <!--
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular-resource.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular-cookies.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular-sanitize.min.js"></script>
+    -->
+
+    <!-- build:js .tmp/ scripts/templates.js -->
+    <script src="scripts/36c25c58.templates.js"></script>
+    <!-- endbuild -->
+
+    <script src="scripts/d859e23d.scripts.js"></script>
+
+    <!-- i'm not ready to rewrite the websockify client just yet... -->
+    <script>
+      INCLUDE_URI = 'lib/websockify/';
+    </script>
+    <script src="lib/websockify/util.js"></script>
+    <script src="lib/websockify/base64.js"></script>
+    <script src="lib/websockify/websock.js"></script>
+
+
+  </body>
+
+</html>

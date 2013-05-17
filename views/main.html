@@ -1,0 +1,44 @@
+<div class="row-fluid">
+
+  <div class="span3" style="height: {{windowHeight-50}}px; position: relative" ng-controller="ScanCtrl">
+
+    <div class="pull-bottom controlButtons">
+      <ng-include src="'templates/movementButtons.tpl.html'">
+    </ng-include></div>
+
+    <!-- left col, (commands, with buttons floating at bottom) -->
+    <div style="height: {{windowHeight-172}}px; overflow-y:auto">
+
+      <!-- if they select a direction that has buttons. show them... -->
+      <div ng-show="autoscanScope.selectedDirection != '' && autoscan.hasButtons()">
+        <h4>{{autoscanScope.selectedDirection}}</h4>
+        <ol>
+          <li ng-repeat="oButton in autoscanScope.adjacentRooms[autoscanScope.selectedDirection].buttons">
+            <a telnet-send="{{oButton.command}}">{{oButton.label}}</a>
+          </li>
+        </ol>
+      </div>
+
+      <!-- show standard commands if direction buttons aren't showing -->
+      <div ng-controller="CommandButtonsCtrl" ng-show="(autoscanScope.selectedDirection == '')">
+        <h4>commands</h4>
+        <ol>
+          <li ng-repeat="cmd in aUserCommands"><a telnet-send="{{cmd}}">{{cmd}}</a></li>
+        </ol>
+      </div>
+
+    </div>
+
+  </div><!--/span-->
+
+
+  <!-- main controls -->
+  <div class="span9" style="height: {{windowHeight-50}}px; position: relative">
+
+    <div id="telnetOutput" style="height: {{windowHeight-110}}px" class="bg fg" ng-bind-html-unsafe="telnetScope.outputBuffer" autoscroll=""></div>
+
+    <command-bar>
+
+  </command-bar></div><!--/span-->
+
+</div><!--/row fluid-->
