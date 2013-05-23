@@ -23,7 +23,7 @@
       <!-- show standard commands if direction buttons aren't showing -->
       <div ng-controller="CommandButtonsCtrl" ng-show="(autoscanScope.selectedDirection == '')">
         <h4>commands</h4>
-        <ul>
+        <ul class="unstyled">
           <li ng-repeat="cmd in aUserCommands">
             <a class="btn span12" telnet-send="{{cmd}}">{{cmd}}</a>
           </li>
