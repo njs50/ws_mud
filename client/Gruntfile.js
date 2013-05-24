@@ -37,8 +37,7 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/{,views/}*.html',
           '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
           '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
-          '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-          '.tmp/templates.js'
+          '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ],
         tasks: ['livereload']
       }
@@ -146,10 +145,9 @@ module.exports = function (grunt) {
     concat: {
       dist: {
         files: {
-          '<%= yeoman.dist %>/scripts/scripts.js': [
-            '.tmp/scripts/{,*/}*.js',
-            '<%= yeoman.app %>/scripts/{,*/}*.js'
-          ]
+          '<%= yeoman.dist %>/scripts/templates.js': [
+            '.tmp/scripts/{,*/}*.js'
+          ],
         }
       }
     },
@@ -188,6 +186,17 @@ module.exports = function (grunt) {
             '<%= yeoman.app %>/styles/{,*/}*.css'
           ]
         }
+      }
+    },
+
+    githubPages: {
+      target: {
+        options: {
+          // The default commit message for the gh-pages branch
+          commitMessage: 'pushed by grunt build'
+        },
+        // The folder where your gh-pages repo is
+        src: 'dist'
       }
     },
 
@@ -231,11 +240,15 @@ module.exports = function (grunt) {
     },
 
     uglify: {
+      options: {
+        // disable mangling for dodgy websockify code
+        // mangle: false
+      },
       dist: {
         files: {
-          '<%= yeoman.dist %>/scripts/scripts.js': [
-            '<%= yeoman.dist %>/scripts/scripts.js'
-          ],
+          '<%= yeoman.dist %>/scripts/templates.js': [
+            '<%= yeoman.dist %>/scripts/templates.js'
+          ]
         }
       }
     },
@@ -260,7 +273,7 @@ module.exports = function (grunt) {
       },
       main: {
         src: ['<%= yeoman.app %>/templates/*.tpl.html'],
-        dest: '.tmp/templates.js'
+        dest: '.tmp/scripts/templates.js'
       },
     },
 
@@ -274,8 +287,8 @@ module.exports = function (grunt) {
           src: [
             '*.{ico,txt}',
             '.htaccess',
-            'components/**/*',
             'images/{,*/}*.{gif,webp}',
+            'lib/websockify/{,*/}*.{js,swf}',
             'styles/fonts/*.{eot,svg,ttf,woff,otf}'
           ]
         }]
@@ -330,6 +343,8 @@ module.exports = function (grunt) {
     'rev',
     'usemin'
   ]);
+
+  grunt.registerTask('deploy', ['githubPages:target']);
 
   grunt.registerTask('default', ['build']);
 

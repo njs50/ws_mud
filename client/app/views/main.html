@@ -10,21 +10,24 @@
     <div style="height: {{windowHeight-172}}px; overflow-y:auto;">
 
       <!-- if they select a direction that has buttons. show them... -->
-      <div ng-show="autoscanScope.selectedDirection != '' && autoscan.hasButtons()">
-        <h4>{{autoscanScope.selectedDirection}}</h4>
-        <ol>
-          <li ng-repeat="oButton in autoscanScope.adjacentRooms[autoscanScope.selectedDirection].buttons">
-            <a telnet-send="{{oButton.command}}">{{oButton.label}}</a>
+      <div ng-show="autoscan.$scope.selectedDirection != '' && autoscan.hasButtons()">
+        <h4>{{autoscan.$scope.selectedDirection}}</h4>
+        <ul class="unstyled">
+          <li ng-repeat="oButton in autoscan.$scope.adjacentRooms[autoscan.$scope.selectedDirection].buttons">
+            {{$index < 10 ? ($index+1) % 10 : ''}} <a telnet-send="{{oButton.command}}">{{oButton.label}}</a>
           </li>
-        </ol>
+        </ul>
       </div>
 
+
       <!-- show standard commands if direction buttons aren't showing -->
-      <div ng-controller="CommandButtonsCtrl" ng-show="(autoscanScope.selectedDirection == '')">
+      <div ng-controller="CommandButtonsCtrl" ng-show="(autoscan.$scope.selectedDirection == '')">
         <h4>commands</h4>
-        <ol>
-          <li ng-repeat="cmd in aUserCommands"><a telnet-send="{{cmd}}">{{cmd}}</a></li>
-        </ol>
+        <ul class="unstyled">
+          <li ng-repeat="cmd in aUserCommands">
+            {{$index < 10 ? ($index+1) % 10 : ''}} <a telnet-send="{{cmd}}">{{cmd}}</a>
+          </li>
+        </ul>
       </div>
 
     </div>
@@ -39,7 +42,7 @@
       id="telnetOutput"
       style="height: {{windowHeight-110}}px;"
       class="bg fg"
-      ng-bind-html-unsafe="telnetScope.outputBuffer"
+      ng-bind-html-unsafe="telnet.$scope.outputBuffer"
       autoscroll
     ></div>
 

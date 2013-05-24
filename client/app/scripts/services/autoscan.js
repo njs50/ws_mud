@@ -9,11 +9,9 @@ angular.module('clientApp')
     $scope.selectedDirection = '';
     $scope.adjacentRooms = {};
 
-    var telnetScope = telnet.getScope();
-
     var roomChangedRegxp = /^(\[Exits:|You see nothing in the vicinity\.)/;
-    var mobSplitRegexp = /,\s+(?=a|an|two|three|four|five|six|seven|eight|nine|ten)/;
-    var mobContinuedRegexp = /^\s+(?=a|an|two|three|four|five|six|seven|eight|nine|ten)/;
+    var mobSplitRegexp = /,\s+(?=a|an|the|two|three|four|five|six|seven|eight|nine|ten|[A-Z]\S+)/;
+    var mobContinuedRegexp = /^\s+(?=a|an|the|two|three|four|five|six|seven|eight|nine|ten|[A-Z]\S+)/;
     var directions = {n: 'north', e: 'east', s: 'south', w: 'west', u: 'up', d:'down' };
 
 
@@ -24,7 +22,7 @@ angular.module('clientApp')
     var currentDirection = '';
 
 
-    telnetScope.$on(telnetScope.telnetEvents.parseLine, function(e, line) {
+    telnet.$scope.$on(telnet.$scope.telnetEvents.parseLine, function(e, line) {
 
       // if we see the room change then we need to update (in case of empty rooms)
       if (line.match(roomChangedRegxp)) {
@@ -39,7 +37,7 @@ angular.module('clientApp')
         bUpdateNextPrompt = true;
         bMatching = true;
         currentDirection = aMatch[1].toLowerCase();
-        tempMobs[currentDirection] = aMatch[2].toLowerCase();
+        tempMobs[currentDirection] = aMatch[2];
       } else if (line.match(mobContinuedRegexp)) {
         tempMobs[currentDirection] += line;
       } else {
@@ -51,7 +49,7 @@ angular.module('clientApp')
 
 
 
-    telnetScope.$on(telnetScope.telnetEvents.parsePrompt, function(e,prompt) {
+    telnet.$scope.$on(telnet.$scope.telnetEvents.parsePrompt, function(e,prompt) {
 
       if (bUpdateNextPrompt) {
 
@@ -70,14 +68,16 @@ angular.module('clientApp')
             // split into label and command
             for (var idx = 0; idx < tempMobs[key].length; idx++) {
 
-              var oMob = {label: tempMobs[key][idx]};
+              var oMob = {label: tempMobs[key][idx].toLowerCase()};
 
-              var id = oMob.label.replace(/^\s*\S+\s+/,'')
+              // remove first word as long as it isn't a name
+              var id = oMob.label.replace(/^\s*([^A-Z]\S*)?\s+/,'')
                 .replace(/(ves|ies|es|s)\b/g,'')
                 .replace(/\s+(the|\w|\w\w)(?=\s+)/g,'')
                 .replace(/[^a-zA-Z- ]+/g,'')
                 .split(' ').join('.')
               ;
+
 
               oMob.command = (key !== 'here' ? key + ' & ' : '' ) + 'kill ' + id;
               tempMobs[key][idx] = oMob;

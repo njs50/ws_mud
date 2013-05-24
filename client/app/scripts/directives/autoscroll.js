@@ -18,7 +18,7 @@ angular.module('clientApp')
 
 
         // whenever the content changes scroll
-        scope.$watch('telnetScope.outputBuffer',function(){
+        scope.$watch('telnet.$scope.outputBuffer',function(){
           if (bEnable){
             element[0].scrollTop = endPosition();
           }

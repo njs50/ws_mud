@@ -17,9 +17,6 @@
 /*jslint browser: true, bitwise: false, plusplus: false */
 /*global Util, Base64 */
 
-
-INCLUDE_URI = 'proxy/client/';
-
 // Load Flash WebSocket emulator if needed
 
 // To force WebSocket emulator even when native WebSocket available

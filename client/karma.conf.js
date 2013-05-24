@@ -8,7 +8,7 @@ files = [
   JASMINE,
   JASMINE_ADAPTER,
   'app/components/jquery/jquery.js',
-  'app/components/angular/angular.js',
+  'app/components/angular-unstable/angular.js',
   'app/components/angular-mocks/angular-mocks.js',
 
   // app
@@ -30,7 +30,7 @@ files = [
   'test/spec/**/*.js',
 
   // templates
-  '.tmp/templates.js'
+  '.tmp/scripts/templates.js'
   //app/templates/*.tpl.html'
 ];
 

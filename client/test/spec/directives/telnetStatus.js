@@ -5,30 +5,26 @@ describe('Directive: telnetStatus', function () {
   beforeEach(module('clientApp'));
   beforeEach(module('mockTelnetServiceApp'));
 
-  beforeEach(module('templates/telnetStatus.tpl.html'));
-
-  var element, scope;
+  var element, scope, telnet;
 
   beforeEach(inject(function ($rootScope, $compile, _telnet_) {
 
-    scope = $rootScope;
-    scope.telnet = _telnet_;
-    scope.telnetScope = scope.telnet.getScope();
+    telnet = _telnet_;
 
-    element = angular.element('<ul><telnet-status></telnet-status></ul>');
+    element = angular.element('<li><a telnet-status>test</a></li>');
+    element = $compile(element)($rootScope);
+    scope = element.scope();
 
-    $compile(element)($rootScope);
-
-    $rootScope.$digest();
+    scope.$digest();
 
   }));
 
 
   it('should be offline initally', function(){
     var a = element.find('a');
-    expect(a.eq(0)).not.toHaveCss({display: 'none'});
-    expect(a.eq(1)).toHaveCss({display: 'none'});
 
+    expect(a.eq(0)).not.toHaveClass('connected');
+    expect(a.eq(0)).toHaveClass('disconnected');
   });
 
 
@@ -36,13 +32,13 @@ describe('Directive: telnetStatus', function () {
 
     var a = element.find('a');
 
-    scope.telnet.connect('example.com',23);
+    telnet.connect('example.com',23);
     scope.$digest();
 
-    expect(scope.telnetScope.bConnected).toBe(true);
+    expect(telnet.$scope.bConnected).toBe(true);
 
-    expect(a.eq(0)).toHaveCss({display: 'none'});
-    expect(a.eq(1)).not.toHaveCss({display: 'none'});
+    expect(a.eq(0)).toHaveClass('connected');
+    expect(a.eq(0)).not.toHaveClass('disconnected');
 
   });
 
@@ -52,18 +48,20 @@ describe('Directive: telnetStatus', function () {
 
     var a = element.find('a');
 
-    scope.telnet.connect('example.com',23);
+    telnet.connect('example.com',23);
     scope.$digest();
 
-    expect(scope.telnetScope.bConnected).toBe(true);
+    expect(telnet.$scope.bConnected).toBe(true);
 
     // click on the disconnect link
-    $(a.eq(1)).click();
-    expect(scope.telnetScope.bConnected).toBe(false);
+    $(a.eq(0)).click();
+    scope.$digest();
+    expect(telnet.$scope.bConnected).toBe(false);
 
     // click the connect link
     $(a.eq(0)).click();
-    expect(scope.telnetScope.bConnected).toBe(true);
+    scope.$digest();
+    expect(telnet.$scope.bConnected).toBe(true);
 
   });
 

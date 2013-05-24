@@ -4,7 +4,6 @@ angular.module('clientApp')
   .controller('CommandButtonsCtrl',
     ['$scope', 'autoscan', 'keypress', 'telnet', function ($scope,autoscan,keypress,telnet) {
 
-    $scope.autoscanScope = autoscan.getScope();
 
     $scope.aUserCommands = [
       'cast fireball',
@@ -24,7 +23,7 @@ angular.module('clientApp')
 
     keypress.$scope.$on(keypress.events.keydown,function(ngevent, e){
 
-      if ($scope.autoscanScope.selectedDirection === '') {
+      if (autoscan.$scope.selectedDirection === '') {
 
         var key = keypress.getEventKey(e);
 

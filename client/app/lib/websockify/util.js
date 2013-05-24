@@ -18,6 +18,8 @@ var Util = {};
  * Make arrays quack
  */
 
+ /*
+
 Array.prototype.push8 = function (num) {
     this.push(num & 0xFF);
 };
@@ -43,6 +45,7 @@ if (!Array.prototype.indexOf) {
     }
 }
 
+*/
 
 // IE does not support map (even in IE9)
 //This prototype is provided by the Mozilla foundation and
@@ -130,7 +133,7 @@ Util.get_logging = function () {
     return Util._log_level;
 };
 // Initialize logging level
-Util.init_logging();
+Util.init_logging('info');
 
 
 // Set configuration default for Crockford style function namespaces

@@ -10,10 +10,18 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link href='http://fonts.googleapis.com/css?family=Anonymous+Pro' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="styles/main.css">
+
+    <!-- build:js scripts/vendor.js -->
+    <script src="components/jquery/jquery.js"></script>
+    <script src="components/angular-unstable/angular.js"></script>
+    <!-- endbuild -->
+
   </head>
 
   <body ng-app="clientApp" ng-controller="MainCtrl">
+
     <!--[if lt IE 7]>
       <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
     <![endif]-->
@@ -35,16 +43,14 @@
           <a class="brand" href="#">
             <i class="icon-beaker"></i> TFE
           </a>
-          <div class="nav-collapse collapse">
 
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#/about">About</a></li>
-              <li><a href="#/contact">Contact</a></li>
-              <telnet-status></telnet-status>
-            </ul>
+          <ul class="nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#/about">About</a></li>
+            <li><a href="#/contact">Contact</a></li>
+            <li><a telnet-status class="disconnected">loading...</a></li>
+          </ul>
 
-          </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
@@ -53,18 +59,15 @@
     <!-- Add your site or application content here -->
     <div class="container-fluid" ng-view></div>
 
-    <script src="components/jquery/jquery.js"></script>
-    <script src="components/angular/angular.js"></script>
+    <!--
     <script src="components/angular-resource/angular-resource.js"></script>
     <script src="components/angular-cookies/angular-cookies.js"></script>
     <script src="components/angular-sanitize/angular-sanitize.js"></script>
+    -->
 
-    <!-- angular ui -->
-    <script src="components/angular-ui/common/module.js"></script>
-    <script src="components/angular-ui/modules/directives/keypress/keypress.js"></script>
-
-    <!-- combined templates, populate cache -->
-    <script src="templates.js"></script>
+    <!-- build:js .tmp/ scripts/templates.js -->
+    <script src="scripts/templates.js"></script>
+    <!-- endbuild -->
 
     <!-- build:js scripts/scripts.js -->
     <script src="scripts/app.js"></script>
@@ -79,16 +82,17 @@
     <script src="scripts/directives/commandBar.js"></script>
     <script src="scripts/controllers/commandButtons.js"></script>
     <script src="scripts/services/autoscan.js"></script>
-
     <script src="scripts/services/keypress.js"></script>
     <!-- endbuild -->
 
-
-
-    <!-- websockify -->
+    <!-- i'm not ready to rewrite the websockify client just yet... -->
+    <script>
+      INCLUDE_URI = 'lib/websockify/';
+    </script>
     <script src="lib/websockify/util.js"></script>
     <script src="lib/websockify/base64.js"></script>
     <script src="lib/websockify/websock.js"></script>
+
 
   </body>
 

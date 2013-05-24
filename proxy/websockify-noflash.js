@@ -24,7 +24,6 @@ var argv = require('optimist').argv,
     url = require('url'),
     path = require('path'),
     fs = require('fs'),
-    policyfile = require('policyfile'),
 
     Buffer = require('buffer').Buffer,
     WebSocketServer = require('ws').Server,
@@ -209,5 +208,3 @@ webServer.listen(source_port, function() {
     wsServer.on('connection', new_client);
 });
 
-// create dlash policyfile answer service
-policyfile.createServer({log: true},['*:8000','*:7000', '*:4000']).listen(843);

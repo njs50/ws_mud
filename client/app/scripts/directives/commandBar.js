@@ -11,7 +11,7 @@ angular.module('clientApp')
       link: function postLink(scope, element) {
 
         // bind the keydown event and prevent default where relevant
-        element.bind('keydown', function (e) {
+        element.off('keydown').bind('keydown', function (e) {
           scope.keyDown(e);
         });
 
@@ -30,7 +30,7 @@ angular.module('clientApp')
 
 
         // keep focus in the command bar, unless it goes to some other input...
-        $(window).on('keydown', function(e) {
+        $(window).off('keydown').on('keydown', function(e) {
 
           if (!bHasFocus &&
               ($.inArray(document.activeElement.tagName.toLowerCase(), ['input','textarea']) === -1) ) {
@@ -40,6 +40,7 @@ angular.module('clientApp')
 
             //retrigger event in case anything was listening for it
             element.trigger(e);
+
 
           }
 

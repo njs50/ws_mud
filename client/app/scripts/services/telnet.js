@@ -424,9 +424,15 @@ angular.module('clientApp')
     },
 
     connect: function(server, port) {
+      if (typeof server !== 'string') {
+        server= scope.server;
+        port = scope.port;
+      } else {
+        scope.server = server;
+        scope.port = port;
+      }
+      port = port || scope.port;
       ws.open('ws://' + server + ':' + port, ['binary', 'base64']);
-      scope.server = server;
-      scope.port = port;
     },
 
     disconnect: function() {
@@ -435,7 +441,9 @@ angular.module('clientApp')
 
     setConsoleOutput: function(bEnable) {
       bCopyAllToConsole = bEnable === true;
-    }
+    },
+
+    '$scope': scope
 
 
   };

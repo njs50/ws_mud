@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('clientApp')
-  .directive('scanDirection', function () {
+  .directive('scanDirection', ['autoscan', function (autoscan) {
 
 
     var directionToArrow = function(direction) {
@@ -47,7 +47,7 @@ angular.module('clientApp')
 
         // watch for changes in the mobs for this direction
         if (attr.scanDirection  !== 'refresh') {
-          scope.autoscan.$scope.$watch('adjacentRooms.' + attr.scanDirection, function(oNewMobs){
+          autoscan.$scope.$watch('adjacentRooms.' + attr.scanDirection, function(oNewMobs){
             if (oNewMobs !== undefined) {
               el.removeClass('disabled muted btn-danger btn-info');
               if (oNewMobs.type === 'mobs'){
@@ -68,4 +68,4 @@ angular.module('clientApp')
 
       }
     };
-  });
+  }]);

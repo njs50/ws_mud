@@ -13,14 +13,6 @@ body > .container-fluid {
   padding-top: 50px;
 }
 
-@media (max-width: 767px) {
-  /* Enable use of floated navbar text */
-  .navbar-text.pull-right {
-    float: none;
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-}
 
 dl.paddedList > dd {
   padding-bottom: 1em;
@@ -43,8 +35,6 @@ dl.paddedList > dd {
   font-size: 16px;
   line-height: 18px;
   white-space: pre;
-
-
 }
 
 .controlButtons {
@@ -61,6 +51,8 @@ dl.paddedList > dd {
 }
 
 /*
+// TELNET COLOURS
+//
 // default colour map
 // ansi colours in rgb format.
 // [1-8] = normal : black,red,green,yellow,blue,magenta,cyan,white

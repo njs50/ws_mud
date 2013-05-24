@@ -52,7 +52,10 @@ angular.module('mockTelnetServiceApp')
       $(txt.split('\n')).each(function(idx,item){
         scope.$broadcast(scope.telnetEvents.parseLine,item);
       });
-    }
+    },
+
+
+    '$scope': scope
 
 /*
     relayBlock: function(txt) {

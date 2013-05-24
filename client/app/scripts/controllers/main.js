@@ -7,7 +7,7 @@ angular.module('clientApp')
 
     // set the initial windowheight
     $rootScope.windowHeight = $window.innerHeight;
-    $rootScope.telnetScope = telnet.getScope();
+
     $rootScope.telnet = telnet;
 
     // update whenever the window triggers the resize event
@@ -25,7 +25,8 @@ angular.module('clientApp')
 
     //auto login trigger for now
 
-    $rootScope.telnetScope.$on($rootScope.telnetScope.telnetEvents.parsePrompt, function(e, prompt) {
+
+    telnet.$scope.$on(telnet.$scope.telnetEvents.parsePrompt, function(e, prompt) {
 
       // reply to username prompt
       if (prompt.match(/Choice:/)) {
@@ -37,8 +38,8 @@ angular.module('clientApp')
       } else if (prompt.match(/Disconnect previous link?/)) {
         telnet.send('y');
       }
-
     });
+
 
 
   }])

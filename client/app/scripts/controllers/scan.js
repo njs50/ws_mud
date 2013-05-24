@@ -4,9 +4,7 @@ angular.module('clientApp')
 
   .controller('ScanCtrl', ['$scope', 'autoscan', 'telnet', 'keypress', function($scope,autoscan,telnet,keypress) {
 
-    $scope.autoscanScope = autoscan.getScope();
     $scope.autoscan = autoscan;
-
 
     var keyToDirection = function(key) {
 
@@ -35,15 +33,18 @@ angular.module('clientApp')
 
 
     keypress.$scope.$on(keypress.events.keydown,function(ngevent, e){
+
       var key = keypress.getEventKey(e);
+
       var dir = keyToDirection(key);
+
       if(dir !== '') {
         $scope.directionClick(dir);
-      } else if ($scope.autoscanScope.selectedDirection !== '' &&
+      } else if (autoscan.$scope.selectedDirection !== '' &&
         typeof key === 'number') {
         key--;
 
-        dir = $scope.autoscanScope.selectedDirection;
+        dir = autoscan.$scope.selectedDirection;
 
         if(autoscan.directionExists() && autoscan.$scope.adjacentRooms[dir].buttons.length > key) {
 
@@ -59,18 +60,17 @@ angular.module('clientApp')
     $scope.directionClick = function(direction) {
 
       if (direction === 'refresh') {
-        console.log('hrmmm')
         telnet.send('scan');
-        $scope.autoscanScope.selectedDirection = '';
-        $scope.autoscanScope.$apply('selectedDirection');
+        autoscan.$scope.selectedDirection = '';
+        autoscan.$scope.$apply('selectedDirection');
       } else {
-        if ($scope.autoscanScope.selectedDirection === direction || !$scope.autoscan.hasButtons(direction) ){
+        if (autoscan.$scope.selectedDirection === direction || !autoscan.hasButtons(direction) ){
           if (direction !== 'here') {
             telnet.send(direction);
           }
-        } else if ($scope.autoscanScope.selectedDirection !== direction){
-          $scope.autoscanScope.selectedDirection = direction;
-          $scope.autoscanScope.$apply('selectedDirection');
+        } else if (autoscan.$scope.selectedDirection !== direction){
+          autoscan.$scope.selectedDirection = direction;
+          autoscan.$scope.$apply('selectedDirection');
         }
       }
     };
