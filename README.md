@@ -13,4 +13,4 @@ node /proxy/websockify.js node websockify.js webSocketServer:8000 telnetSource:4
 
 ### demo
 
-[http://njs50.github.io/ws_mud][]
+[http://njs50.github.io/ws_mud/]
