@@ -10,3 +10,7 @@ client uses websockify websocket implementation (flash fallback)
 
 Proxy:
 node /proxy/websockify.js node websockify.js webSocketServer:8000 telnetSource:4000
+
+### demo
+
+[http://njs50.github.io/ws_mud][]
