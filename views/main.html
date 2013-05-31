@@ -1,6 +1,6 @@
 <div class="row-fluid">
 
-  <div class="span3" style="height: {{windowHeight-50}}px; position: relative" ng-controller="ScanCtrl">
+  <div class="span3" style="height: {{windowHeight-50}}px; position: relative">
 
     <div class="pull-bottom controlButtons">
       <ng-include src="'templates/movementButtons.tpl.html'">
@@ -9,23 +9,12 @@
     <!-- left col, (commands, with buttons floating at bottom) -->
     <div style="height: {{windowHeight-172}}px; overflow-y:auto">
 
-      <!-- if they select a direction that has buttons. show them... -->
-      <div ng-show="autoscan.$scope.selectedDirection != '' && autoscan.hasButtons()">
-        <h4>{{autoscan.$scope.selectedDirection}}</h4>
-        <ul class="unstyled">
-          <li ng-repeat="oButton in autoscan.$scope.adjacentRooms[autoscan.$scope.selectedDirection].buttons">
-            {{($index &lt; 10 ? ($index+1) % 10 : '')}} <a telnet-send="{{oButton.command}}">{{oButton.label}}</a>
-          </li>
-        </ul>
-      </div>
-
-
       <!-- show standard commands if direction buttons aren't showing -->
-      <div ng-controller="CommandButtonsCtrl" ng-show="(autoscan.$scope.selectedDirection == '')">
+      <div ng-controller="CommandButtonsCtrl">
         <h4>commands</h4>
         <ul class="unstyled">
-          <li ng-repeat="cmd in aUserCommands">
-            {{($index &lt; 10 ? ($index+1) % 10 : '')}} <a telnet-send="{{cmd}}">{{cmd}}</a>
+          <li ng-repeat="cmd in buttons.$scope.aActiveButtons">
+            {{($index &lt; 10 ? ($index+1) % 10 : '')}} <a ng-click="clickButton($index)">{{cmd.label}}</a>
           </li>
         </ul>
       </div>
