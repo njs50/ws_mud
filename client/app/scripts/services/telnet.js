@@ -16,6 +16,7 @@ angular.module('clientApp')
     parseLine: 'TELNET_PARSE_LINE',
     connect: 'TELNET_CONNECT',
     disconnect: 'TELNET_DISCONNECT',
+    bufferUpdated: 'TELNET_OUTPUT_BUFFER_UPDATE'
   };
 
 
@@ -98,6 +99,7 @@ angular.module('clientApp')
 
     $timeout(function(){
       scope.$apply('outputBuffer');
+      scope.$broadcast(scope.telnetEvents.bufferUpdated);
     }, 0);
 
   };
@@ -207,6 +209,7 @@ angular.module('clientApp')
         else if (String.fromCharCode(b) === 'c') {
           closeSpans();
           scope.outputBuffer = '';
+          scope.$broadcast(scope.telnetEvents.bufferUpdated);
         }
         /* assorted other things that arn't implemented... */
         else if (String.fromCharCode(b) === 'M') {

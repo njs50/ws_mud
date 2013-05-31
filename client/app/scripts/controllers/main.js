@@ -21,26 +21,28 @@ angular.module('clientApp')
     });
 
 
-    telnet.connect('vault-thirteen.net', 7000);
+    var port = 8000;
+    var server = 'vault-thirteen.net';
 
-    //auto login trigger for now
+    // some junk to auto login to dev server
+    if ($(location).attr('hostname') === 'localhost') {
+      port = 7000;
+      telnet.$scope.$on(telnet.$scope.telnetEvents.parsePrompt, function(e, prompt) {
+        // reply to username prompt
+        if (prompt.match(/Choice:/)) {
+          telnet.send('Tester');
+        } else if (prompt.match(/Password:/)) {
+          telnet.silentSend('TesterPassword');
+        } else if (prompt.match(/Press <return> to continue./)) {
+          telnet.send('');
+        } else if (prompt.match(/Disconnect previous link?/)) {
+          telnet.send('y');
+        }
+      });
 
+    }
 
-    telnet.$scope.$on(telnet.$scope.telnetEvents.parsePrompt, function(e, prompt) {
-
-      // reply to username prompt
-      if (prompt.match(/Choice:/)) {
-        telnet.send('Tester');
-      } else if (prompt.match(/Password:/)) {
-        telnet.silentSend('TesterPassword');
-      } else if (prompt.match(/Press <return> to continue./)) {
-        telnet.send('');
-      } else if (prompt.match(/Disconnect previous link?/)) {
-        telnet.send('y');
-      }
-    });
-
-
+    telnet.connect(server, port);
 
   }])
 ;

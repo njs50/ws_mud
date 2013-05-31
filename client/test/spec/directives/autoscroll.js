@@ -37,8 +37,8 @@ describe('Directive: autoscroll', function () {
     expect(element.eq(0).scrollTop()).toBe(0);
 
     telnet.$scope.outputBuffer = '<div style="height:600px">hello</div>';
-
     telnet.$scope.$apply('outputBuffer');
+    telnet.$scope.$broadcast(telnet.$scope.telnetEvents.bufferUpdated);
 
     // after added
     expect(element.eq(0).scrollTop()).toBe(400);
@@ -52,6 +52,7 @@ describe('Directive: autoscroll', function () {
 
     telnet.$scope.outputBuffer = '<div style="height:600px">hello</div>';
     telnet.$scope.$apply('outputBuffer');
+    telnet.$scope.$broadcast(telnet.$scope.telnetEvents.bufferUpdated);
 
     // scroll back up 200
     element.eq(0).scrollTop(200);
@@ -71,6 +72,7 @@ describe('Directive: autoscroll', function () {
 
     telnet.$scope.outputBuffer = '<div style="height:600px">hello</div>';
     telnet.$scope.$apply('outputBuffer');
+    telnet.$scope.$broadcast(telnet.$scope.telnetEvents.bufferUpdated);
 
     // scroll back up 200
     element.eq(0).scrollTop(200);
@@ -84,6 +86,7 @@ describe('Directive: autoscroll', function () {
 
     telnet.$scope.outputBuffer += '<div style="height:600px">hello</div>';
     telnet.$scope.$apply('outputBuffer');
+    telnet.$scope.$broadcast(telnet.$scope.telnetEvents.bufferUpdated);
 
     // scolling should have resumed, so we should be at the bottom again
     expect(element.eq(0).scrollTop()).toBe(1000);

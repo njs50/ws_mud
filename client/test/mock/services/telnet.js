@@ -16,6 +16,7 @@ angular.module('mockTelnetServiceApp')
     parseLine: 'TELNET_PARSE_LINE',
     connect: 'TELNET_CONNECT',
     disconnect: 'TELNET_DISCONNECT',
+    bufferUpdated: 'TELNET_OUTPUT_BUFFER_UPDATE'
   };
 
   // Private functions
