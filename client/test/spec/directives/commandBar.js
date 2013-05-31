@@ -62,13 +62,13 @@ describe('Directive: commandBar', function () {
 
   it('should pass keypress events to the controller', function() {
     spyOn(scope,'keyDown');
-    element.trigger(createKeyEvent(13));
+    element.trigger(testHelpers.createKeyEvent(13));
     expect(scope.keyDown).toHaveBeenCalled();
   });
 
   it('should pass keypress events to the controller', function() {
     spyOn(scope,'keyDown');
-    element.trigger(createKeyEvent(40, false, false, true));
+    element.trigger(testHelpers.createKeyEvent(40, false, false, true));
     expect(scope.keyDown).toHaveBeenCalled();
   });
 

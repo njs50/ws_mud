@@ -53,37 +53,37 @@ describe('Controller: ScanCtrl', function () {
 
     spyOn(scope,'directionClick');
 
-    // createKeyEvent from helpers.js
+    // testHelpers.createKeyEvent from helpers.js
 
     // page up
-    var keyEvent = createKeyEvent(33);
+    var keyEvent = testHelpers.createKeyEvent(33);
     keypress.keyDown(keyEvent);
     // page down
-    keyEvent =   createKeyEvent(34);
+    keyEvent =   testHelpers.createKeyEvent(34);
     keypress.keyDown(keyEvent);
     // right
-    keyEvent =   createKeyEvent(39);
+    keyEvent =   testHelpers.createKeyEvent(39);
     keypress.keyDown(keyEvent);
     // left
-    keyEvent =   createKeyEvent(37);
+    keyEvent =   testHelpers.createKeyEvent(37);
     keypress.keyDown(keyEvent);
     // up
-    keyEvent =   createKeyEvent(38);
+    keyEvent =   testHelpers.createKeyEvent(38);
     keypress.keyDown(keyEvent);
     // down
-    keyEvent =   createKeyEvent(40);
+    keyEvent =   testHelpers.createKeyEvent(40);
     keypress.keyDown(keyEvent);
     // tilde
-    keyEvent =   createKeyEvent(192);
+    keyEvent =   testHelpers.createKeyEvent(192);
     keypress.keyDown(keyEvent);
     // tab
-    keyEvent =   createKeyEvent(9);
+    keyEvent =   testHelpers.createKeyEvent(9);
     keypress.keyDown(keyEvent);
     // esc
-    keyEvent =   createKeyEvent(27);
+    keyEvent =   testHelpers.createKeyEvent(27);
     keypress.keyDown(keyEvent);
     // enter : shouldn't do anything
-    keyEvent = createKeyEvent(13);
+    keyEvent = testHelpers.createKeyEvent(13);
     keypress.keyDown(keyEvent);
 
     expect(scope.directionClick).toHaveBeenCalledWith('up');

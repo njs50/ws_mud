@@ -33,7 +33,7 @@ angular.module('clientApp')
 
     var historyCommand = function(e) {
 
-      var code = (e.keyCode ? e.keyCode : e.which);
+      var code = e.which;
 
       // don't go below zero (i.e if they go down from 0, and if they go up from max reset to 0)
       $scope.commandPos = Math.max(0,($scope.commandPos + (39 - code) )) % ($scope.aCommands.length + 1);

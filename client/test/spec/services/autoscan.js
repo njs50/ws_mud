@@ -29,6 +29,8 @@ describe('Service: autoscan', function () {
 
     telnet.relayPrompt('<20hp 53e 100mv NEW>');
 
+    expect(testHelpers.flush()).toBe(true);
+
     expect(autoscan.$scope.adjacentRooms).toEqual({
       here: {
         type: 'mobs',
@@ -99,7 +101,16 @@ describe('Service: autoscan', function () {
 
     expect(autoscan.hasButtons('west')).toBe(true);
 
+  });
 
+  it('should handle requests for non existant directions', function(){
+
+    telnet.relayLines('east : darkness');
+    telnet.relayPrompt('<20hp 53e 100mv Ew>');
+
+    expect(autoscan.directionExists('north')).toBe(false);
+    expect(autoscan.hasButtons('north')).toBe(false);
+    expect(autoscan.getButtons('north')).toEqual([]);
 
   });
 

@@ -30,6 +30,7 @@ describe('Controller: CommandBarCtrl', function () {
     scope.command = 'command one';
 
     fakeKeypress(13);
+    expect(testHelpers.flush()).toBe(true);
 
     expect(scope.aCommands.length).toBe(1);
 
@@ -71,6 +72,7 @@ describe('Controller: CommandBarCtrl', function () {
 
     fakeKeypress(38,true);
     fakeKeypress(38,true);
+    expect(testHelpers.flush()).toBe(true);
 
     expect(scope.command).toBe('command two');
 

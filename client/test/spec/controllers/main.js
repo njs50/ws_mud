@@ -6,28 +6,19 @@ describe('Controller: MainCtrl tests', function () {
   beforeEach(module('clientApp'));
 
 
-  var MainCtrl, scope, win, $timeout;
+  var MainCtrl, scope, win;
 
   // Initialize the controller and a mock scope
 
-  beforeEach(inject(function ($controller, $rootScope, $window, _$timeout_) {
+  beforeEach(inject(function ($controller, $rootScope, $window) {
 
     scope = $rootScope;
     MainCtrl = $controller('MainCtrl', {$scope: scope});
     win = angular.element($window);
-    $timeout = _$timeout_;
 
   }));
 
-  // returns true if something was flushed, false otherwise
-  var flush = function() {
-    try {
-      $timeout.flush();
-    } catch(e) {
-      return false;
-    }
-    return true;
-  };
+
 
   describe('tests for windowHeight', function(){
 
@@ -42,7 +33,7 @@ describe('Controller: MainCtrl tests', function () {
       scope.windowHeight = 0;
       win.triggerHandler('resize');
       // should be a deferred apply
-      expect(flush()).toBe(true);
+      expect(testHelpers.flush()).toBe(true);
 
       // should have the original size again
       expect(scope.windowHeight).toBe(oldHeight);
@@ -50,7 +41,7 @@ describe('Controller: MainCtrl tests', function () {
       // make sure it doesn't change if nothing has changed
       win.triggerHandler('resize');
       // shouldn't be a defered apply since nothing has changed
-      expect(flush()).toBe(false);
+      expect(testHelpers.flush()).toBe(false);
       expect(scope.windowHeight).toBe(oldHeight);
 
     });

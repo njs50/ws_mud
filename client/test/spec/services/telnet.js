@@ -42,7 +42,9 @@ describe('Service: telnet', function() {
     // connection attempt + do some stuff + disconnect
     runs(function() {
 
-      telnet.connect('vault-thirteen.net', 8000);
+      telnet.setConsoleOutput(true);
+
+      telnet.connect('vault-thirteen.net', 7000);
 
       // listen for a parse prompt event and then respond if required...
       scope.$on(scope.telnetEvents.parsePrompt, function(e, prompt) {
@@ -107,6 +109,7 @@ describe('Service: telnet', function() {
       return bDisconnected;
     }, 'the connection to be concluded', 5000);
 
+    testHelpers.flush();
 
     it('should have connected at least once', function() {
       expect(bConnected).toBe(true);

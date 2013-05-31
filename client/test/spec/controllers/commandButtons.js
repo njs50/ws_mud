@@ -33,15 +33,15 @@ describe('Controller: CommandButtonsCtrl', function () {
     spyOn(telnet,'send');
 
     // from helpers.js
-    var keyEvent = createKeyEvent( '2'.charCodeAt(0) );
+    var keyEvent = testHelpers.createKeyEvent( '2'.charCodeAt(0) );
     keypress.keyDown(keyEvent);
 
     // should trigger command #9 (which doesn't exist)
-    keyEvent = createKeyEvent( '0'.charCodeAt(0) );
+    keyEvent = testHelpers.createKeyEvent( '0'.charCodeAt(0) );
     keypress.keyDown(keyEvent);
 
     // escape (shouldn't do anything)
-    keyEvent = createKeyEvent( 27 );
+    keyEvent = testHelpers.createKeyEvent( 27 );
     keypress.keyDown(keyEvent);
 
     expect(telnet.send).toHaveBeenCalledWith(scope.buttons.$scope.aActiveButtons[1].command);

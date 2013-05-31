@@ -20,11 +20,10 @@ angular.module('clientApp')
 
       getEventKey: function(e) {
 
-        var code = e.keyCode ? e.keyCode : e.which;
+        var code = e.which;
 
         switch(code) {
-        case 8:
-          return 'backspace';
+
         case 9:
           return 'tab';
         case 13:
@@ -37,10 +36,6 @@ angular.module('clientApp')
           return 'pageup';
         case 34:
           return 'pagedown';
-        case 35:
-          return 'end';
-        case 36:
-          return 'home';
         case 37:
           return 'left';
         case 38:
@@ -49,10 +44,6 @@ angular.module('clientApp')
           return 'right';
         case 40:
           return 'down';
-        case 45:
-          return 'insert';
-        case 46:
-          return 'delete';
         case 192:
           return 'tilde';
 

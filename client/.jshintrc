@@ -39,6 +39,7 @@
      "runs": false,
      "spyOn": false,
      "spyOnEvent": false,
+     "testHelpers" : false,
      "waitsFor": false,
      "xdescribe": false,
      "Websock": false
