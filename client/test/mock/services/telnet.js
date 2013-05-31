@@ -24,10 +24,6 @@ angular.module('mockTelnetServiceApp')
   // Public API here
   return {
 
-    getScope: function() {
-      return scope;
-    },
-
     send: function() {
       //console.log('telnet: ' + cmd);
     },

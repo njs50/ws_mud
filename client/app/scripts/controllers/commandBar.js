@@ -65,7 +65,8 @@ angular.module('clientApp')
         enterCommand(e);
         break;
 
-      // page up/down,
+      // esc, page up/down,
+      case 27:
       case 33:
       case 34:
         keypress.keyDown(e);

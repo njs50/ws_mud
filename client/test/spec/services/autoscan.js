@@ -95,11 +95,9 @@ describe('Service: autoscan', function () {
 
     expect(autoscan.$scope.adjacentRooms.west.type).toEqual('locked');
 
-    autoscan.$scope.selectedDirection = 'west';
+    expect(autoscan.directionExists('west')).toBe(true);
 
-    expect(autoscan.directionExists()).toBe(true);
-
-    expect(autoscan.hasButtons()).toBe(true);
+    expect(autoscan.hasButtons('west')).toBe(true);
 
 
 

@@ -145,7 +145,7 @@ describe('Controller: CommandBarCtrl', function () {
       fakeKeypress(i);
     }
 
-    expect(keypress.keyDown.callCount).toBe(18);
+    expect(keypress.keyDown.callCount).toBe(19);
 
   });
 
@@ -160,8 +160,8 @@ describe('Controller: CommandBarCtrl', function () {
       fakeKeypress(i);
     }
 
-    // only page up/down, tab, up / down get passed through when command text is entered
-    expect(keypress.keyDown.callCount).toBe(5);
+    // only esc, page up/down, tab, up / down get passed through when command text is entered
+    expect(keypress.keyDown.callCount).toBe(6);
 
   });
 

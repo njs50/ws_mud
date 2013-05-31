@@ -6,7 +6,6 @@ angular.module('clientApp')
 
     var $scope = $rootScope.$new();
 
-    $scope.selectedDirection = '';
     $scope.adjacentRooms = {};
 
     var roomChangedRegxp = /^(\[Exits:|You see nothing in the vicinity\.)/;
@@ -119,7 +118,6 @@ angular.module('clientApp')
         }
 
 
-        $scope.selectedDirection = '';
         $scope.adjacentRooms = tempMobs;
 
         tempMobs = {};
@@ -128,6 +126,7 @@ angular.module('clientApp')
 
         $timeout(function(){
           $scope.$apply('adjacentRooms');
+          $scope.$broadcast(_public.events.room_changed);
         },0);
 
       }
@@ -136,26 +135,29 @@ angular.module('clientApp')
     });
 
 
+    var _public = {
 
-    // Public API here
-    return {
+      events: {
+        'room_changed': 'AUTOSCAN_ROOM_CHANGE_DETECTED'
+      },
 
       directionExists: function(direction) {
-        direction = direction || $scope.selectedDirection;
         return $scope.adjacentRooms.hasOwnProperty(direction);
       },
 
       hasButtons: function(direction) {
-        direction = direction || $scope.selectedDirection;
-        return $scope.adjacentRooms.hasOwnProperty(direction) && ($scope.adjacentRooms[direction].buttons.length > 0);
+        return _public.directionExists(direction) && ($scope.adjacentRooms[direction].buttons.length > 0);
       },
 
-      getScope: function(){
-        return $scope;
+      getButtons: function(direction) {
+        return _public.directionExists(direction) ? $scope.adjacentRooms[direction].buttons : [];
       },
 
       '$scope': $scope
 
     };
+
+    // Public API here
+    return _public;
 
   }]);

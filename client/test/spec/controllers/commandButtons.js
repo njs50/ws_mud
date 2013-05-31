@@ -24,20 +24,30 @@ describe('Controller: CommandButtonsCtrl', function () {
   }));
 
   it('should attach a list of userCommands to the scope', function () {
-    expect(scope.aUserCommands.length).toBe(13);
+    expect(scope.buttons.$scope.aActiveButtons.length).toBe(5);
   });
 
 
   it('should send the command corresponding to the number key pressed', function(){
 
-    // from helpers.js
-    var keyEvent = createKeyEvent( '2'.charCodeAt(0) );
-
     spyOn(telnet,'send');
 
+    // from helpers.js
+    var keyEvent = createKeyEvent( '2'.charCodeAt(0) );
     keypress.keyDown(keyEvent);
 
-    expect(telnet.send).toHaveBeenCalled();
+    // should trigger command #9 (which doesn't exist)
+    keyEvent = createKeyEvent( '0'.charCodeAt(0) );
+    keypress.keyDown(keyEvent);
+
+    // escape (shouldn't do anything)
+    keyEvent = createKeyEvent( 27 );
+    keypress.keyDown(keyEvent);
+
+    expect(telnet.send).toHaveBeenCalledWith(scope.buttons.$scope.aActiveButtons[1].command);
+
+    // only the first keypress had a button assigned to it
+    expect(telnet.send.callCount).toBe(1);
 
   });
 

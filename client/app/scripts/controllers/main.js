@@ -21,7 +21,7 @@ angular.module('clientApp')
     });
 
 
-    telnet.connect('vault-thirteen.net', 8000);
+    telnet.connect('vault-thirteen.net', 7000);
 
     //auto login trigger for now
 
@@ -30,9 +30,9 @@ angular.module('clientApp')
 
       // reply to username prompt
       if (prompt.match(/Choice:/)) {
-      //  telnet.send('Tester');
+        telnet.send('Tester');
       } else if (prompt.match(/Password:/)) {
-      //  telnet.silentSend('TesterPassword');
+        telnet.silentSend('TesterPassword');
       } else if (prompt.match(/Press <return> to continue./)) {
         telnet.send('');
       } else if (prompt.match(/Disconnect previous link?/)) {

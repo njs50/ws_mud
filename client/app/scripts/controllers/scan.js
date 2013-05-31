@@ -2,9 +2,9 @@
 
 angular.module('clientApp')
 
-  .controller('ScanCtrl', ['$scope', 'autoscan', 'telnet', 'keypress', function($scope,autoscan,telnet,keypress) {
+  .controller('ScanCtrl', ['$scope', 'autoscan', 'buttons', 'keypress', 'telnet',
+    function($scope, autoscan, buttons, keypress, telnet) {
 
-    $scope.autoscan = autoscan;
 
     var keyToDirection = function(key) {
 
@@ -25,6 +25,8 @@ angular.module('clientApp')
         return 'down';
       case 'tab':
         return 'refresh';
+      case 'esc':
+        return 'reset';
       }
 
       return '';
@@ -35,44 +37,40 @@ angular.module('clientApp')
     keypress.$scope.$on(keypress.events.keydown,function(ngevent, e){
 
       var key = keypress.getEventKey(e);
-
       var dir = keyToDirection(key);
 
+      // watch for command button keys being pressed
       if(dir !== '') {
         $scope.directionClick(dir);
-      } else if (autoscan.$scope.selectedDirection !== '' &&
-        typeof key === 'number') {
-        key--;
-
-        dir = autoscan.$scope.selectedDirection;
-
-        if(autoscan.directionExists() && autoscan.$scope.adjacentRooms[dir].buttons.length > key) {
-
-          var oButton = autoscan.$scope.adjacentRooms[dir].buttons[key];
-
-          telnet.send(oButton.command);
-
-        }
       }
+
     });
 
+    autoscan.$scope.$on(autoscan.events.room_changed, function(){
+      buttons.resetButtons();
+    });
 
     $scope.directionClick = function(direction) {
 
-      if (direction === 'refresh') {
+      // esc = reset the buttons to default
+      if (direction === 'reset') {
+        buttons.resetButtons();
+      // tab/refresh click = scan + reset
+      } else if (direction === 'refresh') {
+        buttons.resetButtons();
         telnet.send('scan');
-        autoscan.$scope.selectedDirection = '';
-        autoscan.$scope.$apply('selectedDirection');
+      // other buttons
       } else {
-        if (autoscan.$scope.selectedDirection === direction || !autoscan.hasButtons(direction) ){
+        // if they have clicked a direction for the second time, then move (+reset buttons)
+        if (buttons.$scope.buttonSet === direction || !autoscan.hasButtons(direction) ){
           if (direction !== 'here') {
             telnet.send(direction);
           }
-        } else if (autoscan.$scope.selectedDirection !== direction){
-          autoscan.$scope.selectedDirection = direction;
-          autoscan.$scope.$apply('selectedDirection');
+        } else if (buttons.$scope.buttonSet !== direction){
+          buttons.setDirectionButtons(direction);
         }
       }
+
     };
 
   }]);

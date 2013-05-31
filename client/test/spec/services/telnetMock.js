@@ -11,7 +11,7 @@ describe('Service: telnet', function () {
 
   beforeEach(inject(function (_telnet_) {
     telnet = _telnet_;
-    scope = telnet.getScope();
+    scope = telnet.$scope;
   }));
 
   it('should do something', function () {

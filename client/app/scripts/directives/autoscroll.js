@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('clientApp')
-  .directive('autoscroll', function () {
+  .directive('autoscroll', ['telnet', function (telnet) {
     return {
       restrict: 'A',
       link: function postLink(scope, element) {
@@ -16,25 +16,21 @@ angular.module('clientApp')
 
         };
 
-
         // whenever the content changes scroll
-        scope.$watch('telnet.$scope.outputBuffer',function(){
+        telnet.$scope.$watch('outputBuffer',function(){
           if (bEnable){
             element[0].scrollTop = endPosition();
           }
         });
 
         element.on('scroll', function(){
-
           if (endPosition() !== element[0].scrollTop) {
             bEnable = false;
           } else {
             bEnable = true;
           }
-
         });
-
 
       }
     };
-  });
+  }]);
