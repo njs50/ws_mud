@@ -37,7 +37,7 @@ angular.module('clientApp')
         bMatching = true;
         currentDirection = aMatch[1].toLowerCase();
         tempMobs[currentDirection] = aMatch[2];
-      } else if (line.match(mobContinuedRegexp)) {
+      } else if (bMatching && line.match(mobContinuedRegexp)) {
         tempMobs[currentDirection] += line;
       } else {
         bMatching = false;
