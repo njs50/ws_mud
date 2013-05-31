@@ -33,6 +33,8 @@ angular.module('clientApp')
         $(window).off('keydown').on('keydown', function(e) {
 
           if (!bHasFocus &&
+             ($.inArray(e.which, [0,16,17,18,91,93]) === -1) &&
+              (!e.ctrlKey && !e.metaKey) &&
               ($.inArray(document.activeElement.tagName.toLowerCase(), ['input','textarea']) === -1) ) {
 
             //redirect input (so keypresses land in the right location)

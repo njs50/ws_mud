@@ -62,6 +62,7 @@ describe('Directive: autoscroll', function () {
 
     telnet.$scope.outputBuffer += '<div style="height:600px">hello</div>';
     telnet.$scope.$apply('outputBuffer');
+    telnet.$scope.$broadcast(telnet.$scope.telnetEvents.bufferUpdated);
 
     // after added
     expect(element.eq(0).scrollTop()).toBe(200);

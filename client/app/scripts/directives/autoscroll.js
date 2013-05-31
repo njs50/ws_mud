@@ -9,7 +9,6 @@ angular.module('clientApp')
 
         // start enabled, disable during manual scrollback
         var bEnable = true;
-        var prevPos = 0;
 
         var endPosition = function() {
           // certain browsers have a bug such that scrollHeight is too small
@@ -20,16 +19,14 @@ angular.module('clientApp')
 
         // whenever the content changes scroll
         telnet.$scope.$on(telnet.$scope.telnetEvents.bufferUpdated,function(){
-          console.log('buffer++ : ' + bEnable + ' : ' + element[0].scrollTop + ' : ' + endPosition());
           if (bEnable){
-            prevPos = endPosition();
-            element[0].scrollTop = prevPos;
+            element[0].scrollTop = endPosition();
           }
         });
 
         element.on('scroll', function(){
-          console.log('there be scrolling: ' + bEnable + ' : ' + element[0].scrollTop + ' : ' + endPosition());
-          if (endPosition() !== element[0].scrollTop && element[0].scrollTop !== prevPos ) {
+
+          if (endPosition() !== element[0].scrollTop) {
             bEnable = false;
           } else {
             bEnable = true;
