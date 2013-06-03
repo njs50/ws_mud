@@ -43,7 +43,7 @@ angular.module('clientApp')
       link: function(scope, el, attr) {
 
         el.addClass('icon-' + directionToArrow(attr.scanDirection));
-        el.addClass('btn');
+        el.addClass('btn btn-block');
 
         // watch for changes in the mobs for this direction
         if (attr.scanDirection  !== 'refresh') {

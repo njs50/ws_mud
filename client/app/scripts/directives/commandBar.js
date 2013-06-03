@@ -5,9 +5,11 @@ angular.module('clientApp')
 
 
     return {
-      template: '<input ng-controller="CommandBarCtrl" ng-model="command" type="text" class="pull-bottom" style="width:100%">',
+      templateUrl: 'templates/commandBar.tpl.html',
+      //template: '<foo></foo>'
       restrict: 'E',
       replace: true,
+      scope: false,
       link: function postLink(scope, element) {
 
         // bind the keydown event and prevent default where relevant
@@ -16,15 +18,15 @@ angular.module('clientApp')
         });
 
         // give the command bar the initial focus
-        element[0].focus();
+        var inputField = element.find('input').eq(0).focus();
 
         var bHasFocus = true;
 
         // track focus leaving and entering the command bar
-        element.bind('blur', function() {
+        inputField.bind('blur', function() {
           bHasFocus = false;
         });
-        element.bind('focus', function() {
+        inputField.bind('focus', function() {
           bHasFocus = true;
         });
 
@@ -38,11 +40,10 @@ angular.module('clientApp')
               ($.inArray(document.activeElement.tagName.toLowerCase(), ['input','textarea']) === -1) ) {
 
             //redirect input (so keypresses land in the right location)
-            element[0].focus();
+            inputField.focus();
 
             //retrigger event in case anything was listening for it
             element.trigger(e);
-
 
           }
 

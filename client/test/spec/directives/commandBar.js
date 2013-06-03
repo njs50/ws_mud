@@ -4,35 +4,10 @@ describe('Directive: commandBar', function () {
 
   beforeEach(module('clientApp'));
   beforeEach(module('mockTelnetServiceApp'));
+  beforeEach(module('templates/commandBar.tpl.html'));
 
-  var element, scope, host, $window;
+  var element, scope, host, $window, inputField;
 
-  var keypress = function(target, mainKey, alt, ctrl, shif) {
-
-    mainKey = mainKey.charCodeAt(0);
-
-    var keyDownEvent = jQuery.Event('keydown');
-    keyDownEvent.keyCode = mainKey;
-    keyDownEvent.which = mainKey;
-    keyDownEvent.altKey = alt || false;
-    keyDownEvent.ctrlKey = ctrl || false;
-    keyDownEvent.shiftKey = shif || false;
-
-
-    var keyUpEvent = jQuery.Event('keydown');
-    keyUpEvent.keyCode = mainKey;
-    keyUpEvent.which = mainKey;
-    keyUpEvent.altKey = alt || false;
-    keyUpEvent.ctrlKey = ctrl || false;
-    keyUpEvent.shiftKey = shif || false;
-
-    $(target)
-      .focus()
-      .trigger(keyDownEvent)
-      .trigger(keyUpEvent)
-    ;
-
-  };
 
 
   beforeEach(inject(function ($rootScope, $compile, _$window_){
@@ -46,12 +21,15 @@ describe('Directive: commandBar', function () {
     // create element and append to host
 
     element = angular.element('<command-bar></command-bar>');
+    element = $compile(element)($rootScope);
+    scope = element.scope();
+
     host.append(element);
     host.append('<input type="text" id="inputTest" />');
 
-    element = $compile(element)($rootScope);
+    scope.$digest();
+    inputField = element.find('input').eq(0);
 
-    scope = element.scope();
 
   }));
 
@@ -75,33 +53,22 @@ describe('Directive: commandBar', function () {
   it('should have bound the input to the controller', function() {
     scope.command = 'I like pie';
     scope.$digest();
-    expect(element.val()).toBe('I like pie');
+    expect(inputField.val()).toBe('I like pie');
   });
+
 
 
   it('should acquire focus if key is pressed in a non input field', function() {
 
     var oInput = $('#inputTest');
-
-    keypress('#inputTest','x');
-
+    testHelpers.createKeyPress('#inputTest','x');
     expect(document.activeElement).toBe(oInput);
 
     // send focus back to body
     oInput.blur();
-    keypress('body','x');
-
-    expect(document.activeElement).toBe(element);
-
-   // dump($(':focus'));
-
-  //  dump(document.activeElement);
-
+    testHelpers.createKeyPress('#host','x');
     scope.$digest();
-
-
-
-    //dump(host);
+    expect(document.activeElement).toBe(inputField);
 
   });
 

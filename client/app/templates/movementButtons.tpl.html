@@ -1,25 +1,42 @@
-<table ng-controller="ScanCtrl">
-  <tbody>
-    <tr>
-      <td><button scan-direction="up"></button></td>
-      <td></td>
-      <td><button scan-direction="north"></button></td>
-      <td></td>
-      <td><button scan-direction="refresh"></button></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><button scan-direction="west"></button></td>
-      <td></td>
-      <td><button scan-direction="east"></button></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><button scan-direction="down"></button></td>
-      <td></td>
-      <td><button scan-direction="south"></button></td>
-      <td></td>
-      <td><button scan-direction="here"></button></td>
-    </tr>
-  </tbody>
-</table>
+<div ng-controller="ScanCtrl">
+
+  <div class="row-fluid">
+
+    <div class="span2">
+      <button scan-direction="up"></button>
+    </div>
+    <div class="span2 offset2">
+      <button scan-direction="north"></button>
+    </div>
+    <div class="span2 offset2">
+      <button scan-direction="refresh"></button>
+    </div>
+
+  </div>
+
+  <div class="row-fluid">
+
+    <div class="span2 offset2">
+      <button scan-direction="west"></button>
+    </div>
+    <div class="span2 offset2">
+      <button scan-direction="east"></button>
+    </div>
+
+  </div>
+
+  <div class="row-fluid">
+
+    <div class="span2">
+      <button scan-direction="down"></button>
+    </div>
+    <div class="span2 offset2">
+      <button scan-direction="south"></button>
+    </div>
+    <div class="span2 offset2">
+      <button scan-direction="here"></button>
+    </div>
+
+  </div>
+
+</div>

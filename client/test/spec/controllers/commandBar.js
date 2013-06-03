@@ -6,6 +6,7 @@ describe('Controller: CommandBarCtrl', function () {
   beforeEach(module('clientApp'));
   beforeEach(module('mockTelnetServiceApp'));
 
+
   var CommandBarCtrl, scope, keypress;
 
   // Initialize the controller and a mock scope

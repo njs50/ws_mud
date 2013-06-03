@@ -8,7 +8,7 @@ angular.module('clientApp')
     $scope.commandPos = 0;
     $scope.commandMaxLength = 50;
 
-    var enterCommand = function() {
+    $scope.enterCommand = function() {
 
       // if this command came from the history don't add it to the history
       if ($scope.commandPos === 0 || $scope.aCommands[$scope.aCommands.length - $scope.commandPos] !== $scope.command ){
@@ -33,10 +33,13 @@ angular.module('clientApp')
 
     var historyCommand = function(e) {
 
-      var code = e.which;
+      $scope.historyChange(39 - e.which);
 
-      // don't go below zero (i.e if they go down from 0, and if they go up from max reset to 0)
-      $scope.commandPos = Math.max(0,($scope.commandPos + (39 - code) )) % ($scope.aCommands.length + 1);
+    };
+
+    $scope.historyChange = function(dir) {
+    // don't go below zero (i.e if they go down from 0, and if they go up from max reset to 0)
+      $scope.commandPos = Math.max(0,($scope.commandPos + dir )) % ($scope.aCommands.length + 1);
 
       if ($scope.commandPos) {
         $scope.command = $scope.aCommands[$scope.aCommands.length - $scope.commandPos];
@@ -47,9 +50,7 @@ angular.module('clientApp')
       $timeout(function(){
         $scope.$apply('command');
       }, 0);
-
     };
-
 
     // redirect any keypresses that need to be handled elsewhere
 
@@ -62,7 +63,7 @@ angular.module('clientApp')
       //enter
       case 13:
         e.preventDefault();
-        enterCommand(e);
+        $scope.enterCommand();
         break;
 
       // esc, page up/down,

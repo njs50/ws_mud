@@ -2,26 +2,17 @@
 
   <div class="span3" style="height: {{windowHeight-50}}px; position: relative;">
 
-    <div class="pull-bottom controlButtons">
+    <!-- command buttons -->
+    <div class="pull-bottom controlButtons row-fluid">
       <ng-include src="'templates/movementButtons.tpl.html'"></ng-include>
     </div>
 
     <!-- left col, (commands, with buttons floating at bottom) -->
-    <div style="height: {{windowHeight-172}}px; overflow-y:auto;">
-
-      <!-- show standard commands if direction buttons aren't showing -->
-      <div ng-controller="CommandButtonsCtrl">
-        <h4>commands</h4>
-        <ul class="unstyled">
-          <li ng-repeat="cmd in buttons.$scope.aActiveButtons">
-            {{($index &lt; 10 ? ($index+1) % 10 : '')}} <a ng-click="clickButton($index)">{{cmd.label}}</a>
-          </li>
-        </ul>
-      </div>
-
+    <div class="row-fluid" style="height: {{windowHeight-172}}px; overflow-y:auto;">
+      <ng-include src="'templates/commandButtons.tpl.html'"></ng-include>
     </div>
 
-  </div><!--/span-->
+  </div>
 
 
   <!-- main controls -->

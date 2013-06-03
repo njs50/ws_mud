@@ -406,10 +406,6 @@ angular.module('clientApp')
   // Public API here
   return {
 
-    getScope: function() {
-      return scope;
-    },
-
     send: function(cmd) {
       bPromptAppend = true;
       ws.send_string(cmd + '\n');

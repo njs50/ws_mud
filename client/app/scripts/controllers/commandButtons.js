@@ -5,6 +5,8 @@ angular.module('clientApp')
     ['$scope', 'buttons', 'telnet', 'keypress', function ($scope, buttons, telnet,keypress) {
 
     $scope.buttons = buttons;
+    $scope.bEditMode = false;
+    $scope.editIndex = -1;
 
     keypress.$scope.$on(keypress.events.keydown,function(ngevent, e){
 
@@ -28,6 +30,11 @@ angular.module('clientApp')
         telnet.send(buttons.$scope.aActiveButtons[key].command);
       }
       buttons.resetButtons();
+    };
+
+    $scope.toggleEdit = function(){
+      $scope.bEditMode = !$scope.bEditMode;
+      $scope.apply('bEditMode');
     };
 
 
