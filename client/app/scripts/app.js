@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('clientApp', ['templates-main', 'ui.bootstrap.dialog'])
+angular.module('clientApp', ['templates-main','$strap.directives', 'ui.bootstrap.modal', 'ui.bootstrap.dropdownToggle'])
 
   // configure routes...
   .config(['$routeProvider', '$locationProvider', function ($routeProvider,$locationProvider) {
@@ -16,6 +16,9 @@ angular.module('clientApp', ['templates-main', 'ui.bootstrap.dialog'])
       })
       .when('/contact', {
         templateUrl: 'views/contact.html'
+      })
+      .when('/config/buttons', {
+        templateUrl: 'views/editButtons.html'
       })
       .otherwise({
         redirectTo: '/'

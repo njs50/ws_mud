@@ -3,7 +3,7 @@
 
 // main controller for the app...
 angular.module('clientApp')
-  .controller('MainCtrl', ['$scope', '$rootScope','$window', 'telnet', '$timeout', function ($scope,$rootScope,$window,telnet, $timeout) {
+  .controller('MainCtrl', ['$scope', '$rootScope','$window', 'telnet', '$timeout', '$location', function ($scope,$rootScope,$window,telnet, $timeout, $location) {
 
     // set the initial windowheight
     $rootScope.telnet = telnet;

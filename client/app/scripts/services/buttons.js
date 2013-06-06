@@ -1,18 +1,10 @@
 'use strict';
 
 angular.module('clientApp')
-  .factory('buttons', ['$rootScope', 'autoscan', '$timeout',
-    function ($rootScope,autoscan, $timeout) {
+  .factory('buttons', ['$rootScope', 'autoscan', 'profile', '$timeout',
+    function ($rootScope,autoscan, profile, $timeout) {
     // Service logic
     // ...
-
-    var aUserCommands = [
-      {label: 'fireball', command: 'cast fireball'},
-      {label: 'lightning', command: 'cast lightning bolt'},
-      {label: 'acid blast', command: 'cast acid blast'},
-      {label: 'mists', command: 'cast mists of sleep'},
-      {label: 'freeze', command: 'cast freeze'}
-    ];
 
 
     var $scope = $rootScope.$new();
@@ -23,20 +15,6 @@ angular.module('clientApp')
       },0);
     };
 
-    var padButtons = function(aButtons) {
-      if (aButtons.length < 12) {
-        for(var i = aButtons.length; i < 12; i++) {
-          aButtons.push({command:'', label:''});
-        }
-      }
-      return aButtons;
-    };
-
-
-    $scope.aActiveButtons = padButtons(aUserCommands);
-    $scope.buttonSet = '';
-
-
     // Public API here
     var _public = {
       '$scope': $scope,
@@ -44,7 +22,7 @@ angular.module('clientApp')
       setDirectionButtons: function(direction) {
         var aButtons = autoscan.getButtons(direction);
         if (aButtons.length) {
-          $scope.aActiveButtons = padButtons(aButtons);
+          $scope.aActiveButtons = _public.padButtons(aButtons);
           $scope.buttonSet = direction;
           triggerChange();
         }
@@ -52,13 +30,40 @@ angular.module('clientApp')
 
       resetButtons: function() {
         if ($scope.buttonSet !== '') {
-          $scope.aActiveButtons = padButtons(aUserCommands);
+          $scope.aActiveButtons = _public.padButtons(profile.getButtons('default'));
           $scope.buttonSet = '';
           triggerChange();
         }
+      },
+
+      indexToKey: function(index) {
+
+        switch (index) {
+        case 9:
+          return 0;
+        case 10:
+          return '-';
+        case 11:
+          return '=';
+        default:
+          return index + 1;
+        }
+
+      },
+
+      padButtons: function(aButtons) {
+        if (aButtons.length < 12) {
+          for(var i = aButtons.length; i < 12; i++) {
+            aButtons.push({command:'', label:''});
+          }
+        }
+        return aButtons;
       }
 
     };
+
+    $scope.aActiveButtons = _public.padButtons(profile.getButtons('default'));
+    $scope.buttonSet = '';
 
     return _public;
 

@@ -12,6 +12,7 @@ files = [
   'app/components/angular-mocks/angular-mocks.js',
   'app/components/angular-bootstrap/ui-bootstrap.js',
   'app/components/angular-bootstrap/ui-bootstrap-tpls.js',
+  'app/components/angular-strap/dist/angular-strap.js',
 
   // app
   'app/scripts/*.js',

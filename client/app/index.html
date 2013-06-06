@@ -15,15 +15,20 @@
 
     <!-- build:js scripts/vendor.js -->
     <script src="components/jquery/jquery.js"></script>
-    <script src="components/enquire/dist/enquire.js"></script>
     <script src="components/angular-unstable/angular.js"></script>
     <script src="components/angular-ui-bootstrap/src/modal/modal.js"></script>
     <script src="components/angular-ui-bootstrap/src/dialog/dialog.js"></script>
     <script src="components/angular-ui-bootstrap/src/transition/transition.js"></script>
+    <script src="components/angular-ui-bootstrap/src/dropdownToggle/dropdownToggle.js"></script>
 
+    <script src="components/angular-strap/src/common.js"></script>
+    <script src="components/angular-strap/src/directives/navbar.js"></script>
     <!-- endbuild -->
 
   </head>
+
+<!--
+ -->
 
   <body ng-app="clientApp" ng-controller="MainCtrl">
 
@@ -37,26 +42,34 @@
     <![endif]-->
 
     <!-- navbar... currently static -->
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top" bs-navbar>
       <div class="navbar-inner">
         <div class="container-fluid">
 
-          <a class="brand" href="#">
+          <a class="brand">
             <i telnet-status class="disconnected icon-off"></i>
           </a>
 
           <ul class="nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#/about">Help</a></li>
-
+            <li data-match-route="/"><a href="/">TFE</a></li>
+            <li data-match-route="/config(/\w*)?" class="dropdown">
+                <a href="#" class="dropdown-toggle">Config <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li data-match-route="/config/buttons"><a href="#/config/buttons">Buttons</a></li>
+                </ul>
+            </li>
+            <li data-match-route="/about"><a href="#/about">Help</a></li>
           </ul>
 
         </div>
       </div>
     </div>
 
+
+
     <!-- Add your site or application content here -->
     <div class="container-fluid" ng-view></div>
+
 
     <!--
     <script src="components/angular-resource/angular-resource.js"></script>
@@ -83,6 +96,8 @@
     <script src="scripts/services/autoscan.js"></script>
     <script src="scripts/services/keypress.js"></script>
     <script src="scripts/services/buttons.js"></script>
+    <script src="scripts/controllers/editButtons.js"></script>
+    <script src="scripts/services/profile.js"></script>
     <!-- endbuild -->
 
     <!-- i'm not ready to rewrite the websockify client just yet... -->

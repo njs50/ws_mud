@@ -2,21 +2,14 @@
 <div ng-controller="CommandButtonsCtrl">
 
   <div class="row-fluid" ng-repeat="cmd in buttons.$scope.aActiveButtons">
-      <div class="span2">
-        <button class="btn btn-block" ng-click="clickButton($index)">
-          {{indexToKey($index)}}
-        </button>
-      </div>
+    <div class="span2">
+      <button class="btn btn-block" ng-click="clickButton($index)">
+        {{buttons.indexToKey($index)}}
+      </button>
+    </div>
     <div class="span10">
       <button class="btn btn-block" ng-click="clickButton($index)">{{cmd.label}}</button>
     </div>
-
-  </div>
-
-  <div class="row-fluid">
-    <button class="btn btn-block" ng-click="toggleEdit()">
-      <i class="icon-edit" ng-class="{'text-warning':bEditMode}"></i>
-    </button>
   </div>
 
 </div>
