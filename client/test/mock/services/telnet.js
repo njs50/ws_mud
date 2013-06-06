@@ -10,6 +10,8 @@ angular.module('mockTelnetServiceApp')
   scope.server = '';
   scope.port = '';
 
+  scope.bConsoleOutput = false;
+
   scope.telnetEvents = {
     parsePrompt: 'TELNET_PARSE_PROMPT',
     parseBlock: 'TELNET_PARSE_BLOCK',
@@ -25,8 +27,10 @@ angular.module('mockTelnetServiceApp')
   // Public API here
   return {
 
-    send: function() {
-      //console.log('telnet: ' + cmd);
+    send: function(cmd) {
+      if (scope.bConsoleOutput) {
+        console.log('telnet send: ' + cmd);
+      }
     },
 
     connect: function(server, port) {
@@ -43,14 +47,23 @@ angular.module('mockTelnetServiceApp')
 
     relayPrompt: function(txt) {
       scope.$broadcast(scope.telnetEvents.parsePrompt,txt);
+      if (scope.bConsoleOutput) {
+        console.log('telnet prompt: ' + txt);
+      }
     },
 
     relayLines: function(txt) {
       $(txt.split('\n')).each(function(idx,item){
         scope.$broadcast(scope.telnetEvents.parseLine,item);
+        if (scope.bConsoleOutput) {
+          console.log('telnet output: ' + item);
+        }
       });
     },
 
+    setConsoleOutput: function(bStatus) {
+      scope.bConsoleOutput = bStatus;
+    },
 
     '$scope': scope
 

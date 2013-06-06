@@ -46,6 +46,8 @@ describe('Service: keypress', function () {
     });
 
     expect(keypress.getEventKey({which: 192})).toBe('tilde');
+    expect(keypress.getEventKey({which: 187})).toBe('equal');
+    expect(keypress.getEventKey({which: 189})).toBe('minus');
 
   });
 

@@ -37,14 +37,32 @@ dl.paddedList > dd {
   white-space: pre;
 }
 
+
+/* control buttons, convert to a 10 col grid with no spacing */
 .controlButtons {
   margin-bottom: $baseLineHeight / 2;
+  margin-top: $baseLineHeight / 2;
+}
+.moveButtons .span2 {
+  width: 20%;
+}
+.moveButtons .offset2 {
+  margin-left: 20%;
+}
+.moveButtons .offset2:first-child {
+  margin-left: 20%;
 }
 
 .connected {
-  color: #ffff00 !important;
+  color: #00ff00 !important;
 }
 
+.commandButtons .btn {
+  height: $baseLineHeight + 10; // default padding on buttons + default borders
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
 
 .disconnected {
   color: #ff0000 !important;

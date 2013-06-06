@@ -24,11 +24,14 @@ describe('Controller: CommandButtonsCtrl', function () {
   }));
 
   it('should attach a list of userCommands to the scope', function () {
-    expect(scope.buttons.$scope.aActiveButtons.length).toBe(5);
+    expect(scope.buttons.$scope.aActiveButtons.length).toBe(12);
   });
 
 
   it('should send the command corresponding to the number key pressed', function(){
+
+
+    telnet.setConsoleOutput(true);
 
     spyOn(telnet,'send');
 

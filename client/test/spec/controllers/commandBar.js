@@ -148,7 +148,7 @@ describe('Controller: CommandBarCtrl', function () {
       fakeKeypress(i);
     }
 
-    expect(keypress.keyDown.callCount).toBe(19);
+    expect(keypress.keyDown.callCount).toBe(21);
 
   });
 

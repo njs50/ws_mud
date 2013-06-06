@@ -1,0 +1,29 @@
+<div class="row-fluid" style="height: {{windowHeight-(50 + 100)}}px; position: relative;">
+
+  <div
+    id="telnetOutput"
+    style="height: {{windowHeight-(50 + 62 + 100)}}px;"
+    class="bg fg"
+    ng-bind-html-unsafe="telnet.$scope.outputBuffer"
+    autoscroll
+  ></div>
+
+  <command-bar></command-bar>
+
+</div>
+
+<div class="row-fluid commandButtons"  ng-controller="CommandButtonsCtrl">
+
+    <!-- command buttons -->
+    <div class="span4">
+      <ng-include src="'templates/movementButtons.tpl.html'"></ng-include>
+    </div>
+
+    <!-- left col, (commands, with buttons floating at bottom) -->
+    <div class="span2" ng-repeat="j in [0,1,2,3]">
+      <button ng-repeat="i in [0,1,2]" class="btn btn-block" ng-click="clickButton(j*3 + i)">
+        {{buttons.$scope.aActiveButtons[j*3 + i].label}}
+      </button>
+    </div>
+
+</div>

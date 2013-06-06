@@ -11,7 +11,8 @@ angular.module('clientApp')
     $scope.enterCommand = function() {
 
       // if this command came from the history don't add it to the history
-      if ($scope.commandPos === 0 || $scope.aCommands[$scope.aCommands.length - $scope.commandPos] !== $scope.command ){
+      if ($scope.commandPos === 0 ||
+          $scope.aCommands[$scope.aCommands.length - $scope.commandPos] !== $scope.command ){
         $scope.aCommands.push($scope.command);
       }
 
@@ -93,9 +94,9 @@ angular.module('clientApp')
 
       default:
         // if no text has been entered then 0 - 9 are passed to the command handler
-        // as are left/right and tilde
+        // as are left/right and tilde, minus and equals
         if ($scope.command === ''){
-          if ((code >= 48 && code <= 57) || code === 192 || code === 37 || code === 39) {
+          if ((code >= 48 && code <= 57) || $.inArray(code,[192,37,39,187,189]) !== -1) {
             e.preventDefault();
             keypress.keyDown(e);
           }

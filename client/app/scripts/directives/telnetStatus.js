@@ -14,7 +14,6 @@ angular.module('clientApp')
             el
               .removeClass('disconnected')
               .addClass('connected')
-              .text('online')
               .off('click', telnet.connect)
               .on('click', telnet.disconnect)
             ;
@@ -22,7 +21,6 @@ angular.module('clientApp')
             el
               .removeClass('connected')
               .addClass('disconnected')
-              .text('offline')
               .off('click', telnet.disconnect)
               .on('click', telnet.connect)
             ;

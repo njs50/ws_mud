@@ -17,15 +17,24 @@ angular.module('clientApp')
 
     var $scope = $rootScope.$new();
 
-    $scope.aActiveButtons = aUserCommands;
-    $scope.buttonSet = '';
-
-
     var triggerChange = function() {
       $timeout(function(){
         $scope.$apply('aActiveButtons');
       },0);
     };
+
+    var padButtons = function(aButtons) {
+      if (aButtons.length < 12) {
+        for(var i = aButtons.length; i < 12; i++) {
+          aButtons.push({command:'', label:''});
+        }
+      }
+      return aButtons;
+    };
+
+
+    $scope.aActiveButtons = padButtons(aUserCommands);
+    $scope.buttonSet = '';
 
 
     // Public API here
@@ -35,7 +44,7 @@ angular.module('clientApp')
       setDirectionButtons: function(direction) {
         var aButtons = autoscan.getButtons(direction);
         if (aButtons.length) {
-          $scope.aActiveButtons = aButtons;
+          $scope.aActiveButtons = padButtons(aButtons);
           $scope.buttonSet = direction;
           triggerChange();
         }
@@ -43,7 +52,7 @@ angular.module('clientApp')
 
       resetButtons: function() {
         if ($scope.buttonSet !== '') {
-          $scope.aActiveButtons = aUserCommands;
+          $scope.aActiveButtons = padButtons(aUserCommands);
           $scope.buttonSet = '';
           triggerChange();
         }

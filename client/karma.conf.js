@@ -10,6 +10,8 @@ files = [
   'app/components/jquery/jquery.js',
   'app/components/angular-unstable/angular.js',
   'app/components/angular-mocks/angular-mocks.js',
+  'app/components/angular-bootstrap/ui-bootstrap.js',
+  'app/components/angular-bootstrap/ui-bootstrap-tpls.js',
 
   // app
   'app/scripts/*.js',

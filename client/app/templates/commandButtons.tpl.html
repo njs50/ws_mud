@@ -1,21 +1,22 @@
 <!-- show standard commands if direction buttons aren't showing -->
 <div ng-controller="CommandButtonsCtrl">
 
-    <div class="pull-left span2">
-      <div ng-repeat="key in [1,2,3,4,5,6,7,8,9,0]">
+  <div class="row-fluid" ng-repeat="cmd in buttons.$scope.aActiveButtons">
+      <div class="span2">
         <button class="btn btn-block" ng-click="clickButton($index)">
-          {{key}}
+          {{indexToKey($index)}}
         </button>
       </div>
-      <div ng-click="toggleEdit()">
-        <button class="btn btn-block">
-          <i class="icon-edit" ng-class="{'text-warning':bEditMode}"></i>
-        </button>
-      </div>
-    </div>
-
-    <div class="pull-left span10" ng-repeat="cmd in buttons.$scope.aActiveButtons">
+    <div class="span10">
       <button class="btn btn-block" ng-click="clickButton($index)">{{cmd.label}}</button>
     </div>
+
+  </div>
+
+  <div class="row-fluid">
+    <button class="btn btn-block" ng-click="toggleEdit()">
+      <i class="icon-edit" ng-class="{'text-warning':bEditMode}"></i>
+    </button>
+  </div>
 
 </div>

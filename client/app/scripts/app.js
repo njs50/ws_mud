@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('clientApp', ['templates-main'])
+angular.module('clientApp', ['templates-main', 'ui.bootstrap.dialog'])
 
   // configure routes...
   .config(['$routeProvider', '$locationProvider', function ($routeProvider,$locationProvider) {

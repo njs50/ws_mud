@@ -1,0 +1,33 @@
+<div class="row-fluid">
+
+  <div class="span2" style="height: {{windowHeight-50}}px; position: relative;">
+
+    <!-- command buttons -->
+    <div class="pull-bottom controlButtons row-fluid">
+      <ng-include src="'templates/movementButtons.tpl.html'"></ng-include>
+    </div>
+
+    <!-- left col, (commands, with buttons floating at bottom) -->
+    <div class="commandButtons row-fluid" style="height: {{windowHeight-172}}px; overflow-y:auto;">
+      <ng-include src="'templates/commandButtons.tpl.html'"></ng-include>
+    </div>
+
+  </div>
+
+
+  <!-- main controls -->
+  <div class="span10" style="height: {{windowHeight-50}}px; position: relative;">
+
+    <div
+      id="telnetOutput"
+      style="height: {{windowHeight-112}}px;"
+      class="bg fg"
+      ng-bind-html-unsafe="telnet.$scope.outputBuffer"
+      autoscroll
+    ></div>
+
+    <command-bar></command-bar>
+
+  </div><!--/span-->
+
+</div><!--/row fluid-->

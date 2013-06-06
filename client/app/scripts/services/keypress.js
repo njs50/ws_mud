@@ -46,7 +46,10 @@ angular.module('clientApp')
           return 'down';
         case 192:
           return 'tilde';
-
+        case 187:
+          return 'equal';
+        case 189:
+          return 'minus';
         }
 
         if (code >= 48 && code <= 57) {
