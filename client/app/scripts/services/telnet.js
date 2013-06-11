@@ -100,7 +100,7 @@ angular.module('clientApp')
     $timeout(function(){
       scope.$apply('outputBuffer');
       scope.$broadcast(scope.telnetEvents.bufferUpdated);
-    }, 0);
+    }, 0, false);
 
   };
 
@@ -396,8 +396,6 @@ angular.module('clientApp')
     bPromptAppend = false;
     msg('<span class="cmd">Connection error occured...</span>');
   });
-
-
 
 
   // Private functions

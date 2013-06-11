@@ -48,7 +48,7 @@ angular.module('clientApp')
         // watch for changes in the mobs for this direction
         if (attr.scanDirection  !== 'refresh') {
 
-          autoscan.$scope.$watch('adjacentRooms.' + attr.scanDirection, function(oNewMobs){
+          var e1 = autoscan.$scope.$watch('adjacentRooms.' + attr.scanDirection, function(oNewMobs){
             if (oNewMobs !== undefined) {
               el.removeClass('disabled muted btn-danger btn-info');
               if (oNewMobs.type === 'mobs'){
@@ -62,12 +62,17 @@ angular.module('clientApp')
             }
           },true);
 
-          buttons.$scope.$watch('buttonSet', function(buttonSet){
+          var e2 = buttons.$scope.$watch('buttonSet', function(buttonSet){
             if (buttonSet === attr.scanDirection) {
               el.addClass('selected');
             } else {
               el.removeClass('selected');
             }
+          });
+
+          scope.$on('$destroy', function(){
+            e1();
+            e2();
           });
 
         }

@@ -33,8 +33,7 @@ angular.module('clientApp')
 
     };
 
-
-    keypress.$scope.$on(keypress.events.keydown,function(ngevent, e){
+    var e1 = keypress.$scope.$on(keypress.events.keydown,function(ngevent, e){
 
       var key = keypress.getEventKey(e);
       var dir = keyToDirection(key);
@@ -46,8 +45,13 @@ angular.module('clientApp')
 
     });
 
-    autoscan.$scope.$on(autoscan.events.room_changed, function(){
+    var e2 = autoscan.$scope.$on(autoscan.events.room_changed, function(){
       buttons.resetButtons();
+    });
+
+    $scope.$on('$destroy', function(){
+      e1();
+      e2();
     });
 
     $scope.directionClick = function(direction) {

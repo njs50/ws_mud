@@ -3,7 +3,6 @@
 angular.module('clientApp')
   .directive('commandBar', function () {
 
-
     return {
       templateUrl: 'templates/commandBar.tpl.html',
       //template: '<foo></foo>'
@@ -12,8 +11,27 @@ angular.module('clientApp')
       scope: false,
       link: function postLink(scope, element) {
 
+
+        var focusHandler = function(e) {
+
+          if (!bHasFocus &&
+             ($.inArray(e.which, [0,16,17,18,91,93]) === -1) &&
+              (!e.ctrlKey && !e.metaKey) &&
+              ($.inArray(document.activeElement.tagName.toLowerCase(), ['input','textarea']) === -1) ) {
+
+            //redirect input (so keypresses land in the right location)
+            inputField.focus();
+
+            //retrigger event in case anything was listening for it
+            element.trigger(e);
+
+          }
+
+        };
+
+
         // bind the keydown event and prevent default where relevant
-        element.off('keydown').bind('keydown', function (e) {
+        element.on('keydown', function(e) {
           scope.keyDown(e);
         });
 
@@ -32,23 +50,14 @@ angular.module('clientApp')
 
 
         // keep focus in the command bar, unless it goes to some other input...
-        $(window).off('keydown').on('keydown', function(e) {
+        $(window).on('keydown', focusHandler);
 
-          if (!bHasFocus &&
-             ($.inArray(e.which, [0,16,17,18,91,93]) === -1) &&
-              (!e.ctrlKey && !e.metaKey) &&
-              ($.inArray(document.activeElement.tagName.toLowerCase(), ['input','textarea']) === -1) ) {
-
-            //redirect input (so keypresses land in the right location)
-            inputField.focus();
-
-            //retrigger event in case anything was listening for it
-            element.trigger(e);
-
-          }
-
+        // unbind this from the window if the command bar is unloaded.
+        scope.$on('$destroy',function(){
+          $(window).off('keydown', focusHandler);
         });
 
       }
+
     };
   });

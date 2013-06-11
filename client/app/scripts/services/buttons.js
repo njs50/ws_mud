@@ -12,7 +12,7 @@ angular.module('clientApp')
     var triggerChange = function() {
       $timeout(function(){
         $scope.$apply('aActiveButtons');
-      },0);
+      }, 0, false);
     };
 
     // Public API here

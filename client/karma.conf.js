@@ -13,6 +13,7 @@ files = [
   'app/components/angular-bootstrap/ui-bootstrap.js',
   'app/components/angular-bootstrap/ui-bootstrap-tpls.js',
   'app/components/angular-strap/dist/angular-strap.js',
+  'app/components/jStorage/jstorage.js',
 
   // app
   'app/scripts/*.js',

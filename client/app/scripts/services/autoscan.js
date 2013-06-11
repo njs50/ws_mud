@@ -125,9 +125,8 @@ angular.module('clientApp')
         bUpdateNextPrompt = false;
 
         $timeout(function(){
-          $scope.$apply('adjacentRooms');
           $scope.$broadcast(_public.events.room_changed);
-        },0);
+        },0, true);
 
       }
 

@@ -1,24 +1,51 @@
 'use strict';
 
 angular.module('clientApp')
-  .factory('profile', ['$rootScope', function ($rootScope) {
+  .factory('profile', [function () {
     // Service logic
     // ...
 
-    var buttons = {
+    var buttons;
 
-      default: [
-        {label: 'fireball', command: 'cast fireball'},
-        {label: 'lightning', command: 'cast lightning bolt'},
-        {label: 'acid blast', command: 'cast acid blast'},
-        {label: 'mists', command: 'cast mists of sleep'},
-        {label: 'freeze', command: 'cast freeze'}
-      ]
+    // defaults
+    var defaults = {
+
+      buttons: {
+        default: [
+          {label: 'look', command: 'look & scan'},
+          {label: 'skin corpse', command: 'skin corpse'},
+          {label: 'score', command: 'score'},
+          {label: 'inventory', command: 'inventory'},
+          {label: 'drink water', command: 'drink water'},
+          {label: 'eat food', command: 'eat food'}
+        ]
+      }
 
     };
 
+
+
+    var _private = {
+
+      save: function() {
+        $.jStorage.set('buttons',JSON.stringify(buttons));
+      },
+
+      load: function() {
+        buttons = _private.get('buttons');
+      },
+
+      get: function(key) {
+        var oTemp = $.jStorage.get(key);
+        return oTemp ? JSON.parse(oTemp) : defaults[key];
+      }
+
+    };
+
+
+
     // Public API here
-    return {
+    var _public =  {
 
       getButtons: function(buttonSet){
         if(buttons.hasOwnProperty(buttonSet)) {
@@ -30,7 +57,19 @@ angular.module('clientApp')
 
       setButtons: function(buttonSet, aButtons) {
         buttons[buttonSet] = aButtons;
+      },
+
+      save: function() {
+        _private.save();
       }
 
     };
+
+
+    // init code here...
+    _private.load();
+
+
+    return _public;
+
   }]);

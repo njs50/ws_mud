@@ -8,8 +8,7 @@ angular.module('clientApp')
       replace: false,
       link: function(scope, el) {
 
-
-        telnet.$scope.$watch('bConnected', function(bConnected){
+        var e1 = telnet.$scope.$watch('bConnected', function(bConnected){
           if (bConnected) {
             el
               .removeClass('disconnected')
@@ -25,6 +24,10 @@ angular.module('clientApp')
               .on('click', telnet.connect)
             ;
           }
+        });
+
+        scope.$on('$destroy', function(){
+          e1();
         });
 
       }

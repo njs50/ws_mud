@@ -3,7 +3,10 @@
 
 // main controller for the app...
 angular.module('clientApp')
-  .controller('MainCtrl', ['$scope', '$rootScope','$window', 'telnet', '$timeout', '$location', function ($scope,$rootScope,$window,telnet, $timeout, $location) {
+  .controller('MainCtrl', ['$scope', '$rootScope','$window', 'telnet', '$timeout', 'profile',
+    function ($scope,$rootScope,$window, telnet, $timeout, profile) {
+
+    var bIsDev = $(location).attr('hostname') === 'localhost';
 
     // set the initial windowheight
     $rootScope.telnet = telnet;
@@ -23,10 +26,10 @@ angular.module('clientApp')
         bApplyUpdate = true;
       }
 
-      if ($rootScope.windowHeight <= $rootScope.windowWidth) {
-        $rootScope.windowOrientation = 'landscape';
-      } else {
+      if ($rootScope.windowHeight > $rootScope.windowWidth || $rootScope.windowWidth < 940 ) {
         $rootScope.windowOrientation = 'portrait';
+      } else {
+        $rootScope.windowOrientation = 'landscape';
       }
 
       if (oldOrientation !== $rootScope.windowOrientation) {
@@ -35,9 +38,8 @@ angular.module('clientApp')
 
       if(bApplyUpdate){
         $timeout(function(){
-          $rootScope.$apply('windowWidth');
-          console.log('applied resize');
-        }, 0);
+          $rootScope.$digest();
+        }, 0, false);
       }
 
     };
@@ -52,12 +54,24 @@ angular.module('clientApp')
     setupWindow();
 
 
+    // bind to the window onbeforeunload so we can warn if closing an active session
+    $window.onbeforeunload = function(){
+      // save users profile
+      profile.save();
+      // if this isn't dev we should warn them if they have an active connection
+      if (!bIsDev && telnet.$scope.bConnected) {
+        return('You are currently connected to ' + telnet.$scope.server);
+      }
+      return;
+    };
+
     var port = 8000;
-    var server = 'vault-thirteen.net';
+    var server = 'theforestsedge.com';
 
     // some junk to auto login to dev server
-    if ($(location).attr('hostname') === 'localhost') {
+    if (bIsDev) {
       port = 7000;
+      server = 'vault-thirteen.net';
       telnet.$scope.$on(telnet.$scope.telnetEvents.parsePrompt, function(e, prompt) {
         // reply to username prompt
         if (prompt.match(/Choice:/)) {

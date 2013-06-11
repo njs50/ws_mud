@@ -2,12 +2,11 @@
 
 angular.module('clientApp')
   .controller('CommandButtonsCtrl',
-    ['$scope', 'buttons', 'telnet', 'keypress', '$dialog', function ($scope, buttons, telnet,keypress,$dialog) {
+    ['$scope', 'buttons', 'telnet', 'keypress', function ($scope, buttons, telnet,keypress) {
 
     $scope.buttons = buttons;
 
-
-    keypress.$scope.$on(keypress.events.keydown,function(ngevent, e){
+    var unbindEvent = keypress.$scope.$on(keypress.events.keydown,function(ngevent, e){
 
       var key = keypress.getEventKey(e);
       var idx = -1;
@@ -34,15 +33,16 @@ angular.module('clientApp')
 
     });
 
+    $scope.$on('$destroy', function(){
+      unbindEvent();
+    });
 
     $scope.clickButton = function(key) {
-
       if(buttons.$scope.aActiveButtons.length > key &&
         buttons.$scope.aActiveButtons[key].command.length) {
         telnet.send(buttons.$scope.aActiveButtons[key].command);
       }
       buttons.resetButtons();
-
     };
 
   }]);

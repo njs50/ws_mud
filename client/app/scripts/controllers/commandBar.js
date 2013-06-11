@@ -27,7 +27,7 @@ angular.module('clientApp')
 
       $timeout(function(){
         $scope.$apply('command');
-      }, 0);
+      }, 0, false);
 
     };
 
@@ -50,7 +50,7 @@ angular.module('clientApp')
 
       $timeout(function(){
         $scope.$apply('command');
-      }, 0);
+      }, 0, false);
     };
 
     // redirect any keypresses that need to be handled elsewhere

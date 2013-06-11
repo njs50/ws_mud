@@ -18,10 +18,14 @@ angular.module('clientApp')
         };
 
         // whenever the content changes scroll
-        telnet.$scope.$on(telnet.$scope.telnetEvents.bufferUpdated,function(){
+        var unbindEvent = telnet.$scope.$on(telnet.$scope.telnetEvents.bufferUpdated,function(){
           if (bEnable){
             element[0].scrollTop = endPosition();
           }
+        });
+
+        scope.$on('$destroy', function(){
+          unbindEvent();
         });
 
         element.on('scroll', function(){
