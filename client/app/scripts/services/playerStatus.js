@@ -155,11 +155,14 @@ angular.module('clientApp')
             if (line.match(/^\s*-+\s*$/)) {
               nameFinderUnbind();
               $scope.$apply(function(){
-                $scope.name = $.trim(lastLine);
+                $scope.name = lastLine;
                 deferred.resolve($scope.name);
               });
             }
-            lastLine = line;
+            line = $.trim(line);
+            if (line !== '') {
+              lastLine = line;
+            }
           });
         });
         return deferred.promise;
