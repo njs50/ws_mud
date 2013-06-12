@@ -30,7 +30,20 @@ describe('Service: telnet', function () {
   });
 
 
+  it('should output to console.log when enabled', function() {
+    telnet.setConsoleOutput(true);
 
+    spyOn(console,'log');
+
+    telnet.relayLines('hello 1');
+    telnet.relayPrompt('hello 2');
+    telnet.send('hello 3');
+
+    expect(console.log).toHaveBeenCalledWith('telnet output: hello 1');
+    expect(console.log).toHaveBeenCalledWith('telnet prompt: hello 2');
+    expect(console.log).toHaveBeenCalledWith('telnet send: hello 3');
+
+  });
 
 
 });

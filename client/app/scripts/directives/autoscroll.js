@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('clientApp')
-  .directive('autoscroll', ['telnet', function (telnet) {
+  .directive('autoscroll', ['telnet', '$window', function (telnet,$window) {
     return {
       restrict: 'A',
       scope: false,
@@ -24,12 +24,20 @@ angular.module('clientApp')
           }
         });
 
+        // scroll to end and enable autoscroll if window is resized
+        var resizeScroll = function(){
+          bEnable = true;
+          element[0].scrollTop = endPosition();
+        };
+
+        angular.element($window).bind('resize',resizeScroll);
+
         scope.$on('$destroy', function(){
           unbindEvent();
+          angular.element($window).unbind('resize',resizeScroll);
         });
 
         element.on('scroll', function(){
-
           if (endPosition() !== element[0].scrollTop) {
             bEnable = false;
           } else {

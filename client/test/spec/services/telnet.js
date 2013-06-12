@@ -107,7 +107,7 @@ describe('Service: telnet', function() {
     // wait for the connection to be concluded
     waitsFor(function() {
       return bDisconnected;
-    }, 'the connection to be concluded', 5000);
+    }, 'the connection to be concluded', 15000);
 
     testHelpers.flush();
 

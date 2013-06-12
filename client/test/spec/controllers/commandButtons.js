@@ -31,7 +31,7 @@ describe('Controller: CommandButtonsCtrl', function () {
   it('should send the command corresponding to the number key pressed', function(){
 
 
-    telnet.setConsoleOutput(true);
+    // telnet.setConsoleOutput(true);
 
     spyOn(telnet,'send');
 
@@ -53,5 +53,42 @@ describe('Controller: CommandButtonsCtrl', function () {
     expect(telnet.send.callCount).toBe(1);
 
   });
+
+
+
+  it('should unbind keypress events it created when destroyed', function () {
+
+    spyOn(telnet,'send');
+    var keyEvent = testHelpers.createKeyEvent( '2'.charCodeAt(0) );
+
+    keypress.keyDown(keyEvent);
+    expect(telnet.send.callCount).toBe(1);
+
+    scope.$destroy();
+
+    keypress.keyDown(keyEvent);
+    expect(telnet.send.callCount).toBe(1);
+
+  });
+
+
+  it('should repond to keys 0-9, - and = and convert them to the correct index', function () {
+
+    spyOn(scope,'clickButton');
+
+    keypress.keyDown(testHelpers.createKeyEvent( '2'.charCodeAt(0) ));
+    expect(scope.clickButton).toHaveBeenCalledWith(1);
+
+    keypress.keyDown(testHelpers.createKeyEvent( '0'.charCodeAt(0) ));
+    expect(scope.clickButton).toHaveBeenCalledWith(9);
+
+    keypress.keyDown(testHelpers.createKeyEvent(189));
+    expect(scope.clickButton).toHaveBeenCalledWith(10);
+
+    keypress.keyDown(testHelpers.createKeyEvent(187));
+    expect(scope.clickButton).toHaveBeenCalledWith(11);
+
+  });
+
 
 });

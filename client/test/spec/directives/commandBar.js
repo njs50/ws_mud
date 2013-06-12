@@ -21,7 +21,7 @@ describe('Directive: commandBar', function () {
     // create element and append to host
 
     element = angular.element('<command-bar></command-bar>');
-    element = $compile(element)($rootScope);
+    element = $compile(element)($rootScope.$new());
     scope = element.scope();
 
     host.append(element);
@@ -73,7 +73,20 @@ describe('Directive: commandBar', function () {
   });
 
 
+  it('should unbind keypress events when scope destroyed', function() {
 
+    inputField.focus().blur();
+    testHelpers.createKeyPress('#host','x');
+    expect($('input:focus').length).toBe(1);
+
+    scope.$destroy();
+
+    inputField.focus().blur();
+    testHelpers.createKeyPress('#host','x');
+
+    expect($('input:focus').length).toBe(0);
+
+  });
 
 
 

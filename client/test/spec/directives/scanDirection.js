@@ -107,5 +107,29 @@ describe('Directive: scanDirection', function () {
   }));
 
 
+  it('should unbnind watches on scope being destroyed', inject(function (autoscan, buttons) {
+
+    scope.$destroy();
+
+    autoscan.$scope.adjacentRooms = {
+      'north': {
+        type: 'mobs',
+        buttons: [
+          {label:'a fragile ancient sage', command: 'north & kill fragile.sage'}
+        ]
+      }
+    };
+
+    autoscan.$scope.$apply('adjacentRooms');
+
+    buttons.$scope.buttonSet = 'north';
+    buttons.$scope.$apply();
+
+    // these shouldn't of been updated
+    expect(btnEast).toHaveClass('btn-danger');
+    expect(btnNorth).not.toHaveClass('selected');
+
+  }));
+
 
 });

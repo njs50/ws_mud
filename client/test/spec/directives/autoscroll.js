@@ -5,12 +5,14 @@ describe('Directive: autoscroll', function () {
   beforeEach(module('clientApp'));
   beforeEach(module('mockTelnetServiceApp'));
 
-  var element, host, telnet;
+  var element, host, telnet, win, scope;
 
-  beforeEach(inject(function($rootScope, $compile, _telnet_) {
+  beforeEach(inject(function($rootScope, $compile, _telnet_, $window) {
 
     telnet = _telnet_;
     $rootScope.telnet = telnet;
+    win = $window;
+    scope = $rootScope.$new();
 
     // create a host div in the actual dom
     host = $('<div id="host"></div>');
@@ -21,7 +23,9 @@ describe('Directive: autoscroll', function () {
     host.append(element);
 
     // compile element in context now it's in the dom...
-    element = $compile(element)($rootScope);
+    element = $compile(element)(scope);
+
+    scope.$digest();
 
   }));
 
@@ -93,6 +97,55 @@ describe('Directive: autoscroll', function () {
     expect(element.eq(0).scrollTop()).toBe(1000);
 
   }));
+
+  it('should resume scrolling if window is resized', inject(function ($rootScope) {
+
+    // before added
+
+    telnet.$scope.outputBuffer = '<div style="height:600px">hello</div>';
+    telnet.$scope.$apply('outputBuffer');
+    telnet.$scope.$broadcast(telnet.$scope.telnetEvents.bufferUpdated);
+
+    // scroll back up 200
+    element.eq(0).scrollTop(200);
+    element.triggerHandler('scroll');
+
+    $rootScope.$digest();
+
+    telnet.$scope.outputBuffer += '<div style="height:600px">hello</div>';
+    telnet.$scope.$apply('outputBuffer');
+    telnet.$scope.$broadcast(telnet.$scope.telnetEvents.bufferUpdated);
+
+    // after added
+    expect(element.eq(0).scrollTop()).toBe(200);
+
+    angular.element(win).triggerHandler('resize');
+    $rootScope.$digest();
+
+    expect(element.eq(0).scrollTop()).toBe(1000);
+
+  }));
+
+  it('should unbind events when scope destroyed', function () {
+
+    // once unbound no changes should move the scrollback
+    scope.$destroy();
+
+    telnet.$scope.outputBuffer = '<div style="height:600px">hello</div>';
+    telnet.$scope.$apply('outputBuffer');
+    telnet.$scope.$broadcast(telnet.$scope.telnetEvents.bufferUpdated);
+
+    // after added
+    expect(element.eq(0).scrollTop()).toBe(0);
+
+    telnet.$scope.outputBuffer += '<div style="height:600px">hello</div>';
+    telnet.$scope.$apply('outputBuffer');
+
+    angular.element(win).triggerHandler('resize');
+
+    expect(element.eq(0).scrollTop()).toBe(0);
+
+  });
 
 
 });

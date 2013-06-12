@@ -27,14 +27,6 @@ angular.module('clientApp')
 
     var _private = {
 
-      save: function() {
-        $.jStorage.set('buttons',JSON.stringify(buttons));
-      },
-
-      load: function() {
-        buttons = _private.get('buttons');
-      },
-
       get: function(key) {
         var oTemp = $.jStorage.get(key);
         return oTemp ? JSON.parse(oTemp) : defaults[key];
@@ -60,14 +52,18 @@ angular.module('clientApp')
       },
 
       save: function() {
-        _private.save();
+        $.jStorage.set('buttons',JSON.stringify(buttons));
+      },
+
+      load: function() {
+        buttons = _private.get('buttons');
       }
 
     };
 
 
     // init code here...
-    _private.load();
+    _public.load();
 
 
     return _public;

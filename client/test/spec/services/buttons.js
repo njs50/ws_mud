@@ -67,5 +67,15 @@ describe('Service: buttons', function () {
 
   });
 
+  it('should convert button index to key label', function () {
+
+    expect(buttons.indexToKey(9)).toBe(0);
+    expect(buttons.indexToKey(10)).toBe('-');
+    expect(buttons.indexToKey(11)).toBe('=');
+    expect(buttons.indexToKey(1)).toBe(2);
+
+
+  });
+
 
 });

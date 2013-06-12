@@ -36,9 +36,3 @@ angular.module('clientApp')
   }]);
 
 
-// <a>
-//   <span ng-hide="telnet.$scope.bConnected" ng-click="telnet.connect(telnet.$scope.server,telnet.$scope.port)" class="disconnected">connect</span>
-
-//   <span ng-show="telnet.$scope.bConnected"ng-click="telnet.disconnect()" class="connected">disconnect</span>
-// </a>
-

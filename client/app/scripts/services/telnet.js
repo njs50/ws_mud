@@ -79,17 +79,17 @@ angular.module('clientApp')
 
     // if the current line is a prompt then append output onto it.
     if (bPromptAppend) {
-      scope.outputBuffer += ansiText + closeSpans();
+      scope.outputBuffer += ansiText;
       bPromptAppend = false;
     } else {
-      scope.outputBuffer += '<br />' + ansiText + closeSpans();
+      scope.outputBuffer += '<br />' + ansiText;
     }
 
     // if we've passed the max scroll back remove the overflow + 20%
     if (scope.outputBuffer.length > scope.maxScrollback) {
-      var newstart = scope.outputBuffer.indexOf('<br />', scope.outputBuffer.length - scope.maxScrollback + Math.ceil(scope.maxScrollback * 0.2));
+      var newstart = scope.outputBuffer.indexOf('<block_marker />', scope.outputBuffer.length - scope.maxScrollback + Math.ceil(scope.maxScrollback * 0.2));
       if (newstart > 0) {
-        scope.outputBuffer = scope.outputBuffer.substr(newstart + 6);
+        scope.outputBuffer = scope.outputBuffer.substr(newstart + 16);
       }
     }
 
@@ -347,8 +347,8 @@ angular.module('clientApp')
     // output lines here.
     if (ansi_line_buffer !== '') {
 
-      // display whatever is in the buffer
-      msg(ansi_line_buffer);
+      // display whatever is in the buffer (and close any open spans)
+      msg(ansi_line_buffer + closeSpans() + '<block_marker />' );
 
 
       // do prompt parsing stuff here (leftover stuff in the line buffer = prompt
@@ -408,7 +408,11 @@ angular.module('clientApp')
       bPromptAppend = true;
       ws.send_string(cmd + '\n');
       if (echoMode) {
-        msg('<span class="cmd">' + cmd + '</span>');
+        if (cmd === '') {
+          msg('');
+        } else {
+          msg('<span class="cmd">' + cmd + '</span>');
+        }
       }
       if (bCopyAllToConsole) {
         logger('send: ' + cmd );

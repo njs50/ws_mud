@@ -101,12 +101,32 @@ describe('Controller: ScanCtrl', function () {
 
   });
 
+  // should be triggered when direction buttons are pressed
+  it('should unbind the keyhandlers when the scope is destroyed', function(){
 
+    spyOn(scope,'directionClick');
+
+    keypress.keyDown(testHelpers.createKeyEvent(38));
+    expect(scope.directionClick.callCount).toBe(1);
+
+    scope.$destroy();
+
+    keypress.keyDown(testHelpers.createKeyEvent(38));
+    expect(scope.directionClick.callCount).toBe(1);
+
+  });
 
   it('should trigger the buttons to reset if a room change is detected', function(){
     spyOn(buttons,'resetButtons');
     autoscan.$scope.$broadcast(autoscan.events.room_changed);
     expect(buttons.resetButtons).toHaveBeenCalled();
+  });
+
+  it('should unbind the room change event when destroyed', function(){
+    scope.$destroy();
+    spyOn(buttons,'resetButtons');
+    autoscan.$scope.$broadcast(autoscan.events.room_changed);
+    expect(buttons.resetButtons).not.toHaveBeenCalled();
   });
 
 

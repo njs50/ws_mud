@@ -6,8 +6,7 @@ angular.module('clientApp')
   .controller('MainCtrl', ['$scope', '$rootScope','$window', 'telnet', '$timeout', 'profile',
     function ($scope,$rootScope,$window, telnet, $timeout, profile) {
 
-    var bIsDev = $(location).attr('hostname') === 'localhost';
-
+    $scope.bIsDev = $(location).attr('hostname') === 'localhost';
     // set the initial windowheight
     $rootScope.telnet = telnet;
 
@@ -59,7 +58,7 @@ angular.module('clientApp')
       // save users profile
       profile.save();
       // if this isn't dev we should warn them if they have an active connection
-      if (!bIsDev && telnet.$scope.bConnected) {
+      if (!$scope.bIsDev && telnet.$scope.bConnected) {
         return('You are currently connected to ' + telnet.$scope.server);
       }
       return;
@@ -69,7 +68,7 @@ angular.module('clientApp')
     var server = 'theforestsedge.com';
 
     // some junk to auto login to dev server
-    if (bIsDev) {
+    if ($scope.bIsDev) {
       port = 7000;
       server = 'vault-thirteen.net';
       telnet.$scope.$on(telnet.$scope.telnetEvents.parsePrompt, function(e, prompt) {
