@@ -119,7 +119,6 @@ describe('Directive: scanDirection', function () {
         ]
       }
     };
-
     autoscan.$scope.$apply('adjacentRooms');
 
     buttons.$scope.buttonSet = 'north';

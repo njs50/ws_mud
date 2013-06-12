@@ -25,16 +25,30 @@ angular.module('clientApp')
         });
 
         // scroll to end and enable autoscroll if window is resized
-        var resizeScroll = function(){
+        var resetScroll = function(){
           bEnable = true;
           element[0].scrollTop = endPosition();
         };
 
-        angular.element($window).bind('resize',resizeScroll);
+        // on space or enter reset scroll
+        var keypressScroll = function(e){
+          if(bEnable === false) {
+            if (e.which === 13) {
+              resetScroll();
+            } else if (e.which === 32) {
+              e.preventDefault();
+              resetScroll();
+            }
+          }
+        };
+
+        angular.element($window).bind('resize',resetScroll);
+        angular.element($window).bind('keydown',keypressScroll);
 
         scope.$on('$destroy', function(){
           unbindEvent();
-          angular.element($window).unbind('resize',resizeScroll);
+          angular.element($window).unbind('resize',resetScroll);
+          angular.element($window).unbind('keydown',keypressScroll);
         });
 
         element.on('scroll', function(){

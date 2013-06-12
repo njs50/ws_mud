@@ -7,6 +7,28 @@
       <ng-include src="'templates/movementButtons.tpl.html'"></ng-include>
     </div>
 
+    <!-- player bars -->
+    <div ng-hide="playerStatus.$scope.self.hpMax === 1">
+
+      <div class="progress progress-danger statusbar">
+        <div class="bar" style="width: {{(playerStatus.$scope.self.hp / playerStatus.$scope.self.hpMax) * 100 }}%;"></div>
+        <span>{{playerStatus.$scope.self.hp}}/{{playerStatus.$scope.self.hpMax}}</span>
+      </div>
+
+      <div class="progress progress-info statusbar">
+        <div class="bar" style="width: {{(playerStatus.$scope.self.e / playerStatus.$scope.self.eMax) * 100 }}%;"></div>
+        <span>{{playerStatus.$scope.self.e}}/{{playerStatus.$scope.self.eMax}}</span>
+      </div>
+
+      <div class="progress progress-success statusbar">
+        <div class="bar" style="width: {{(playerStatus.$scope.self.mv / playerStatus.$scope.self.mvMax) * 100 }}%;"></div>
+        <span>{{playerStatus.$scope.self.mv}}/{{playerStatus.$scope.self.mvMax}}</span>
+      </div>
+
+
+    </div>
+
+
     <!-- left col, (commands, with buttons floating at bottom) -->
     <div class="commandButtons row-fluid" style="height: {{windowHeight-172}}px; overflow-y:auto;">
       <ng-include src="'templates/commandButtons.tpl.html'"></ng-include>

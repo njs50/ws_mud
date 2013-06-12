@@ -334,7 +334,10 @@ angular.module('clientApp')
       // parse each line in the block
       var aLines = block_buffer.split('\n');
       for (var l = 0; l < aLines.length; l++) {
-        scope.$broadcast(scope.telnetEvents.parseLine,aLines[l]);
+        var thisLine = aLines[l];
+        if(thisLine !== '') {
+          scope.$broadcast(scope.telnetEvents.parseLine,thisLine);
+        }
       }
 
       // parse the entire block

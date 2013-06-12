@@ -3,12 +3,13 @@
 
 // main controller for the app...
 angular.module('clientApp')
-  .controller('MainCtrl', ['$scope', '$rootScope','$window', 'telnet', '$timeout', 'profile',
-    function ($scope,$rootScope,$window, telnet, $timeout, profile) {
+  .controller('MainCtrl', ['$scope', '$rootScope','$window', 'telnet', '$timeout', 'profile', 'playerStatus',
+    function ($scope,$rootScope,$window, telnet, $timeout, profile, playerStatus) {
 
     $scope.bIsDev = $(location).attr('hostname') === 'localhost';
     // set the initial windowheight
     $rootScope.telnet = telnet;
+    $rootScope.playerStatus = playerStatus;
 
     var setupWindow = function() {
 
@@ -51,6 +52,10 @@ angular.module('clientApp')
 
 
     setupWindow();
+
+    playerStatus.findName().then(function(){
+      playerStatus.updateGroup();
+    });
 
 
     // bind to the window onbeforeunload so we can warn if closing an active session
