@@ -30,7 +30,7 @@ angular.module('clientApp')
 */
 
 
-    var promptRegexp = /^(?: -- MORE -- )?<([^|]*\|)?(\d+)hp (\d+)e \[?(\d+)mv\]? (\d+)wm (\d+)xp (perfect|scratched|bruised|cut|wounded|badly wounded|nastily wounded|bleeding freely|covered in blood|leaking guts|mostly dead|\?\?)?\s?([NESWUDneswud]+|none)\s?(perfect|scratched|bruised|cut|wounded|badly wounded|nastily wounded|bleeding freely|covered in blood|leaking guts|mostly dead)?>\s*$/;
+    var promptRegexp = /^(?: -- MORE -- )?<([^|]*\|)?(\d+)hp (\d+)e \[?(\d+)mv\]? (\d+)wm (\d+)xp (perfect|scratched|bruised|cut|wounded|badly wounded|nastily wounded|bleeding freely|covered in blood|leaking guts|mostly dead|\?\?)?\s?([NESWUDneswud]+|none|\?\?)\s?(perfect|scratched|bruised|cut|wounded|badly wounded|nastily wounded|bleeding freely|covered in blood|leaking guts|mostly dead)?>\s*$/;
 
     $scope.name = 'TFE';
     $scope.leader = '';
