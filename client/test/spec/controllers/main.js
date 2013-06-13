@@ -6,7 +6,7 @@ describe('Controller: MainCtrl tests', function () {
   beforeEach(module('clientApp'));
   beforeEach(module('mockTelnetServiceApp'));
 
-  var MainCtrl, scope, win, mock, telnet;
+  var MainCtrl, scope, win, mock, telnet, $httpBackend;
 
   // Initialize the controller and a mock scope
 
@@ -21,15 +21,17 @@ describe('Controller: MainCtrl tests', function () {
       $provide.value('$window', mock);
     });
 
-    inject(function ($controller, $rootScope, $window, _telnet_) {
+    inject(function ($controller, $rootScope, $window, _telnet_, _$httpBackend_) {
 
+      $httpBackend = _$httpBackend_;
       telnet = _telnet_;
       scope = $rootScope;
       MainCtrl = $controller('MainCtrl', {$scope: scope});
       win = angular.element($window);
 
-    });
+      $httpBackend.when('GET', 'version.json').respond({version: '0.10.abcdef'}, {'A-Token': 'xxx'});
 
+    });
 
   });
 
@@ -44,18 +46,9 @@ describe('Controller: MainCtrl tests', function () {
 
     mock.innerHeight = 2000;
     win.triggerHandler('resize');
-    // should be a deferred apply
-    expect(testHelpers.flush()).toBe(true);
 
     // should have the original size again
     expect(scope.windowHeight).toBe(2000);
-
-    // make sure it doesn't change if nothing has changed
-    win.triggerHandler('resize');
-    // shouldn't be a defered apply since nothing has changed
-    expect(testHelpers.flush()).toBe(false);
-    expect(scope.windowHeight).toBe(2000);
-
 
   });
 

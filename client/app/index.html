@@ -18,6 +18,8 @@
     <script src="components/angular-unstable/angular.js"></script>
     <!-- endbuild -->
 
+    </script>
+
   </head>
 
 <!--
@@ -53,6 +55,10 @@
             </li>
             <li data-match-route="/about"><a href="#/about">Help</a></li>
           </ul>
+
+            <p ng-show="version" class="navbar-text pull-right">
+              build: {{version.major}}.{{version.minor}}
+            </p>
 
         </div>
       </div>
