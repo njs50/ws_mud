@@ -7,9 +7,16 @@ angular.module('clientApp')
 
     var promptRegexp = /^(?: -- MORE -- )?<([^|]*\|)?(\d+)hp (\d+)e \[?(\d+)mv\]? (\d+)wm (\d+)xp (perfect|scratched|bruised|cut|wounded|badly wounded|nastily wounded|bleeding freely|covered in blood|leaking guts|mostly dead|\?\?)?\s?([NESWUDneswud]+|none|\?\?)\s?(perfect|scratched|bruised|cut|wounded|badly wounded|nastily wounded|bleeding freely|covered in blood|leaking guts|mostly dead)?>\s*$/;
 
+    var last_prompt = '';
+    var last_oPrompt = null;
+
     var _public = {
 
       parse: function(prompt){
+
+        if (prompt === last_prompt) {
+          return last_oPrompt;
+        }
 
         var oPrompt = null;
         var aPromptMatch = prompt.match(promptRegexp);
@@ -27,6 +34,9 @@ angular.module('clientApp')
             exits: aPromptMatch[8],
             targetState: aPromptMatch[9]
           };
+
+          last_prompt = prompt;
+          last_oPrompt = oPrompt;
 
         }
 

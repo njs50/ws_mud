@@ -44,20 +44,6 @@ angular.module('clientApp')
       mvMax: 1
     };
 
-    var nextPrompt = function(cmd, fn) {
-
-      var promptWaitUnbind = telnet.$scope.$on(telnet.$scope.telnetEvents.parsePrompt, function() {
-        promptWaitUnbind();
-        if (fn !== undefined) {
-          fn();
-        }
-        if (cmd !== '') {
-          telnet.send(cmd);
-        }
-      });
-
-    };
-
 
     // update self whenever a prompt is parsed
     telnet.$scope.$on(telnet.$scope.telnetEvents.parsePrompt, function(e, oPrompt) {
@@ -111,7 +97,7 @@ angular.module('clientApp')
 
         });
 
-        nextPrompt('',function(){
+        telnet.onNextPrompt('',function(){
           partyFinderUnbind();
           $scope.$apply(function(){
             $scope.party = party;
@@ -136,7 +122,7 @@ angular.module('clientApp')
 
       findName: function(){
         var deferred = $q.defer();
-        nextPrompt('score', function(){
+        telnet.onNextPrompt('score', function(){
           var lastLine = '';
           var nameFinderUnbind = telnet.$scope.$on(telnet.$scope.telnetEvents.parseLine, function(e, line) {
             if (line.match(/^\s*-+\s*$/)) {
@@ -156,7 +142,7 @@ angular.module('clientApp')
 
         var deferred = $q.defer();
 
-        nextPrompt('group', function(){
+        telnet.onNextPrompt('group', function(){
           var waitForUpdateUnbind = $scope.$on($scope.events.fullPartyUpdate,function(){
             waitForUpdateUnbind();
             deferred.resolve($scope.party);

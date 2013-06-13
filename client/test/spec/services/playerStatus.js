@@ -47,7 +47,7 @@ describe('Service: playerStatus', function () {
 
   it('should parse a group listing', function () {
 
-    playerStatus.$scope.name = 'Moves';
+    playerStatus.$scope.name = 'Food';
 
     playerStatus.updateGroup();
 
@@ -72,6 +72,28 @@ describe('Service: playerStatus', function () {
 
     telnet.relayPrompt('<180hp 300e 132mv 66wm 310352xp perfect NeS>');
 
+    expect(playerStatus.$scope.self.hpMax).toBe(1);
+
+    playerStatus.$scope.name = 'Moves';
+
+    telnet.relayLines(
+      'A lesser cyclops is DEAD!!\n' +
+      '+--                            --+\n' +
+      'You receive 5187 experience points.\n' +
+      '\n' +
+      '<188hp 320e 129mv 66wm 310352xp perfect NeS> group \n' +
+      'Leader: Tester\n' +
+      '                                      Hits    Energy     Moves          Exp\n' +
+      '                                      ----    ------     -----          ---\n' +
+      '[ 21 Cle Vyn ] Tester              180/188   300/320   132/133       315539\n' +
+      '[  7 Mob Hor   ] Moves                 117/117   107/107   374/374            0\n' +
+      '                                                 -*-\n' +
+      '[ Incognito  ] Darion                        perfect health'
+    );
+
+    telnet.relayPrompt('<180hp 300e 132mv 66wm 310352xp perfect NeS>');
+
+    expect(playerStatus.$scope.self.hpMax).toBe(117);
 
     expect(telnet.send).toHaveBeenCalledWith('group');
 

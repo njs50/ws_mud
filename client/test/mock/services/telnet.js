@@ -27,7 +27,7 @@ angular.module('mockTelnetServiceApp')
 
 
   // Public API here
-  return {
+  _public = {
 
     send: function(cmd) {
       if (scope.bConsoleOutput) {
@@ -77,6 +77,20 @@ angular.module('mockTelnetServiceApp')
       scope.bConsoleOutput = bStatus;
     },
 
+    onNextPrompt: function(cmd, fn) {
+
+      var promptWaitUnbind = scope.$on(scope.telnetEvents.parsePrompt, function() {
+        promptWaitUnbind();
+        if (fn !== undefined) {
+          fn();
+        }
+        if (cmd !== '') {
+          _public.send(cmd);
+        }
+      });
+
+    },
+
     '$scope': scope
 
 /*
@@ -87,5 +101,6 @@ angular.module('mockTelnetServiceApp')
 
   };
 
+  return _public;
 
 }]);

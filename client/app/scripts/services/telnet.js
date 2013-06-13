@@ -491,6 +491,20 @@ angular.module('clientApp')
       bCopyAllToConsole = bEnable === true;
     },
 
+    onNextPrompt: function(cmd, fn) {
+
+      var promptWaitUnbind = scope.$on(scope.telnetEvents.parsePrompt, function() {
+        promptWaitUnbind();
+        if (fn !== undefined) {
+          fn();
+        }
+        if (cmd !== '') {
+          _public.send(cmd);
+        }
+      });
+
+    },
+
     '$scope': scope
 
 

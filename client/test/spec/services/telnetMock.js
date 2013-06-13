@@ -64,5 +64,34 @@ describe('Service: telnet', function () {
 
   });
 
+  it('should be able to schedule a function to run when the next prompt arrives', function() {
+
+    spyOn(console,'log');
+
+    telnet.onNextPrompt('',function(){
+      console.log('hrllo erlod');
+    });
+
+    telnet.relayPrompt('<S|188hp 320e 133mv 133wm 246909xp N>');
+
+
+    expect(console.log).toHaveBeenCalledWith('hrllo erlod');
+
+  });
+
+  it('should be able to schedule a function to run when the next prompt arrives', function() {
+
+    spyOn(telnet,'send');
+
+    telnet.onNextPrompt('boom');
+
+    telnet.relayPrompt('<S|188hp 320e 133mv 133wm 246909xp N>');
+
+
+    expect(telnet.send).toHaveBeenCalledWith('boom');
+
+  });
+
+
 
 });
