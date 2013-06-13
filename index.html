@@ -15,6 +15,8 @@
 
     <script src="scripts/c7c65655.vendor-head.js"></script>
 
+    
+
   </head>
 
 <!--
@@ -43,13 +45,17 @@
           <ul class="nav">
             <li data-match-route="/"><a href="#/">{{playerStatus.$scope.name}}</a></li>
             <li data-match-route="/config(/\w*)?" class="dropdown">
-                <a href="#" class="dropdown-toggle">Config <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle"><i class="icon-wrench"></i></a>
                 <ul class="dropdown-menu">
                   <li data-match-route="/config/buttons"><a href="#/config/buttons">Buttons</a></li>
                 </ul>
             </li>
-            <li data-match-route="/about"><a href="#/about">Help</a></li>
+            <li data-match-route="/about"><a href="#/about"><i class="icon-question-sign"></i></a></li>
           </ul>
+
+            <p ng-show="version" class="navbar-text pull-right">
+              {{version.major}}.{{version.minor}}
+            </p>
 
         </div>
       </div>
@@ -74,7 +80,7 @@
     <script src="scripts/3ada824f.templates.js"></script>
     <!-- endbuild -->
 
-    <script src="scripts/913aac03.scripts.js"></script>
+    <script src="scripts/a684f1de.scripts.js"></script>
 
     <!-- i'm not ready to rewrite the websockify client just yet... -->
     <script>
