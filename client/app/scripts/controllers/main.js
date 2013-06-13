@@ -76,7 +76,7 @@ angular.module('clientApp')
     if ($scope.bIsDev) {
       port = 7000;
       server = 'vault-thirteen.net';
-      telnet.$scope.$on(telnet.$scope.telnetEvents.parsePrompt, function(e, prompt) {
+      telnet.$scope.$on(telnet.$scope.telnetEvents.parseTextPrompt, function(e, prompt) {
         // reply to username prompt
         if (prompt.match(/Choice:/)) {
           telnet.send('Tester');

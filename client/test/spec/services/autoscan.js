@@ -21,13 +21,13 @@ describe('Service: autoscan', function () {
 
   it('should parse scan data between prompts', function(){
 
-    telnet.relayPrompt('<20hp 53e 100mv NEW>');
+    telnet.relayPrompt('<20hp 53e 100mv 133wm 246909xp NEW>');
     telnet.relayLines('      [Here] : a Voaleth citizen\n' +
       '        east : a large, burly orc\n' +
       '        west : an aged troll, a Troll guard of Voaleth,\n' +
       '               a black horse with hooves and eyes of flame');
 
-    telnet.relayPrompt('<20hp 53e 100mv NEW>');
+    telnet.relayPrompt('<20hp 53e 100mv 133wm 246909xp NEW>');
 
     expect(testHelpers.flush()).toBe(true);
 
@@ -71,7 +71,7 @@ describe('Service: autoscan', function () {
   it('should detect if a room is too dark', function(){
 
     telnet.relayLines('east : darkness');
-    telnet.relayPrompt('<20hp 53e 100mv E>');
+    telnet.relayPrompt('<20hp 53e 100mv 10wm 100xp E>');
 
     expect(autoscan.$scope.adjacentRooms).toEqual({ east : {type: 'dark', buttons: [{label:'refresh light', command:'refreshLight'}]} });
 
@@ -83,7 +83,7 @@ describe('Service: autoscan', function () {
   it('should reset itself if there is a new room', function(){
 
     telnet.relayLines('You see nothing in the vicinity.');
-    telnet.relayPrompt('<20hp 53e 100mv N>');
+    telnet.relayPrompt('<20hp 53e 100mv 10wm 100xp N>');
 
     expect(autoscan.$scope.adjacentRooms).toEqual({ north : { type : 'empty', buttons : [  ] } });
 
@@ -93,7 +93,7 @@ describe('Service: autoscan', function () {
   it('should detect a closed or locked door and provide opening options', function(){
 
     telnet.relayLines('east : darkness');
-    telnet.relayPrompt('<20hp 53e 100mv Ew>');
+    telnet.relayPrompt('<20hp 53e 100mv 10wm 100xp Ew>');
 
     expect(autoscan.$scope.adjacentRooms.west.type).toEqual('locked');
 
@@ -106,7 +106,7 @@ describe('Service: autoscan', function () {
   it('should handle requests for non existant directions', function(){
 
     telnet.relayLines('east : darkness');
-    telnet.relayPrompt('<20hp 53e 100mv Ew>');
+    telnet.relayPrompt('<20hp 53e 100mv 10wm 100xp Ew>');
 
     expect(autoscan.directionExists('north')).toBe(false);
     expect(autoscan.hasButtons('north')).toBe(false);
@@ -118,16 +118,15 @@ describe('Service: autoscan', function () {
   it('should reset itself if there is a new room', function(){
 
     telnet.relayLines('[Exits: w');
-    telnet.relayPrompt('<20hp 53e 100mv w>');
+    telnet.relayPrompt('<20hp 53e 100mv 10wm 100xp w>');
 
     expect(autoscan.$scope.adjacentRooms.west.type).toEqual('locked');
 
   });
 
   it('should handle no exits from a room', function(){
-
     telnet.relayLines('[Exits: none');
-    telnet.relayPrompt('<20hp 53e 100mv none>');
+    telnet.relayPrompt('<20hp 53e 100mv 10wm 100xp none>');
     expect(autoscan.$scope.adjacentRooms).toEqual({});
 
   });
@@ -137,7 +136,7 @@ describe('Service: autoscan', function () {
   it('should reset itself if there is a new room', function(){
 
     telnet.relayLines('[Exits: w');
-    telnet.relayPrompt('<20hp 53e 100mv w>');
+    telnet.relayPrompt('<20hp 53e 100mv 10wm 100xp w>');
 
     expect(autoscan.$scope.adjacentRooms.west.type).toEqual('locked');
 

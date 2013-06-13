@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('mockTelnetServiceApp')
-  .factory('telnet', ['$rootScope', function($rootScope) {
+  .factory('telnet', ['$rootScope', 'promptParser', function($rootScope, _promptParser_) {
 
+  var promptParser = _promptParser_;
   var scope = $rootScope.$new();
   scope.outputBuffer = '';
   scope.bConnected = false;
@@ -14,6 +15,7 @@ angular.module('mockTelnetServiceApp')
 
   scope.telnetEvents = {
     parsePrompt: 'TELNET_PARSE_PROMPT',
+    parseTextPrompt: 'TELNET_PARSE_INVALID_PROMPT',
     parseBlock: 'TELNET_PARSE_BLOCK',
     parseLine: 'TELNET_PARSE_LINE',
     connect: 'TELNET_CONNECT',
@@ -46,9 +48,19 @@ angular.module('mockTelnetServiceApp')
     },
 
     relayPrompt: function(txt) {
-      scope.$broadcast(scope.telnetEvents.parsePrompt,txt);
-      if (scope.bConsoleOutput) {
-        console.log('telnet prompt: ' + txt);
+
+      var oPrompt = promptParser.parse(txt);
+      if (oPrompt !== null) {
+        scope.$broadcast(scope.telnetEvents.parsePrompt,oPrompt);
+        if (scope.bConsoleOutput) {
+          console.log('telnet prompt: ' + txt);
+          console.log(oPrompt);
+        }
+      } else {
+        scope.$broadcast(scope.telnetEvents.parseTextPrompt,txt);
+        if (scope.bConsoleOutput) {
+          console.log('text prompt: ' + txt);
+        }
       }
     },
 

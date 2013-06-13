@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('clientApp')
-  .factory('telnet', ['$rootScope', '$timeout', function($rootScope,$timeout) {
+  .factory('telnet', ['$rootScope', '$timeout', 'promptParser', function($rootScope,$timeout, promptParser) {
 
   var scope = $rootScope.$new();
   scope.outputBuffer = '';
@@ -12,6 +12,7 @@ angular.module('clientApp')
 
   scope.telnetEvents = {
     parsePrompt: 'TELNET_PARSE_PROMPT',
+    parseTextPrompt: 'TELNET_PARSE_INVALID_PROMPT',
     parseBlock: 'TELNET_PARSE_BLOCK',
     parseLine: 'TELNET_PARSE_LINE',
     connect: 'TELNET_CONNECT',
@@ -43,13 +44,15 @@ angular.module('clientApp')
   // private
   var state = 0;
   var block_buffer = '';
+  var line_buffer = '';
+  var ansi_line_buffer = '';
   var echoMode = 1;
   var openSpans = 0;
   var bPromptAppend = false;
   var bCopyAllToConsole = false;
 
 
-  var promptRegexp = /^(<[^>]*>|\s*Choice:|\s*Password:|--\s*MORE\s*--\s*<[^>]*>|\s*Press <return> to continue\.|\s*Disconnect previous link\?)\s*$/;
+  // var promptRegexp = /^(<[^>]*>|\s*Choice:|\s*Password:|--\s*MORE\s*--\s*<[^>]*>|\s*Press <return> to continue\.|\s*Disconnect previous link\?)\s*$/;
 
   var logger = function(msg) {
     if (bCopyAllToConsole && window.console) {
@@ -94,7 +97,7 @@ angular.module('clientApp')
     }
 
     if (bCopyAllToConsole) {
-      logger('buffer: ' + ansiText );
+      logger('telnet: ' + ansiText );
     }
 
     $timeout(function(){
@@ -105,11 +108,10 @@ angular.module('clientApp')
   };
 
 
+
   var dataHandler = function(aBytes) {
 
     var buffer = '';
-    var line_buffer = '';
-    var ansi_line_buffer = '';
 
     // Loop through each available byte returned from the socket connection.
     for (var pos = 0; pos < aBytes.length; pos++) {
@@ -335,13 +337,15 @@ angular.module('clientApp')
       var aLines = block_buffer.split('\n');
       for (var l = 0; l < aLines.length; l++) {
         var thisLine = aLines[l];
-        if(thisLine !== '') {
+        if($.trim(thisLine) !== '') {
           scope.$broadcast(scope.telnetEvents.parseLine,thisLine);
         }
       }
 
-      // parse the entire block
-      scope.$broadcast(scope.telnetEvents.parseBlock,block_buffer);
+      // parse the entire block if it has some content...
+      if($.trim(block_buffer) !== '') {
+        scope.$broadcast(scope.telnetEvents.parseBlock,block_buffer);
+      }
 
       block_buffer = '';
     }
@@ -351,29 +355,49 @@ angular.module('clientApp')
     if (ansi_line_buffer !== '') {
 
       // display whatever is in the buffer (and close any open spans)
-      msg(ansi_line_buffer + closeSpans() + '<block_marker />' );
-
+      msg(ansi_line_buffer);
+      ansi_line_buffer = '';
 
       // do prompt parsing stuff here (leftover stuff in the line buffer = prompt
       // make sure prompt is valid...
       // this prompt detection looks super dodgy...
-      if (line_buffer.match(promptRegexp) !== null) {
+
+      var oPrompt = promptParser.parse(line_buffer);
+
+      if (oPrompt !== null) {
 
         // parse the prompt (now we know it's valid)
-        scope.$broadcast(scope.telnetEvents.parsePrompt,line_buffer);
         bPromptAppend = false;
-
+        scope.$broadcast(scope.telnetEvents.parsePrompt,oPrompt);
 
       } else {
 
         // this isn't a valid prompt so append the next line onto it
         bPromptAppend = true;
+        if ($.trim(line_buffer) !== '') {
+          scope.$broadcast(scope.telnetEvents.parseTextPrompt,line_buffer);
+        }
 
       }
 
     }
 
+    // if we aren't appending clear the line buffer + close any open spans and end the block
+    if (!bPromptAppend) {
+
+      line_buffer = ''; // maybe some left from the prompt (if it was valid)
+
+      if (openSpans) {
+        bPromptAppend = true;
+        msg(closeSpans());
+      }
+
+      // add a marker for truncating scrollback
+      scope.outputBuffer += '<block_marker />';
+    }
+
   };
+
 
   // bind websocket.js things
   ws.on('message', function() {
@@ -405,26 +429,46 @@ angular.module('clientApp')
 
 
   // Public API here
-  return {
+  var _public =  {
 
     send: function(cmd) {
+
+      var bPendingPrompt = bPromptAppend;
+      var output = '';
+
+      // add any output to previous line
       bPromptAppend = true;
+
+      if (echoMode && cmd !== '') {
+        output += '<span class="cmd">' + cmd + '</span>';
+      }
+
+      if (bPendingPrompt) {
+        output += closeSpans() + '<block_marker />';
+        line_buffer = '';
+      }
+
+
       ws.send_string(cmd + '\n');
-      if (echoMode) {
-        if (cmd === '') {
-          msg('');
-        } else {
-          msg('<span class="cmd">' + cmd + '</span>');
-        }
-      }
       if (bCopyAllToConsole) {
-        logger('send: ' + cmd );
+        logger('send (appending prompt:' + bPendingPrompt + '): ' + cmd );
       }
+
+      msg(output);
+
     },
 
     silentSend: function(cmd) {
-      bPromptAppend = true;
-      ws.send_string(cmd + '\n');
+
+      var prev_echoMode = echoMode;
+      echoMode = false;
+      _public.send(cmd);
+      echoMode = prev_echoMode;
+
+      if (bCopyAllToConsole) {
+        logger('telnet echo mode disabled for previous send');
+      }
+
     },
 
     connect: function(server, port) {
@@ -451,6 +495,8 @@ angular.module('clientApp')
 
 
   };
+
+  return _public;
 
 
 }]);

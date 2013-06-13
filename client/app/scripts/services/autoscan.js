@@ -48,7 +48,7 @@ angular.module('clientApp')
 
 
 
-    telnet.$scope.$on(telnet.$scope.telnetEvents.parsePrompt, function(e,prompt) {
+    telnet.$scope.$on(telnet.$scope.telnetEvents.parsePrompt, function(e,oPrompt) {
 
       if (bUpdateNextPrompt) {
 
@@ -92,13 +92,12 @@ angular.module('clientApp')
 
         // add any directions found in prompt, but not present in room.
         // lower case rooms in the prompt are "closed / locked / inaccesable"
-        var aMatch = prompt.match(/<.*\s([NESWUD]*)>/i);
-        if (aMatch){
-          for (var i in aMatch[1]) {
-            var dir = aMatch[1][i].toLowerCase();
+        if(oPrompt.exits !== 'none' && oPrompt.exits !== '??') {
+          for (var i in oPrompt.exits) {
+            var dir = oPrompt.exits[i].toLowerCase();
             var direction = directions[dir];
             if (!tempMobs.hasOwnProperty(directions[dir])){
-              if (dir !== aMatch[1][i]){
+              if (dir !== oPrompt.exits[i]){
                 tempMobs[directions[dir]] = {type: 'empty', buttons:[]};
               } else {
                 tempMobs[directions[dir]] = {type: 'locked', buttons:[

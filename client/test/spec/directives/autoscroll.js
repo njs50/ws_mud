@@ -126,6 +126,89 @@ describe('Directive: autoscroll', function () {
 
   }));
 
+
+  it('should resume scrolling if enter is pressed', inject(function ($rootScope) {
+
+    // before added
+
+    telnet.$scope.outputBuffer = '<div style="height:600px">hello</div>';
+    telnet.$scope.$apply('outputBuffer');
+    telnet.$scope.$broadcast(telnet.$scope.telnetEvents.bufferUpdated);
+
+    // scroll back up 200
+    element.eq(0).scrollTop(200);
+    element.triggerHandler('scroll');
+
+    $rootScope.$digest();
+
+    telnet.$scope.outputBuffer += '<div style="height:600px">hello</div>';
+    telnet.$scope.$apply('outputBuffer');
+    telnet.$scope.$broadcast(telnet.$scope.telnetEvents.bufferUpdated);
+
+    // after added, expect us to be scrolled up
+    expect(element.eq(0).scrollTop()).toBe(200);
+
+    $(window).trigger(testHelpers.createKeyEvent(13));
+
+    expect(element.eq(0).scrollTop()).toBe(1000);
+
+  }));
+
+  it('should resume scrolling if space is pressed', inject(function ($rootScope) {
+
+    // before added
+
+    telnet.$scope.outputBuffer = '<div style="height:600px">hello</div>';
+    telnet.$scope.$apply('outputBuffer');
+    telnet.$scope.$broadcast(telnet.$scope.telnetEvents.bufferUpdated);
+
+    // scroll back up 200
+    element.eq(0).scrollTop(200);
+    element.triggerHandler('scroll');
+
+    $rootScope.$digest();
+
+    telnet.$scope.outputBuffer += '<div style="height:600px">hello</div>';
+    telnet.$scope.$apply('outputBuffer');
+    telnet.$scope.$broadcast(telnet.$scope.telnetEvents.bufferUpdated);
+
+    // after added, expect us to be scrolled up
+    expect(element.eq(0).scrollTop()).toBe(200);
+
+    $(window).trigger(testHelpers.createKeyEvent(32));
+
+    expect(element.eq(0).scrollTop()).toBe(1000);
+
+  }));
+
+  it('shouldnt resume scrolling if any other key is pressed', inject(function ($rootScope) {
+
+    // before added
+
+    telnet.$scope.outputBuffer = '<div style="height:600px">hello</div>';
+    telnet.$scope.$apply('outputBuffer');
+    telnet.$scope.$broadcast(telnet.$scope.telnetEvents.bufferUpdated);
+
+    // scroll back up 200
+    element.eq(0).scrollTop(200);
+    element.triggerHandler('scroll');
+
+    $rootScope.$digest();
+
+    telnet.$scope.outputBuffer += '<div style="height:600px">hello</div>';
+    telnet.$scope.$apply('outputBuffer');
+    telnet.$scope.$broadcast(telnet.$scope.telnetEvents.bufferUpdated);
+
+    // after added, expect us to be scrolled up
+    expect(element.eq(0).scrollTop()).toBe(200);
+
+    $(window).trigger(testHelpers.createKeyEvent(17));
+
+    expect(element.eq(0).scrollTop()).toBe(200);
+
+  }));
+
+
   it('should unbind events when scope destroyed', function () {
 
     // once unbound no changes should move the scrollback
