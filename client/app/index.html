@@ -48,16 +48,16 @@
           <ul class="nav">
             <li data-match-route="/"><a href="#/">{{playerStatus.$scope.name}}</a></li>
             <li data-match-route="/config(/\w*)?" class="dropdown">
-                <a href="#" class="dropdown-toggle">Config <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle"><i class="icon-wrench"></i></a>
                 <ul class="dropdown-menu">
                   <li data-match-route="/config/buttons"><a href="#/config/buttons">Buttons</a></li>
                 </ul>
             </li>
-            <li data-match-route="/about"><a href="#/about">Help</a></li>
+            <li data-match-route="/about"><a href="#/about"><i class="icon-question-sign"></i></a></li>
           </ul>
 
             <p ng-show="version" class="navbar-text pull-right">
-              build: {{version.major}}.{{version.minor}}
+              {{version.major}}.{{version.minor}}
             </p>
 
         </div>
