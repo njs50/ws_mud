@@ -293,7 +293,30 @@ module.exports = function (grunt) {
           ]
         }]
       }
+    },
+
+    shell: {
+      updateVersion: {
+        command: '../generate-version',
+        options: {
+          stdout: true,
+          execOptions: {
+            cwd: '<%= yeoman.dist %>/'
+          }
+        }
+      }
+    },
+
+    rsync: {
+      staging: {
+        src: '<%= yeoman.dist %>/',
+        dest: '/Volumes/virtual_c/wwwroot/tfe/ws_client',
+        recursive: true,
+        exclude: ['.git*','*.scss'],
+        syncDest: true
+      }
     }
+
   });
 
   grunt.renameTask('regarde', 'watch');
@@ -341,13 +364,20 @@ module.exports = function (grunt) {
     'ngmin',
     'uglify',
     'rev',
-    'usemin'
+    'usemin',
+    'shell:updateVersion'
   ]);
 
   grunt.registerTask('deploy', ['githubPages:target']);
 
+  grunt.registerTask('deploy-staging', ['rsync:staging']);
+
   grunt.registerTask('default', ['build']);
 
   grunt.loadNpmTasks('grunt-html2js');
+
+  grunt.loadNpmTasks('grunt-rsync');
+
+  grunt.loadNpmTasks('grunt-shell');
 
 };

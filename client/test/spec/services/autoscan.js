@@ -7,11 +7,12 @@ describe('Service: autoscan', function () {
   beforeEach(module('mockTelnetServiceApp'));
 
   // instantiate service
-  var autoscan, telnet;
+  var autoscan, telnet, playerStatus;
 
-  beforeEach(inject(function (_autoscan_, _telnet_) {
+  beforeEach(inject(function (_autoscan_, _telnet_, _playerStatus_) {
     autoscan = _autoscan_;
     telnet = _telnet_;
+    playerStatus = _playerStatus_;
   }));
 
   it('should do something', function () {
@@ -67,6 +68,61 @@ describe('Service: autoscan', function () {
 
 
   });
+
+  it('should ignore party members in mob list', function(){
+
+    playerStatus.$scope.party = {
+      Mojune: { hp: 1},
+      Batso: { hp: 2}
+    };
+
+    playerStatus.$scope.$apply();
+
+    telnet.relayPrompt('<20hp 53e 100mv 133wm 246909xp none>');
+    telnet.relayLines('      [Here] : a Voaleth citizen, Batso\n');
+
+    telnet.relayPrompt('<20hp 53e 100mv 133wm 246909xp none>');
+
+    expect(testHelpers.flush()).toBe(true);
+
+    expect(autoscan.$scope.adjacentRooms).toEqual({
+      here: {
+        type: 'mobs',
+        buttons: [{
+          label: 'a voaleth citizen',
+          command: 'kill voaleth.citizen'
+        }]
+      }
+    });
+
+  });
+
+
+  it('should revert to being an empty room if only party members are present', function(){
+
+    playerStatus.$scope.party = {
+      Mojune: { hp: 1},
+      Batso: { hp: 2}
+    };
+
+    playerStatus.$scope.$apply();
+
+    telnet.relayPrompt('<20hp 53e 100mv 133wm 246909xp none>');
+    telnet.relayLines('      [Here] : Batso\n');
+
+    telnet.relayPrompt('<20hp 53e 100mv 133wm 246909xp none>');
+
+    expect(testHelpers.flush()).toBe(true);
+
+    expect(autoscan.$scope.adjacentRooms).toEqual({
+      here: {
+        type: 'empty',
+        buttons: []
+      }
+    });
+
+  });
+
 
   it('should detect if a room is too dark', function(){
 

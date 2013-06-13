@@ -2,7 +2,8 @@
 
 angular.module('clientApp')
 
-  .factory('autoscan', ['$rootScope', 'telnet', '$timeout', function ($rootScope,telnet,$timeout) {
+  .factory('autoscan', ['$rootScope', 'telnet', '$timeout', 'playerStatus',
+    function ($rootScope,telnet,$timeout,playerStatus) {
 
     var $scope = $rootScope.$new();
 
@@ -65,7 +66,7 @@ angular.module('clientApp')
             tempMobs[key] = tempMobs[key].replace(/^\s*/, '').split(mobSplitRegexp);
 
             // split into label and command
-            for (var idx = 0; idx < tempMobs[key].length; idx++) {
+            for (var idx = tempMobs[key].length-1; idx >= 0; idx--) {
 
               var oMob = {label: tempMobs[key][idx].toLowerCase()};
 
@@ -77,20 +78,36 @@ angular.module('clientApp')
                 .split(' ').join('.')
               ;
 
+              if (key === 'here') {
+                if(playerStatus.$scope.party.hasOwnProperty(tempMobs[key][idx])) {
+                  oMob = null;
+                } else {
+                  oMob.command = 'kill ' + id;
+                }
+              } else {
+                oMob.command = key + ' & ' + 'kill ' + id;
+              }
 
-              oMob.command = (key !== 'here' ? key + ' & ' : '' ) + 'kill ' + id;
-              tempMobs[key][idx] = oMob;
+              if (oMob !== null) {
+                tempMobs[key][idx] = oMob;
+              } else {
+                tempMobs[key].splice(idx,1);
+              }
 
             }
 
-            tempMobs[key] = {type: 'mobs', buttons: tempMobs[key]};
+            if (tempMobs[key].length){
+              tempMobs[key] = {type: 'mobs', buttons: tempMobs[key]};
+            } else {
+              tempMobs[key] = {type: 'empty', buttons:[]};
+            }
 
           }
 
         }
 
 
-        // add any directions found in prompt, but not present in room.
+        // add any directions found in prompt, but not present in scan.
         // lower case rooms in the prompt are "closed / locked / inaccesable"
         if(oPrompt.exits !== 'none' && oPrompt.exits !== '??') {
           for (var i in oPrompt.exits) {
