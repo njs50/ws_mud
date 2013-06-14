@@ -75,9 +75,11 @@ describe('Directive: commandBar', function () {
 
   it('should unbind keypress events when scope destroyed', function() {
 
+    // send focus back to body
     inputField.focus().blur();
     testHelpers.createKeyPress('#host','x');
-    expect($('input:focus').length).toBe(1);
+    scope.$digest();
+    expect(document.activeElement).toBe(inputField);
 
     scope.$destroy();
 

@@ -21,7 +21,6 @@ angular.module('clientApp')
 
             //redirect input (so keypresses land in the right location)
             inputField.focus();
-
             //retrigger event in case anything was listening for it
             element.trigger(e);
 

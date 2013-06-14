@@ -14,6 +14,9 @@ angular.module('clientApp', ['templates-main','$strap.directives', 'ui.bootstrap
       .when('/about', {
         templateUrl: 'views/about.html'
       })
+      .when('/map', {
+        templateUrl: 'views/map.html'
+      })
       .when('/contact', {
         templateUrl: 'views/contact.html'
       })

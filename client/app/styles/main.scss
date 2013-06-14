@@ -92,6 +92,56 @@ $highlightFocus: $green;
   width: 100%;
 }
 
+.map {
+  margin-bottom: $baseLineHeight;
+}
+
+.mapRoomRow, .mapSpaceRow {
+  clear: both;
+  width: 15 * $baseLineHeight * 1.5 + 14 * $baseLineHeight;
+}
+
+
+.mapRoomRow div, .mapSpaceRow div {
+  float: left;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+}
+
+
+
+.mapRoomRow div:nth-child(odd) {
+  outline: 1px solid $gray;
+}
+
+.map .here {
+  outline: 1px solid $yellow !important;
+}
+
+.map .room {
+  outline: 1px solid $grayLighter !important;
+}
+
+
+.mapRoomRow div {
+  height: $baseLineHeight * 1.5;
+  line-height: $baseLineHeight * 1.5;
+}
+
+.mapSpaceRow div {
+  height: $baseLineHeight;
+}
+
+.mapRoomRow div:nth-child(odd),.mapSpaceRow div:nth-child(odd) {
+  width: $baseLineHeight * 1.5;
+}
+
+.mapRoomRow div:nth-child(even), .mapSpaceRow div:nth-child(even) {
+  width: $baseLineHeight;
+}
+
+
 /*
 // TELNET COLOURS
 //

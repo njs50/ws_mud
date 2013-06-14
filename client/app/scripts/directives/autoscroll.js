@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('clientApp')
-  .directive('autoscroll', ['telnet', '$window', function (telnet,$window) {
+  .directive('autoscroll', ['telnet', '$window', '$timeout', function (telnet,$window,$timeout) {
     return {
       restrict: 'A',
       scope: false,
@@ -58,6 +58,11 @@ angular.module('clientApp')
             bEnable = true;
           }
         });
+
+        // scroll to the end of the content once rendered (when there is content preloaded)
+        $timeout(function(){
+          resetScroll();
+        },0);
 
       }
     };
