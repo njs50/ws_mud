@@ -3,12 +3,13 @@
 
 // main controller for the app...
 angular.module('clientApp')
-  .controller('MainCtrl', ['$scope', '$rootScope','$window', 'telnet', '$timeout', 'profile', 'playerStatus', '$http',
-    function ($scope,$rootScope,$window, telnet, $timeout, profile, playerStatus, $http) {
+  .controller('MainCtrl', ['$scope', '$rootScope','$window', 'telnet', '$timeout', 'profile', 'playerStatus', '$http', 'map',
+    function ($scope,$rootScope,$window, telnet, $timeout, profile, playerStatus, $http, map) {
 
     $scope.bIsDev = $(location).attr('hostname') === 'localhost';
     // set the initial windowheight
     $rootScope.telnet = telnet;
+    $rootScope.map = map;
     $rootScope.playerStatus = playerStatus;
 
     $http.get('version.json').success(function(data) {

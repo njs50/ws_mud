@@ -36,20 +36,34 @@ angular.module('clientApp')
       }
     };
 
-    var getMapHTML = function(aMap) {
+    var getMapHTML = function(map) {
+
+      var aMap = map.$scope.aMap;
 
       var aMapHTML = [];
+
+      var roomClick = function() {
+        var oData = $(this).data();
+        map.moveTo(parseInt(oData.x,10),parseInt(oData.y,10));
+      };
 
       for (var y = 0; y < 13; y++) {
         var oRow = angular.element('<div>');
         oRow.addClass(y % 2 ? 'mapSpaceRow' : 'mapRoomRow' );
         for (var x = 0; x < 29; x++) {
-          var oCell = angular.element('<div>');
-          oCell.append(charToContent(aMap[y][x]));
-          oCell.addClass(charToClass(aMap[y][x]));
-          oCell.data('x',x);
-          oCell.data('y',y);
-          oRow.append(oCell);
+          var thisClass = charToClass(aMap[y][x]);
+          var oCell = angular.element('<div>')
+            .append(charToContent(aMap[y][x]))
+            .addClass(thisClass)
+            .data('x',x)
+            .data('y',y)
+            .appendTo(oRow)
+          ;
+
+          if (thisClass === 'room') {
+            oCell.bind('click',roomClick);
+          }
+
         }
         aMapHTML.push(oRow);
       }
@@ -65,7 +79,7 @@ angular.module('clientApp')
 
         element.addClass('map');
 
-        element.append(getMapHTML(scope.map.$scope.aMap));
+        element.append(getMapHTML(scope.map));
       }
 
     };
