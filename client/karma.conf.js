@@ -10,10 +10,17 @@ files = [
   'app/components/jquery/jquery.js',
   'app/components/angular-unstable/angular.js',
   'app/components/angular-mocks/angular-mocks.js',
-  'app/components/angular-bootstrap/ui-bootstrap.js',
-  'app/components/angular-bootstrap/ui-bootstrap-tpls.js',
+  // 'app/components/angular-bootstrap/ui-bootstrap.js',
+  // 'app/components/angular-bootstrap/ui-bootstrap-tpls.js',
+  'app/components/angular-ui-bootstrap/src/modal/modal.js',
+  'app/components/angular-ui-bootstrap/src/dialog/dialog.js',
+  'app/components/angular-ui-bootstrap/src/transition/transition.js',
+  'app/components/angular-ui-bootstrap/src/dropdownToggle/dropdownToggle.js',
   'app/components/angular-strap/dist/angular-strap.js',
   'app/components/jStorage/jstorage.js',
+
+
+
 
   // app
   'app/scripts/*.js',

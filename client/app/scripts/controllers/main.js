@@ -4,7 +4,7 @@
 // main controller for the app...
 angular.module('clientApp')
   .controller('MainCtrl', ['$scope', '$rootScope','$window', 'telnet', '$timeout', 'profile', 'playerStatus', '$http', 'map',
-    function ($scope,$rootScope,$window, telnet, $timeout, profile, playerStatus, $http, map) {
+    function ($scope, $rootScope, $window, telnet, $timeout, profile, playerStatus, $http, map) {
 
     $scope.bIsDev = $(location).attr('hostname') === 'localhost';
     // set the initial windowheight
@@ -83,15 +83,16 @@ angular.module('clientApp')
     var server = 'theforestsedge.com';
 
     // some junk to auto login to dev server
+
     if ($scope.bIsDev) {
-      port = 7000;
-      server = 'vault-thirteen.net';
+      // port = 7000;
+      // server = 'vault-thirteen.net';
       telnet.$scope.$on(telnet.$scope.telnetEvents.parseTextPrompt, function(e, prompt) {
         // reply to username prompt
         if (prompt.match(/Choice:/)) {
-          telnet.send('Tester');
+          telnet.send('Angularo');
         } else if (prompt.match(/Password:/)) {
-          telnet.silentSend('TesterPassword');
+          telnet.silentSend('Testacularo');
         } else if (prompt.match(/Press <return> to continue./)) {
           telnet.send('');
         } else if (prompt.match(/Disconnect previous link?/)) {
