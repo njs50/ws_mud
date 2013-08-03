@@ -16,6 +16,7 @@ files = [
   'app/components/angular-ui-bootstrap/src/dialog/dialog.js',
   'app/components/angular-ui-bootstrap/src/transition/transition.js',
   'app/components/angular-ui-bootstrap/src/dropdownToggle/dropdownToggle.js',
+  'app/components/bootstrap/js/bootstrap-collapse.js',
   'app/components/angular-strap/dist/angular-strap.js',
   'app/components/jStorage/jstorage.js',
 
