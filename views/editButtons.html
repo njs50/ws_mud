@@ -1,6 +1,13 @@
 <div ng-controller="EditButtonsCtrl">
 
-  <legend>Edit Buttons</legend>
+  <legend>
+    Edit Buttons
+    <div class="pull-right">
+      <select ng-model="buttonSet">
+        <option ng-repeat="button in aButtonSets">{{button}}</option>
+      </select>
+    </div>
+  </legend>
 
     <form class="form-horizontal">
 
@@ -13,6 +20,7 @@
       <div class="form-actions">
         <button class="btn" ng-click="done()">Done</button>
         <button class="btn" ng-click="undo()">Undo</button>
+        <button class="btn pull-right btn-danger" ng-click="reset()">Reset to defaults</button>
       </div>
 
     </form>
