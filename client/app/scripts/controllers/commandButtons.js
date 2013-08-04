@@ -46,7 +46,11 @@ angular.module('clientApp')
     $scope.clickButton = function(key) {
       if(buttons.$scope.aActiveButtons.length > key &&
         buttons.$scope.aActiveButtons[key].command.length) {
-        telnet.send(buttons.$scope.aActiveButtons[key].command);
+        // send cmomands one at a itme if they're combined with &
+        var aCMD = buttons.$scope.aActiveButtons[key].command.split(' & ');
+        for (var i = 0; i < aCMD.length; i++) {
+          telnet.send(aCMD[i]);
+        }
       }
       buttons.resetButtons();
     };

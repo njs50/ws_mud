@@ -440,7 +440,7 @@ angular.module('clientApp')
       bPromptAppend = true;
 
       if (echoMode && cmd !== '') {
-        output += '<span class="cmd">' + cmd + '</span>';
+        output += '<span class="cmd">' + cmd + '</span> ';
       }
 
       if (bPendingPrompt) {
