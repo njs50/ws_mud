@@ -19,6 +19,7 @@ files = [
   'app/components/bootstrap/js/bootstrap-collapse.js',
   'app/components/angular-strap/dist/angular-strap.js',
   'app/components/jStorage/jstorage.js',
+  'app/components/underscore/underscore.js',
 
 
 

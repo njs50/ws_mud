@@ -168,6 +168,10 @@ angular.module('clientApp')
         return _public.directionExists(direction) ? $scope.adjacentRooms[direction].buttons : [];
       },
 
+      getButtonType: function(direction) {
+        return _public.directionExists(direction) ? $scope.adjacentRooms[direction].type : 'empty';
+      },
+
       '$scope': $scope
 
     };

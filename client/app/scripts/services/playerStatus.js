@@ -63,8 +63,8 @@ angular.module('clientApp')
         $scope.self.e = oPrompt.e;
         $scope.self.mv = oPrompt.mv;
         $scope.self.xp = oPrompt.xp;
-        $scope.playerState = oPrompt.playerState;
       });
+      _public.changeState(oPrompt.playerState);
 
 
     });
@@ -168,7 +168,15 @@ angular.module('clientApp')
         });
 
         return deferred.promise;
-      }
+      },
+
+      // debounce the state change function, so we can set combat mode when attacking
+      // as prompt will stay ooc until the first hit/miss, not letting you queue attacks otherwise
+      changeState: _.debounce(function(state){
+        $scope.$apply(function(){
+          $scope.playerState = state;
+        });
+      },1000, true)
 
     };
 

@@ -8,11 +8,13 @@ angular.module('clientApp')
 
 
     var $scope = $rootScope.$new();
-    var buttonMode = 'profile';
-    var profileSet = '';
 
-    $scope.buttonSet = '';
-    $scope.aActiveButtons = [];
+    $scope.buttonMode = 'profile'; // profile or direction
+    $scope.profileSet = ''; // last profile set to be used (so we can return to it)
+    $scope.buttonType = ''; // if direction set, type of direction buttons
+
+    $scope.buttonSet = ''; // active button set label (i.e north or combat)
+    $scope.aActiveButtons = []; // current buttons
 
 
     var triggerChange = function() {
@@ -30,23 +32,25 @@ angular.module('clientApp')
       setDirectionButtons: function(direction) {
         var aButtons = autoscan.getButtons(direction);
         if (aButtons.length) {
-          buttonMode = 'direction';
-          $scope.aActiveButtons = _public.padButtons(aButtons);
+          $scope.buttonMode = 'direction';
+          $scope.buttonType = autoscan.getButtonType(direction);
           $scope.buttonSet = direction;
+          $scope.aActiveButtons = _public.padButtons(aButtons);
           triggerChange();
         }
       },
 
       resetButtons: function() {
-        _public.setProfileButtons(profileSet);
+        _public.setProfileButtons($scope.profileSet);
       },
 
       setProfileButtons: function(set) {
-        if ($scope.buttonSet !== set || buttonMode !== 'profile') {
-          buttonMode = 'profile';
+        if ($scope.buttonSet !== set || $scope.buttonMode !== 'profile') {
+          $scope.buttonMode = 'profile';
+          $scope.buttonType = 'user';
           $scope.buttonSet = set;
-          profileSet = set;
           $scope.aActiveButtons = _public.padButtons(profile.getButtons(set));
+          $scope.profileSet = set;
           triggerChange();
         }
       },

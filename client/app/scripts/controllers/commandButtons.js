@@ -51,6 +51,11 @@ angular.module('clientApp')
         for (var i = 0; i < aCMD.length; i++) {
           telnet.send(aCMD[i]);
         }
+
+        // if the command was an attack button, set the player state to combat mode...
+        if (buttons.$scope.buttonType === 'mobs') {
+          playerStatus.changeState('combat');
+        }
       }
       buttons.resetButtons();
     };
