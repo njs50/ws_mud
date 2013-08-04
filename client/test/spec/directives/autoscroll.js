@@ -19,7 +19,7 @@ describe('Directive: autoscroll', function () {
     $('body').append(host);
 
     // create element and append to host
-    element = angular.element('<div style="height:200px; overflow-y: scroll;" ng-bind-html-unsafe="telnet.$scope.outputBuffer" autoscroll></div>');
+    element = angular.element('<div style="height:200px; overflow-y: scroll;"><autoscroll content="telnet.$scope.outputBuffer" enabled="true"></autoscroll></div>');
     host.append(element);
 
     // compile element in context now it's in the dom...
@@ -50,7 +50,7 @@ describe('Directive: autoscroll', function () {
   });
 
 
-  it('should stop auto scrolling if manually scrolled up', inject(function ($rootScope) {
+  xit('should stop auto scrolling if manually scrolled up', inject(function ($rootScope) {
 
     // before added
 
@@ -84,6 +84,8 @@ describe('Directive: autoscroll', function () {
     element.triggerHandler('scroll');
     $rootScope.$digest();
 
+    element.triggerHandler('pause');
+
     // scroll back down to the bottom
     element.eq(0).scrollTop(400);
     element.triggerHandler('scroll');
@@ -110,6 +112,7 @@ describe('Directive: autoscroll', function () {
     element.eq(0).scrollTop(200);
     element.triggerHandler('scroll');
 
+    element.triggerHandler('pause');
     $rootScope.$digest();
 
     telnet.$scope.outputBuffer += '<div style="height:600px">hello</div>';
@@ -138,7 +141,7 @@ describe('Directive: autoscroll', function () {
     // scroll back up 200
     element.eq(0).scrollTop(200);
     element.triggerHandler('scroll');
-
+    element.triggerHandler('pause');
     $rootScope.$digest();
 
     telnet.$scope.outputBuffer += '<div style="height:600px">hello</div>';
@@ -165,7 +168,7 @@ describe('Directive: autoscroll', function () {
     // scroll back up 200
     element.eq(0).scrollTop(200);
     element.triggerHandler('scroll');
-
+    element.triggerHandler('pause');
     $rootScope.$digest();
 
     telnet.$scope.outputBuffer += '<div style="height:600px">hello</div>';
@@ -193,6 +196,7 @@ describe('Directive: autoscroll', function () {
     element.eq(0).scrollTop(200);
     element.triggerHandler('scroll');
 
+    element.triggerHandler('pause');
     $rootScope.$digest();
 
     telnet.$scope.outputBuffer += '<div style="height:600px">hello</div>';

@@ -2,9 +2,14 @@
 
 angular.module('clientApp')
   .controller('CommandButtonsCtrl',
-    ['$scope', 'buttons', 'telnet', 'keypress', function ($scope, buttons, telnet,keypress) {
+    ['$scope', 'buttons', 'telnet', 'keypress', 'playerStatus',
+      function ($scope, buttons, telnet, keypress, playerStatus) {
 
     $scope.buttons = buttons;
+
+    var unbindStatusWatch = playerStatus.$scope.$watch('playerState',function(state){
+      buttons.setProfileButtons(state);
+    });
 
     var unbindEvent = keypress.$scope.$on(keypress.events.keydown,function(ngevent, e){
 
@@ -35,6 +40,7 @@ angular.module('clientApp')
 
     $scope.$on('$destroy', function(){
       unbindEvent();
+      unbindStatusWatch();
     });
 
     $scope.clickButton = function(key) {

@@ -52,6 +52,7 @@ angular.module('clientApp')
           return 'minus';
         }
 
+        // 0 - 9
         if (code >= 48 && code <= 57) {
           return code - 48;
         }

@@ -16,8 +16,8 @@ describe('Service: profile', function () {
   });
 
 
-
-  it('should store and retrieve the users buttons', function () {
+  // removed this function as it wasn't being used
+  xit('should store and retrieve the users buttons', function () {
 
     profile.setButtons('wombat', [
       {command: 'flee', label:'run like a little girl'},
@@ -34,6 +34,7 @@ describe('Service: profile', function () {
 
   });
 
+  // it should also create the button set
   it('should return an empty array if a non existant button set is requested', function () {
 
     var aButtons = profile.getButtons('not there');
@@ -45,16 +46,16 @@ describe('Service: profile', function () {
 
   it('should store and retrieve the users buttons from localStorage', function () {
 
-    profile.setButtons('default', [
-      {command: 'flee', label:'run like a little girl'},
-      {command: 'escape', label:'vanish like a ninja'}
-    ]);
+    var aButtons = profile.getButtons('test');
+
+    aButtons.push({command: 'flee', label:'run like a little girl'});
+    aButtons.push({command: 'escape', label:'vanish like a ninja'});
 
     profile.save();
 
     profile.load();
 
-    var aButtons = profile.getButtons('default');
+    var aButtons = profile.getButtons('test');
 
     expect(aButtons.length).toBe(2);
     expect(aButtons[1].command).toBe('escape');
@@ -63,7 +64,7 @@ describe('Service: profile', function () {
     $.jStorage.deleteKey('buttons');
     profile.load();
 
-    aButtons = profile.getButtons('default');
+    aButtons = profile.getButtons('standing');
     expect(aButtons.length).toBe(6);
     expect(aButtons[1].command).toBe('skin corpse');
 

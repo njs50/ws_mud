@@ -40,13 +40,9 @@
   <!-- main controls -->
   <div class="span10" style="height: {{windowHeight-50}}px; position: relative;">
 
-    <div
-      id="telnetOutput"
-      style="height: {{windowHeight-112}}px;"
-      class="bg fg"
-      ng-bind-html-unsafe="telnet.$scope.outputBuffer"
-      autoscroll
-    ></div>
+    <div id="telnetOutput" style="height: {{windowHeight-112}}px;" class="fg bg">
+      <autoscroll content="telnet.$scope.outputBuffer" enabled="true"></autoscroll>
+    </div>
 
     <command-bar></command-bar>
 

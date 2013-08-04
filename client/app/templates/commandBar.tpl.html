@@ -1,5 +1,5 @@
 <div class="row-fluid controlButtons" ng-controller="CommandBarCtrl">
-  <span class="span9">
+  <span class="span8">
     <input ng-model="command" class="input-block-level" type="text">
   </span>
   <span class="span1">
@@ -10,6 +10,11 @@
   <span class="span1">
     <button ng-click="historyChange(1)" class="btn btn-block" type="button">
       <i class="icon-caret-up"></i>
+    </button>
+  </span>
+  <span class="span1">
+    <button ng-click="pauseTelnetScrollback()" class="btn btn-block" type="button">
+      <i class="icon-pause"></i>
     </button>
   </span>
   <span class="span1">

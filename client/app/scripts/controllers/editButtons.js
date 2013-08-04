@@ -4,9 +4,19 @@ angular.module('clientApp')
   .controller('EditButtonsCtrl', ['$scope', 'profile', '$location', 'buttons', function ($scope, profile, $location, buttons) {
 
     $scope.buttons = buttons;
-    $scope.activeButtons = profile.getButtons('default');
+    $scope.aButtonSets = profile.getButtonSets();
 
-    var buttonBackup = angular.copy($scope.activeButtons);
+
+    var buttonBackup = [];
+    var loadSet = function(set) {
+      $scope.activeButtons = buttons.padButtons(profile.getButtons(set));
+      buttonBackup = angular.copy($scope.activeButtons);
+    };
+
+    $scope.buttonSet = 'standing';
+    loadSet($scope.buttonSet);
+
+
 
     $scope.done = function() {
       $location.path('/');
@@ -15,5 +25,19 @@ angular.module('clientApp')
     $scope.undo = function() {
       $scope.activeButtons = angular.copy(buttonBackup);
     };
+
+    $scope.reset = function() {
+
+      if(confirm('Are you sure you want to reset ALL your button sets?')) {
+        $scope.buttonSet = 'combat';
+        profile.resetButtonsToDefault();
+        $scope.buttonSet = 'standing';
+      }
+
+    };
+
+    $scope.$watch('buttonSet',function(val){
+      loadSet(val);
+    });
 
   }]);

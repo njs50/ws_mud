@@ -10,8 +10,11 @@ describe('Service: buttons', function () {
   // instantiate service
   beforeEach(inject(function (_buttons_, _autoscan_) {
     buttons = _buttons_;
+    buttons.setProfileButtons('standing');
+
     autoscan = _autoscan_;
-    aPrevious = buttons.$scope.aActiveButtons;
+    aPrevious = buttons.$scope.aActiveButtons.slice(0);
+
     autoscan.$scope.adjacentRooms = {
       'north': {
         type: 'mobs',
@@ -20,6 +23,7 @@ describe('Service: buttons', function () {
         ]
       }
     };
+
 
   }));
 
@@ -38,7 +42,7 @@ describe('Service: buttons', function () {
   it('should not change the buttons if an invalid direction is chosen', function () {
 
     buttons.setDirectionButtons('east');
-    expect(buttons.$scope.aActiveButtons).toBe(aPrevious);
+    expect(buttons.$scope.aActiveButtons).toEqual(aPrevious);
 
   });
 
@@ -47,23 +51,23 @@ describe('Service: buttons', function () {
 
     buttons.setDirectionButtons('north');
     expect(buttons.$scope.aActiveButtons).toBe(autoscan.$scope.adjacentRooms.north.buttons);
-
     buttons.resetButtons();
     expect(testHelpers.flush()).toBe(true);
 
-    expect(buttons.$scope.aActiveButtons).toBe(aPrevious);
+    expect(buttons.$scope.aActiveButtons).toEqual(aPrevious);
 
   });
 
 
   it('should not reset buttons if they are already the default buttons', function () {
 
-    expect(buttons.$scope.aActiveButtons).toBe(aPrevious);
+    expect(buttons.$scope.aActiveButtons).toEqual(aPrevious);
+    expect(testHelpers.flush()).toBe(true);
 
     buttons.resetButtons();
     expect(testHelpers.flush()).toBe(false);
 
-    expect(buttons.$scope.aActiveButtons).toBe(aPrevious);
+    expect(buttons.$scope.aActiveButtons).toEqual(aPrevious);
 
   });
 

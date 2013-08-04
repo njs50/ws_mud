@@ -11,14 +11,24 @@ angular.module('clientApp')
     var defaults = {
 
       buttons: {
-        default: [
+        standing: [
           {label: 'look', command: 'look & scan'},
           {label: 'skin corpse', command: 'skin corpse'},
           {label: 'score', command: 'score'},
           {label: 'inventory', command: 'inventory'},
           {label: 'drink water', command: 'drink water'},
           {label: 'eat food', command: 'eat food'}
+        ],
+        combat: [
+          {label: 'kick', command: 'kick'},
+          {label: 'punch', command: 'punch'}
+        ],
+        sleeping: [
+          {label: 'stand', command: 'stand'},
+          {label: 'score', command: 'score'},
+          {label: 'notes', command: 'note summary'}
         ]
+
       }
 
     };
@@ -39,16 +49,25 @@ angular.module('clientApp')
     // Public API here
     var _public =  {
 
-      getButtons: function(buttonSet){
-        if(buttons.hasOwnProperty(buttonSet)) {
-          return buttons[buttonSet];
-        } else {
-          return [];
+      getButtonSets: function(){
+        var aSet = [];
+        for (var key in buttons) {
+          if (buttons.hasOwnProperty(key)) {
+            aSet.push(key);
+          }
         }
+        return aSet;
       },
 
-      setButtons: function(buttonSet, aButtons) {
-        buttons[buttonSet] = aButtons;
+      getButtons: function(buttonSet){
+        if(!buttons.hasOwnProperty(buttonSet)) {
+          buttons[buttonSet] = [];
+        }
+        return buttons[buttonSet];
+      },
+
+      resetButtonsToDefault: function() {
+        buttons = angular.extend({},defaults.buttons);
       },
 
       save: function() {

@@ -1,12 +1,8 @@
 <div class="row-fluid" style="height: {{windowHeight-(50 + 100)}}px; position: relative;">
 
-  <div
-    id="telnetOutput"
-    style="height: {{windowHeight-(50 + 62 + 100)}}px;"
-    class="bg fg"
-    ng-bind-html-unsafe="telnet.$scope.outputBuffer"
-    autoscroll
-  ></div>
+  <div id="telnetOutput" style="height: {{windowHeight-(50 + 62 + 100)}}px;" class="fg bg">
+    <autoscroll content="telnet.$scope.outputBuffer" enabled="true"></autoscroll>
+  </div>
 
   <command-bar></command-bar>
 

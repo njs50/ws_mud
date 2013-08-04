@@ -10,12 +10,16 @@ describe('Controller: CommandBarCtrl', function () {
   var CommandBarCtrl, scope, keypress;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, _keypress_) {
+  beforeEach(inject(function ($controller, $rootScope, _keypress_, playerStatus) {
     scope = $rootScope.$new();
     keypress = _keypress_;
     CommandBarCtrl = $controller('CommandBarCtrl', {
       $scope: scope
     });
+
+    // fake player going online...
+    playerStatus.$scope.enableButtonRedirects = true;
+
   }));
 
   var fakeKeypress =  function(keyCode, shiftkey) {

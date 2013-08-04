@@ -1,12 +1,19 @@
 'use strict';
 
 angular.module('clientApp')
-  .controller('CommandBarCtrl', ['$scope', 'telnet', '$timeout', 'keypress', function ($scope, telnet, $timeout, keypress) {
+  .controller('CommandBarCtrl', ['$scope', 'telnet', '$timeout', 'keypress', 'playerStatus',
+    function ($scope, telnet, $timeout, keypress, playerStatus) {
+
+    playerStatus.$scope.enableButtonRedirects = playerStatus.$scope.enableButtonRedirects || false;
 
     $scope.command = '';
     $scope.aCommands = [];
     $scope.commandPos = 0;
     $scope.commandMaxLength = 50;
+
+    $scope.pauseTelnetScrollback = function() {
+      $('#telnetOutput').trigger('pause');
+    };
 
     $scope.enterCommand = function() {
 
@@ -54,7 +61,6 @@ angular.module('clientApp')
     };
 
     // redirect any keypresses that need to be handled elsewhere
-
     $scope.keyDown = function(e) {
 
       var code = (e.keyCode ? e.keyCode : e.which);
@@ -95,7 +101,7 @@ angular.module('clientApp')
       default:
         // if no text has been entered then 0 - 9 are passed to the command handler
         // as are left/right and tilde, minus and equals
-        if ($scope.command === ''){
+        if (playerStatus.$scope.enableButtonRedirects && $scope.command === ''){
           if ((code >= 48 && code <= 57) || $.inArray(code,[192,37,39,187,189]) !== -1) {
             e.preventDefault();
             keypress.keyDown(e);

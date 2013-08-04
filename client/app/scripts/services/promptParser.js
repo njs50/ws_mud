@@ -32,8 +32,17 @@ angular.module('clientApp')
             xp: parseInt(aPromptMatch[6],10),
             leaderState: aPromptMatch[7],
             exits: aPromptMatch[8],
-            targetState: aPromptMatch[9]
+            targetState: aPromptMatch[9],
+            playerState: ''
           };
+
+          if (oPrompt.targetState !== undefined) {
+            oPrompt.playerState = 'combat';
+          } else if (oPrompt.exits === '??') {
+            oPrompt.playerState = 'sleeping';
+          } else {
+            oPrompt.playerState = 'standing';
+          }
 
           last_prompt = prompt;
           last_oPrompt = oPrompt;

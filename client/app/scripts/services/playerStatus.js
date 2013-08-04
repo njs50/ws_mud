@@ -8,8 +8,11 @@ angular.module('clientApp')
 
     var $scope = $rootScope.$new();
 
+
+
     $scope.events = {
-      fullPartyUpdate: 'ALL_PARTY_INFO_UPDATED'
+      fullPartyUpdate: 'ALL_PARTY_INFO_UPDATED',
+      playerOnline: 'PLAYER_INFO_PARSED_PLAYER_ONLINE'
     };
 
 /*
@@ -30,10 +33,16 @@ angular.module('clientApp')
 */
 
 
+    $scope.online = false;
+    $scope.scrollingPaused = false;
+    $scope.enableButtonRedirects = false;
+
 
     $scope.name = 'TFE';
     $scope.leader = '';
     $scope.party = {};
+
+    $scope.playerState = 'standing';
 
     $scope.self = {
       hp: 1,
@@ -45,6 +54,7 @@ angular.module('clientApp')
     };
 
 
+
     // update self whenever a prompt is parsed
     telnet.$scope.$on(telnet.$scope.telnetEvents.parsePrompt, function(e, oPrompt) {
 
@@ -53,7 +63,9 @@ angular.module('clientApp')
         $scope.self.e = oPrompt.e;
         $scope.self.mv = oPrompt.mv;
         $scope.self.xp = oPrompt.xp;
+        $scope.playerState = oPrompt.playerState;
       });
+
 
     });
 
@@ -129,6 +141,12 @@ angular.module('clientApp')
               nameFinderUnbind();
               $scope.$apply(function(){
                 $scope.name = $.trim(lastLine);
+                // set status to online once we have got group details
+                if (!$scope.online) {
+                  $scope.online = true;
+                  $scope.$broadcast($scope.events.playerOnline);
+                  $scope.enableButtonRedirects = true;
+                }
                 deferred.resolve($scope.name);
               });
             }
