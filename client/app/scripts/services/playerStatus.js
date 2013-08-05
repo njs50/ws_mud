@@ -64,7 +64,11 @@ angular.module('clientApp')
         $scope.self.mv = oPrompt.mv;
         $scope.self.xp = oPrompt.xp;
       });
-      _public.changeState(oPrompt.playerState);
+
+      // update player state if it has changed...
+      if (oPrompt.playerState !== $scope.playerState) {
+        _public.changeState(oPrompt.playerState);
+      }
 
 
     });
