@@ -14,3 +14,17 @@ node /proxy/websockify.js node websockify.js webSocketServer:8000 telnetSource:4
 ### demo
 
 [http://njs50.github.io/ws_mud/]
+
+## docker info
+in case you wanted to play with this dockerfile....
+(it expects the client to already be build at client/dist )
+
+### building
+docker build -t mud-proxy .
+
+### removing running instance
+docker stop mud-proxy
+docker rm mud-proxy
+
+### running...
+docker run -d -it -p 8000:8000/tcp -p 8000:8000/udp --name=mud-proxy --restart=always mud-proxy

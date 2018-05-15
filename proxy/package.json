@@ -1,0 +1,17 @@
+{
+  "name": "ws-telnet-proxy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "proxy.js",
+  "dependencies": {
+    "optimist": "latest",
+    "ws": "latest"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node proxy --web ../client/dist/ 0.0.0.0:8000 theforestsedge.com:4000"
+  },
+  "author": "",
+  "license": "ISC"
+}

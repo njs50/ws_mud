@@ -24,7 +24,6 @@ var argv = require('optimist').argv,
     url = require('url'),
     path = require('path'),
     fs = require('fs'),
-    policyfile = require('policyfile'),
 
     Buffer = require('buffer').Buffer,
     WebSocketServer = require('ws').Server,
@@ -144,15 +143,13 @@ http_request = function (request, response) {
 };
 
 // Select 'binary' or 'base64' subprotocol, preferring 'binary'
-selectProtocol = function(protocols, callback) {
-    var plist = protocols ? protocols.split(',') : "";
+selectProtocol = function(plist, request) {
     if (plist.indexOf('binary') >= 0) {
-        callback(true, 'binary');
+        return 'binary';
     } else if (plist.indexOf('base64') >= 0) {
-        callback(true, 'base64');
+        return 'base64';
     } else {
         console.log("Client must support 'binary' or 'base64' protocol");
-        callback(false);
     }
 };
 
@@ -204,10 +201,7 @@ if (argv.cert) {
     webServer = http.createServer(http_request);
 }
 webServer.listen(source_port, function() {
-    wsServer = new WebSocketServer({server: webServer,
-                                    handleProtocols: selectProtocol});
+    wsServer = new WebSocketServer({server: webServer, handleProtocols: selectProtocol});
     wsServer.on('connection', new_client);
 });
 
-// create dlash policyfile answer service
-policyfile.createServer({log: true},['*:8000','*:7000', '*:4000']).listen(843);

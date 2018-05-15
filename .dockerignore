@@ -1,0 +1,8 @@
+# client
+# !client/dist/**
+# !client/dist/*/**
+client/node_modules
+client/.tmp
+client/app
+client/.sass-cache
+client/test
