@@ -79,8 +79,8 @@ angular.module('clientApp')
       return;
     };
 
-    var port = 8000;
-    var server = 'theforestsedge.com';
+    var port = $window.location.port;
+    var server = $window.location.hostname;
 
     // some junk to auto login to dev server
 

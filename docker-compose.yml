@@ -1,0 +1,25 @@
+version: "2"
+
+services:
+
+  mud-proxy:
+    restart: always
+    image: mud-proxy
+    build: ./
+    container_name: mud-proxy
+    volumes:
+      - "/home/rancher/v13-nginx/volumes/nginx-tfe/conf.d/:/etc/nginx/conf.d"
+      - "/home/rancher/v13-nginx/volumes/config/nginx-tfe/:/usr/share/nginx/html/"
+    environment:
+      - VIRTUAL_HOST=tfe.vault-thirteen.net
+      - VIRTUAL_NETWORK=nginx-proxy
+      - VIRTUAL_PORT=8000
+      - LETSENCRYPT_HOST=tfe.vault-thirteen.net
+      - LETSENCRYPT_EMAIL=admin@vault-thirteen.net
+    networks:
+      - proxy-tier
+
+networks:
+  proxy-tier:
+    external:
+      name: nginx-proxy

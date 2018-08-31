@@ -480,7 +480,7 @@ angular.module('clientApp')
         scope.port = port;
       }
       port = port || scope.port;
-      ws.open('ws://' + server + ':' + port, ['binary', 'base64']);
+      ws.open('wss://' + server + ':' + port, ['binary', 'base64']);
     },
 
     disconnect: function() {
