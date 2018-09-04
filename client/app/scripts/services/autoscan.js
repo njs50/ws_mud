@@ -58,7 +58,7 @@ angular.module('clientApp')
 
           if (tempMobs[key] === 'darkness') {
 
-            tempMobs[key] = {type: 'dark', buttons: [{label:'refresh light', command:'refreshLight'}]};
+            tempMobs[key] = {type: 'dark', buttons: [{label:'refresh light', command:'newLight'}]};
 
           } else {
 

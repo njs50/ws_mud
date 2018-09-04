@@ -350,7 +350,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
-    'jshint',
+    // 'jshint',
   //  'test',
     'compass:dist',
     'html2js',

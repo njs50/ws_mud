@@ -17,14 +17,26 @@ node /proxy/websockify.js node websockify.js webSocketServer:8000 telnetSource:4
 
 ## docker info
 in case you wanted to play with this dockerfile....
-(it expects the client to already be build at client/dist )
+(it expects the client to already be built at client/dist )
 
 ### building
 docker build -t mud-proxy .
 
 ### removing running instance
-docker stop mud-proxy
-docker rm mud-proxy
+docker-compose stop
+docker-compose rm
 
-### running...
-docker run -d -it -p 8000:8000/tcp -p 8000:8000/udp --name=mud-proxy --restart=always mud-proxy
+## starting up (incl nginx proxy w/ letsencrypt for https)
+docker-compose up -d
+
+## replacing mud-proxy without changing other services
+docker-compose up -d --no-deps --build mud-proxy
+
+...
+
+nb: it expects the contents of the docker-machine dir to be available in the docker-machine users home dir.
+
+i.e
+docker-machine/v13-nginx/volumes/proxyproxy.conf -> /home/rancher/v13-nginx/volumes/proxyproxy.conf
+
+where rancher is the docker user on the host machine
