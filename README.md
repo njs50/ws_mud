@@ -19,6 +19,9 @@ node /proxy/websockify.js node websockify.js webSocketServer:8000 telnetSource:4
 in case you wanted to play with this dockerfile....
 (it expects the client to already be built at client/dist )
 
+## copy config to docker host (nb: machine name and username are both rancher)
+docker-machine scp -r ./config rancher:/home/rancher/config
+
 ### building
 docker build -t mud-proxy .
 
@@ -31,12 +34,3 @@ docker-compose up -d
 
 ## replacing mud-proxy without changing other services
 docker-compose up -d --no-deps --build mud-proxy
-
-...
-
-nb: it expects the contents of the docker-machine dir to be available in the docker-machine users home dir.
-
-i.e
-docker-machine/v13-nginx/volumes/proxyproxy.conf -> /home/rancher/v13-nginx/volumes/proxyproxy.conf
-
-where rancher is the docker user on the host machine
